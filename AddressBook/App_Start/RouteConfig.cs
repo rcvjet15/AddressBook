@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AddressBook.Controllers;
+using MvcCodeRouting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +14,13 @@ namespace AddressBook
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            // If you don't have "HomeController", choose another controller you have.
+            // MvcCodeRouting will look for all controllers in the same namespace and sub-namespaces as the one specified here.
+            routes.MapCodeRoutes(typeof(HomeController), new CodeRoutingSettings
+            {
+                UseImplicitIdToken = true
+            });
 
             routes.MapRoute(
                 name: "Default",

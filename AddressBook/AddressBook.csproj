@@ -50,6 +50,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcCodeRouting, Version=1.3.0.0, Culture=neutral, PublicKeyToken=bf7cf9743009fe42, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcCodeRouting.1.3.0\lib\net40\MvcCodeRouting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -202,28 +205,95 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Libraries\css\bootstrap-grid.css" />
+    <Content Include="Content\Libraries\css\bootstrap-grid.min.css" />
+    <Content Include="Content\Libraries\css\bootstrap-reboot.css" />
+    <Content Include="Content\Libraries\css\bootstrap-reboot.min.css" />
+    <Content Include="Content\Libraries\css\bootstrap.css" />
+    <Content Include="Content\Libraries\css\bootstrap.min.css" />
+    <Content Include="Content\Libraries\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\Libraries\css\font-awesome.css" />
+    <Content Include="Content\Libraries\css\font-awesome.min.css" />
+    <Content Include="Content\Libraries\css\sb-admin.css" />
+    <Content Include="Content\Libraries\css\sb-admin.min.css" />
+    <Content Include="Content\Libraries\fonts\fontawesome-webfont.svg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\global.js" />
+    <Content Include="Scripts\Libraries\bootstrap.bundle.js" />
+    <Content Include="Scripts\Libraries\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\Libraries\bootstrap.js" />
+    <Content Include="Scripts\Libraries\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Content\Libraries\scss\navbar\_navbar_colors.scss" />
+    <Content Include="Content\Libraries\scss\navbar\_navbar_fixed.scss" />
+    <Content Include="Content\Libraries\scss\navbar\_navbar_global.scss" />
+    <Content Include="Content\Libraries\scss\navbar\_navbar_static.scss" />
+    <Content Include="Content\Libraries\scss\navbar\_navbar_toggle.scss" />
+    <Content Include="Content\Libraries\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Libraries\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Libraries\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Libraries\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Libraries\fonts\FontAwesome.otf" />
+    <Content Include="Content\Libraries\less\animated.less" />
+    <Content Include="Content\Libraries\less\bordered-pulled.less" />
+    <Content Include="Content\Libraries\less\core.less" />
+    <Content Include="Content\Libraries\less\fixed-width.less" />
+    <Content Include="Content\Libraries\less\font-awesome.less" />
+    <Content Include="Content\Libraries\less\icons.less" />
+    <Content Include="Content\Libraries\less\larger.less" />
+    <Content Include="Content\Libraries\less\list.less" />
+    <Content Include="Content\Libraries\less\mixins.less" />
+    <Content Include="Content\Libraries\less\path.less" />
+    <Content Include="Content\Libraries\less\rotated-flipped.less" />
+    <Content Include="Content\Libraries\less\screen-reader.less" />
+    <Content Include="Content\Libraries\less\stacked.less" />
+    <Content Include="Content\Libraries\less\variables.less" />
+    <Content Include="Content\Libraries\scss\font-awesome.scss" />
+    <Content Include="Content\Libraries\scss\_animated.scss" />
+    <Content Include="Content\Libraries\scss\_bordered-pulled.scss" />
+    <Content Include="Content\Libraries\scss\_core.scss" />
+    <Content Include="Content\Libraries\scss\_fixed-width.scss" />
+    <Content Include="Content\Libraries\scss\_icons.scss" />
+    <Content Include="Content\Libraries\scss\_larger.scss" />
+    <Content Include="Content\Libraries\scss\_list.scss" />
+    <Content Include="Content\Libraries\scss\_mixins.scss" />
+    <Content Include="Content\Libraries\scss\_path.scss" />
+    <Content Include="Content\Libraries\scss\_rotated-flipped.scss" />
+    <Content Include="Content\Libraries\scss\_screen-reader.scss" />
+    <Content Include="Content\Libraries\scss\_stacked.scss" />
+    <Content Include="Content\Libraries\scss\_variables.scss" />
+    <Content Include="Content\Libraries\scss\_cards.scss" />
+    <Content Include="Content\Libraries\scss\_footer.scss" />
+    <Content Include="Content\Libraries\scss\_global.scss" />
+    <Content Include="Content\Libraries\scss\_login.scss" />
+    <Content Include="Content\Libraries\scss\_utilities.scss" />
+    <Content Include="Content\Libraries\scss\sb-admin.scss" />
+    <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Libraries\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.js" />
+    <None Include="Scripts\Libraries\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Libraries\jquery.dataTables.js" />
+    <Content Include="Scripts\Libraries\jquery.easing.compatibility.js" />
+    <Content Include="Scripts\Libraries\jquery.easing.js" />
+    <Content Include="Scripts\Libraries\jquery.easing.min.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.min.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Libraries\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Libraries\respond.js" />
+    <Content Include="Scripts\Libraries\respond.min.js" />
+    <Content Include="Scripts\Libraries\sb-admin-charts.js" />
+    <Content Include="Scripts\Libraries\sb-admin-charts.min.js" />
+    <Content Include="Scripts\Libraries\sb-admin-datatables.js" />
+    <Content Include="Scripts\Libraries\sb-admin-datatables.min.js" />
+    <Content Include="Scripts\Libraries\sb-admin.js" />
+    <Content Include="Scripts\Libraries\sb-admin.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -235,8 +305,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -258,6 +326,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoNavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -273,7 +343,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
