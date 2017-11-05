@@ -288,8 +288,6 @@
     <Content Include="Scripts\Libraries\modernizr-2.6.2.js" />
     <Content Include="Scripts\Libraries\respond.js" />
     <Content Include="Scripts\Libraries\respond.min.js" />
-    <Content Include="Scripts\Libraries\sb-admin-charts.js" />
-    <Content Include="Scripts\Libraries\sb-admin-charts.min.js" />
     <Content Include="Scripts\Libraries\sb-admin-datatables.js" />
     <Content Include="Scripts\Libraries\sb-admin-datatables.min.js" />
     <Content Include="Scripts\Libraries\sb-admin.js" />
@@ -327,7 +325,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
-    <Content Include="Views\Shared\_LayoutNoNavbar.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoNavbarDark.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
