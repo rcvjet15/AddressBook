@@ -151,7 +151,14 @@ namespace AddressBook.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    BirthDate = DateTime.Today
+                };
 
                 var result  = UserManager.Create(user, model.Password);
                 
