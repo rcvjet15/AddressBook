@@ -199,6 +199,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711052203387_AddressBookDbContext.cs" />
+    <Compile Include="Migrations\201711052203387_AddressBookDbContext.Designer.cs">
+      <DependentUpon>201711052203387_AddressBookDbContext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -343,6 +348,11 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\Libraries\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711052203387_AddressBookDbContext.resx">
+      <DependentUpon>201711052203387_AddressBookDbContext.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

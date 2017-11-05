@@ -15,13 +15,11 @@ namespace AddressBook.Models
     {
         [Required]
         [StringLength(30)]
-        [RegularExpression(@"^[A-ZČĆŽŠĐ]+[a-zA-ZČĆŽŠĐčćžšđ''-'\s]*$")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50)]
-        [RegularExpression(@"^[A-ZČĆŽŠĐ]+[a-zA-ZČĆŽŠĐčćžšđ''-'\s]*$")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -49,8 +47,7 @@ namespace AddressBook.Models
             return userIdentity;
         }
     }
-
-    
+        
     public class UserRole : IdentityUserRole<int> { }
     public class UserLogin : IdentityUserLogin<int> { }
     public class UserClaim : IdentityUserClaim<int> { }

@@ -6,6 +6,8 @@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @Html.AntiForgeryToken()
+
     <div class="card card-register mx-auto mt-5">
         <div class="card-header">Register an Account</div>
         <div class="card-body">
@@ -13,12 +15,12 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-6">
-                        <label for="exampleInputName">First name</label>
-                        <input class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
+                        @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Enter first name" })
                     </div>
                     <div class="col-md-6">
-                        <label for="exampleInputLastName">Last name</label>
-                        <input class="form-control" id="exampleInputLastName" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
+                        @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Enter last name" })
                     </div>
                 </div>
             </div>
