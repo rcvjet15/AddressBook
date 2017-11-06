@@ -11,13 +11,15 @@
     <!-- Navigation -->
     @Html.Partial("_Navbar")
 
-    <div class="container-fluid body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    <div class="content-wrapper">
+        <div class="container-fluid body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+    </div>    
 
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("scripts", required: false)

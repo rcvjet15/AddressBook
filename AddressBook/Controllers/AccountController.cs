@@ -13,6 +13,7 @@ using AddressBook.Models;
 namespace AddressBook.Controllers
 {
     [Authorize]
+    [RoutePrefix("AddressBook")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
