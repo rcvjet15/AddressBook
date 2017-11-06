@@ -85,6 +85,14 @@ namespace AddressBook.DataAccessLayer
             modelBuilder.Entity<UserLogin>().ToTable("UserLogin");
             modelBuilder.Entity<UserClaim>().ToTable("UserClaim");
             modelBuilder.Entity<Role>().ToTable("Role");
+
+            // TPC - mapping (Table-Per-Concrete)               
+            modelBuilder.Entity<Contact>().Map(u =>
+            {
+                // This table will have columns with inherited and its own properties. On hover for more information.
+                u.MapInheritedProperties();
+                u.ToTable("Contact");
+            });
         }
     }
 }
