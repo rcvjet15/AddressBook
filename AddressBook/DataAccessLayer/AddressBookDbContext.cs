@@ -24,19 +24,36 @@ namespace AddressBook.DataAccessLayer
         {
             return new AddressBookDbContext();
         }
-
-        /// <summary>
-        /// Wrapper for SaveChanges that is used for adding Validation meesages to the generated excpetion
-        /// for easier error validation reading in database migration.
-        /// </summary>
+                
         public override int SaveChanges()
         {
             try
             {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    if (entry.Entity is EntityBaseClass)
+                    {
+                        EntityBaseClass entity = (EntityBaseClass)entry.Entity;
+
+                        switch (entry.State)
+                        {
+                            case EntityState.Added:
+                                entity.CreatedAt = DateTime.Now;
+                                entity.ModifiedAt = DateTime.Now;
+                                break;                         
+                            case EntityState.Modified:
+                                entity.ModifiedAt = DateTime.Now;
+                                break;
+                        }
+                    }
+                }
+
                 return base.SaveChanges();
             }
             catch (DbEntityValidationException ex)
             {
+                // Wrapper for SaveChanges that is used for adding Validation meesages to the generated excpetion
+                // for easier error validation reading in database migration
                 StringBuilder sb = new StringBuilder();
 
                 foreach (DbEntityValidationResult failure in ex.EntityValidationErrors)
