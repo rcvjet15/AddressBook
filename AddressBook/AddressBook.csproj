@@ -203,7 +203,18 @@
     <Compile Include="Migrations\201711052203387_AddressBookDbContext.Designer.cs">
       <DependentUpon>201711052203387_AddressBookDbContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711062126498_AddContactModel.cs" />
+    <Compile Include="Migrations\201711062126498_AddContactModel.Designer.cs">
+      <DependentUpon>201711062126498_AddContactModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711072133573_AddPhoneNumberModel.cs" />
+    <Compile Include="Migrations\201711072133573_AddPhoneNumberModel.Designer.cs">
+      <DependentUpon>201711072133573_AddPhoneNumberModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\EntityBaseModel.cs" />
+    <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -352,6 +363,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711052203387_AddressBookDbContext.resx">
       <DependentUpon>201711052203387_AddressBookDbContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711062126498_AddContactModel.resx">
+      <DependentUpon>201711062126498_AddContactModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711072133573_AddPhoneNumberModel.resx">
+      <DependentUpon>201711072133573_AddPhoneNumberModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

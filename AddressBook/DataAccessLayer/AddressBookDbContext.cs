@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.IO;
@@ -31,9 +32,9 @@ namespace AddressBook.DataAccessLayer
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {
-                    if (entry.Entity is EntityBaseClass)
+                    if (entry.Entity is EntityBaseModel)
                     {
-                        EntityBaseClass entity = (EntityBaseClass)entry.Entity;
+                        EntityBaseModel entity = (EntityBaseModel)entry.Entity;
 
                         switch (entry.State)
                         {
@@ -79,20 +80,83 @@ namespace AddressBook.DataAccessLayer
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            // Override so that when tables from Identity entitities are generated, there won't be prefix in table names "AspNet"
-            modelBuilder.Entity<ApplicationUser>().ToTable("User").HasKey(x => x.Id);
+            // Link User and Contact
+            modelBuilder.Entity<ApplicationUser>()
+                .ToTable("User")
+                .HasKey(x => x.Id)
+                .HasMany(x => x.Contacts)
+                .WithRequired(x => x.ApplicationUser) // Not null
+                .HasForeignKey<int>(x => x.ApplicationUserID)
+                .WillCascadeOnDelete();
+
             modelBuilder.Entity<UserRole>().ToTable("UserRole");
             modelBuilder.Entity<UserLogin>().ToTable("UserLogin");
             modelBuilder.Entity<UserClaim>().ToTable("UserClaim");
             modelBuilder.Entity<Role>().ToTable("Role");
 
+            // Contact
             // TPC - mapping (Table-Per-Concrete)               
             modelBuilder.Entity<Contact>().Map(u =>
             {
                 // This table will have columns with inherited and its own properties. On hover for more information.
                 u.MapInheritedProperties();
                 u.ToTable("Contact");
-            });
+            }).HasKey(c => c.ID)                
+                .Property(c => c.ID)
+                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+
+            modelBuilder.Entity<Contact>()
+                .Property(c => c.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+            modelBuilder.Entity<Contact>()
+                .Property(c => c.LastName)
+                    .IsRequired()
+                    .HasMaxLength(30);
+            
+            modelBuilder.Entity<Contact>()
+               .Property(c => c.Title)
+                   .HasMaxLength(30);
+
+            modelBuilder.Entity<Contact>()
+               .Property(c => c.Organization)
+                   .HasMaxLength(30);
+
+            modelBuilder.Entity<Contact>()
+                .Property(c => c.CreatedAt)
+                    .IsRequired();
+
+            modelBuilder.Entity<Contact>()
+                .Property(c => c.ModifiedAt)
+                    .IsRequired();
+
+            // Link Contact and PhoneNumber
+            modelBuilder.Entity<Contact>()
+                .HasMany(u => u.PhoneNumber)
+                .WithRequired(p => p.Contact)
+                .HasForeignKey<int>(p => p.ContactID)
+                .WillCascadeOnDelete();
+
+            // PhoneNumber
+            modelBuilder.Entity<PhoneNumber>().Map(u =>
+            {
+                u.MapInheritedProperties();
+                u.ToTable("PhoneNumber");
+            }).HasKey(c => c.ID)
+                .Property(c => c.ID)
+                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+
+            modelBuilder.Entity<PhoneNumber>()
+                .Property(p => p.Number)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            modelBuilder.Entity<PhoneNumber>()
+                .Property(p => p.NumberType)
+                .HasMaxLength(10);
         }
     }
 }

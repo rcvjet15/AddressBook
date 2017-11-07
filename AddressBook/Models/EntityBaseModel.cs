@@ -11,23 +11,19 @@ namespace AddressBook.Models
     /// Model class from which model classes will be inherited. Every model class that inherits from this one
     /// will have ID as primary key, CreatedDate, ModifiedDate
     /// </summary>
-    public class EntityBaseClass
+    public abstract class EntityBaseModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// This property will be updated when entity is created in overriden SaveChanges method
-        /// </summary>
-        [Required]
+        /// </summary>        
         [ScaffoldColumn(false)]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// This property will be updated when entity is edited in overriden SaveChanges method
         /// </summary>
-        [Required]
         [ScaffoldColumn(false)]
         public DateTime ModifiedAt { get; set; }
     }

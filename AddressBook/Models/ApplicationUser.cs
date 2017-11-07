@@ -13,6 +13,11 @@ namespace AddressBook.Models
     // Inherit from identity user and set that primary key will be type of int (ID), not type of string (username)
     public class ApplicationUser : IdentityUser<int, UserLogin, UserRole, UserClaim>
     {
+        public ApplicationUser()
+        {
+            Contacts = new List<Contact>();
+        }
+
         [Required]
         [StringLength(30)]
         [Display(Name = "First Name")]
@@ -39,6 +44,9 @@ namespace AddressBook.Models
             get => String.Format("{0} {1}", FirstName, LastName);
         }
 
+        // Navigation property
+        public virtual ICollection<Contact> Contacts { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -47,7 +55,8 @@ namespace AddressBook.Models
             return userIdentity;
         }
     }
-        
+
+    // Override so that when tables from Identity entitities are generated, there won't be prefix in table names "AspNet"
     public class UserRole : IdentityUserRole<int> { }
     public class UserLogin : IdentityUserLogin<int> { }
     public class UserClaim : IdentityUserClaim<int> { }

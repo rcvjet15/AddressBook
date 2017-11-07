@@ -6,15 +6,11 @@ using System.Web;
 
 namespace AddressBook.Models
 {
-    public class Contact : EntityBaseClass
+    public class Contact : EntityBaseModel
     {
-        [Required]
-        [StringLength(20)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(30)]
+        
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -37,5 +33,14 @@ namespace AddressBook.Models
 
         [Display(Name = "Organization")]
         public string Organization { get; set; }
+        
+        // Foreign key
+        public int ApplicationUserID { get; set; }
+
+        // Navigation property
+        public ApplicationUser ApplicationUser { get; set; }
+
+        // Navigation property
+        public virtual ICollection<PhoneNumber> PhoneNumber { get; set; }
     }
 }
