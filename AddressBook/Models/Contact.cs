@@ -42,5 +42,8 @@ namespace AddressBook.Models
 
         // Navigation property
         public virtual ICollection<PhoneNumber> PhoneNumber { get; set; }
+
+        // Navigation property
+        public virtual ICollection<EmailAddress> EmailAddress { get; set; }
     }
 }

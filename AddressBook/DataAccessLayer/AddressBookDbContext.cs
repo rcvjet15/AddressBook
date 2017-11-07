@@ -94,7 +94,7 @@ namespace AddressBook.DataAccessLayer
             modelBuilder.Entity<UserClaim>().ToTable("UserClaim");
             modelBuilder.Entity<Role>().ToTable("Role");
 
-            // Contact
+            // Contact model
             // TPC - mapping (Table-Per-Concrete)               
             modelBuilder.Entity<Contact>().Map(u =>
             {
@@ -134,12 +134,19 @@ namespace AddressBook.DataAccessLayer
 
             // Link Contact and PhoneNumber
             modelBuilder.Entity<Contact>()
-                .HasMany(u => u.PhoneNumber)
+                .HasMany(c => c.PhoneNumber)
                 .WithRequired(p => p.Contact)
                 .HasForeignKey<int>(p => p.ContactID)
                 .WillCascadeOnDelete();
 
-            // PhoneNumber
+            // Link Contact and EmailAddress
+            modelBuilder.Entity<Contact>()
+                .HasMany(c => c.EmailAddress)
+                .WithRequired(e => e.Contact)
+                .HasForeignKey<int>(e => e.ContactID)
+                .WillCascadeOnDelete();
+
+            // PhoneNumber model
             modelBuilder.Entity<PhoneNumber>().Map(u =>
             {
                 u.MapInheritedProperties();
@@ -156,6 +163,26 @@ namespace AddressBook.DataAccessLayer
 
             modelBuilder.Entity<PhoneNumber>()
                 .Property(p => p.NumberType)
+                .HasMaxLength(10);
+
+            // EmailAddress model
+            modelBuilder.Entity<EmailAddress>().Map(u =>
+            {
+                u.MapInheritedProperties();
+                u.ToTable("EmailAddress");
+            })
+            .HasKey(e => e.ID)
+                .Property(e => e.ID)
+                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+
+            modelBuilder.Entity<EmailAddress>()
+                .Property(p => p.Address)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            modelBuilder.Entity<EmailAddress>()
+                .Property(p => p.AddressType)
                 .HasMaxLength(10);
         }
     }
