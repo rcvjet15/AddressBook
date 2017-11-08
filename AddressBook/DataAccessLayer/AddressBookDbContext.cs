@@ -96,11 +96,11 @@ namespace AddressBook.DataAccessLayer
 
             // Contact model
             // TPC - mapping (Table-Per-Concrete)               
-            modelBuilder.Entity<Contact>().Map(u =>
+            modelBuilder.Entity<Contact>().Map(c =>
             {
                 // This table will have columns with inherited and its own properties. On hover for more information.
-                u.MapInheritedProperties();
-                u.ToTable("Contact");
+                c.MapInheritedProperties();
+                c.ToTable("Contact");
             }).HasKey(c => c.ID)                
                 .Property(c => c.ID)
                     .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
@@ -146,11 +146,18 @@ namespace AddressBook.DataAccessLayer
                 .HasForeignKey<int>(e => e.ContactID)
                 .WillCascadeOnDelete();
 
+            // Link Contact and Address
+            modelBuilder.Entity<Contact>()
+                .HasMany(a => a.Address)
+                .WithRequired(a => a.Contact)
+                .HasForeignKey<int>(a => a.ContactID)
+                .WillCascadeOnDelete();
+
             // PhoneNumber model
-            modelBuilder.Entity<PhoneNumber>().Map(u =>
+            modelBuilder.Entity<PhoneNumber>().Map(p =>
             {
-                u.MapInheritedProperties();
-                u.ToTable("PhoneNumber");
+                p.MapInheritedProperties();
+                p.ToTable("PhoneNumber");
             }).HasKey(c => c.ID)
                 .Property(c => c.ID)
                     .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
@@ -166,10 +173,10 @@ namespace AddressBook.DataAccessLayer
                 .HasMaxLength(10);
 
             // EmailAddress model
-            modelBuilder.Entity<EmailAddress>().Map(u =>
+            modelBuilder.Entity<EmailAddress>().Map(e =>
             {
-                u.MapInheritedProperties();
-                u.ToTable("EmailAddress");
+                e.MapInheritedProperties();
+                e.ToTable("EmailAddress");
             })
             .HasKey(e => e.ID)
                 .Property(e => e.ID)
@@ -182,7 +189,42 @@ namespace AddressBook.DataAccessLayer
                 .HasMaxLength(30);
 
             modelBuilder.Entity<EmailAddress>()
-                .Property(p => p.AddressType)
+                .Property(p => p.EmailAddressType)
+                .HasMaxLength(10);
+
+            // Address model
+            modelBuilder.Entity<Address>().Map(a =>
+            {
+                a.MapInheritedProperties();
+                a.ToTable("Address");
+            })
+            .HasKey(a => a.ID)
+                .Property(a => a.ID)
+                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.Street)
+                .HasMaxLength(30);
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.HouseNumber)
+                .HasMaxLength(8);
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.PostalCode)
+                .HasMaxLength(10);
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.City)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.State)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<Address>()
+                .Property(a => a.AddressType)
                 .HasMaxLength(10);
         }
     }

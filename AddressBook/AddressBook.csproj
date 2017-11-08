@@ -215,7 +215,12 @@
     <Compile Include="Migrations\201711072201567_AddEmailAddressModel.Designer.cs">
       <DependentUpon>201711072201567_AddEmailAddressModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711081632013_AddAddressModel.cs" />
+    <Compile Include="Migrations\201711081632013_AddAddressModel.Designer.cs">
+      <DependentUpon>201711081632013_AddAddressModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\EmailAddress.cs" />
     <Compile Include="Models\EntityBaseModel.cs" />
@@ -377,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711072201567_AddEmailAddressModel.resx">
       <DependentUpon>201711072201567_AddEmailAddressModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711081632013_AddAddressModel.resx">
+      <DependentUpon>201711081632013_AddAddressModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
