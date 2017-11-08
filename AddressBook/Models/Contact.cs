@@ -8,6 +8,13 @@ namespace AddressBook.Models
 {
     public class Contact : EntityBaseModel
     {
+        public Contact()
+        {
+            PhoneNumbers = new List<PhoneNumber>();
+            EmailAddresses = new List<EmailAddress>();
+            Addresses = new List<Address>();
+        }
+
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
         
@@ -41,12 +48,15 @@ namespace AddressBook.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         // Navigation property
-        public virtual ICollection<PhoneNumber> PhoneNumber { get; set; }
+        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
 
         // Navigation property
-        public virtual ICollection<EmailAddress> EmailAddress { get; set; }
+        public virtual ICollection<EmailAddress> EmailAddresses { get; set; }
 
         // Navigation property
-        public virtual ICollection<Address> Address { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
+
+        // Navigation property - many-to-many
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

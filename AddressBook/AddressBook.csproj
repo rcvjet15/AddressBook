@@ -219,11 +219,16 @@
     <Compile Include="Migrations\201711081632013_AddAddressModel.Designer.cs">
       <DependentUpon>201711081632013_AddAddressModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711081742379_AddGroupModel.cs" />
+    <Compile Include="Migrations\201711081742379_AddGroupModel.Designer.cs">
+      <DependentUpon>201711081742379_AddGroupModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\EmailAddress.cs" />
     <Compile Include="Models\EntityBaseModel.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -385,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711081632013_AddAddressModel.resx">
       <DependentUpon>201711081632013_AddAddressModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711081742379_AddGroupModel.resx">
+      <DependentUpon>201711081742379_AddGroupModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

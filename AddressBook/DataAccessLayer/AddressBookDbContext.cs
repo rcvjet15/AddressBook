@@ -16,10 +16,16 @@ namespace AddressBook.DataAccessLayer
     /// </summary>
     public sealed class AddressBookDbContext : IdentityDbContext<ApplicationUser, Role, int, UserLogin, UserRole, UserClaim>
     {
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<EmailAddress> EmailAddresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Group> Groups { get; set; }
+
         public AddressBookDbContext()
              : base("UsersConnection")
         {
-        }
+        }       
 
         public static AddressBookDbContext Create()
         {
@@ -87,7 +93,7 @@ namespace AddressBook.DataAccessLayer
                 .HasMany(x => x.Contacts)
                 .WithRequired(x => x.ApplicationUser) // Not null
                 .HasForeignKey<int>(x => x.ApplicationUserID)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<UserRole>().ToTable("UserRole");
             modelBuilder.Entity<UserLogin>().ToTable("UserLogin");
@@ -97,14 +103,14 @@ namespace AddressBook.DataAccessLayer
             // Contact model
             // TPC - mapping (Table-Per-Concrete)               
             modelBuilder.Entity<Contact>().Map(c =>
-            {
-                // This table will have columns with inherited and its own properties. On hover for more information.
-                c.MapInheritedProperties();
-                c.ToTable("Contact");
-            }).HasKey(c => c.ID)                
-                .Property(c => c.ID)
-                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+                {
+                    // This table will have columns with inherited and its own properties. On hover for more information.
+                    c.MapInheritedProperties();
+                    c.ToTable("Contact");
+                }).HasKey(c => c.ID)                
+                    .Property(c => c.ID)
+                        .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                        .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
 
             modelBuilder.Entity<Contact>()
                 .Property(c => c.FirstName)
@@ -134,34 +140,45 @@ namespace AddressBook.DataAccessLayer
 
             // Link Contact and PhoneNumber
             modelBuilder.Entity<Contact>()
-                .HasMany(c => c.PhoneNumber)
+                .HasMany(c => c.PhoneNumbers)
                 .WithRequired(p => p.Contact)
                 .HasForeignKey<int>(p => p.ContactID)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(true);
 
             // Link Contact and EmailAddress
             modelBuilder.Entity<Contact>()
-                .HasMany(c => c.EmailAddress)
+                .HasMany(c => c.EmailAddresses)
                 .WithRequired(e => e.Contact)
                 .HasForeignKey<int>(e => e.ContactID)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(true);
 
             // Link Contact and Address
             modelBuilder.Entity<Contact>()
-                .HasMany(a => a.Address)
+                .HasMany(a => a.Addresses)
                 .WithRequired(a => a.Contact)
                 .HasForeignKey<int>(a => a.ContactID)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(true);
 
+            // Link Contact and Group model with many-to-many (creates additional table ContactGroup)
+            modelBuilder.Entity<Contact>()
+                .HasMany<Group>(c => c.Groups)
+                .WithMany(g => g.Contacts)
+                .Map(cg =>
+                    {
+                        cg.MapLeftKey("ContactID");
+                        cg.MapRightKey("GroupID");
+                        cg.ToTable("ContactGroup");
+                    });
+            
             // PhoneNumber model
             modelBuilder.Entity<PhoneNumber>().Map(p =>
-            {
-                p.MapInheritedProperties();
-                p.ToTable("PhoneNumber");
-            }).HasKey(c => c.ID)
-                .Property(c => c.ID)
-                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+                {
+                    p.MapInheritedProperties();
+                    p.ToTable("PhoneNumber");
+                }).HasKey(c => c.ID)
+                    .Property(c => c.ID)
+                        .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                        .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
 
             modelBuilder.Entity<PhoneNumber>()
                 .Property(p => p.Number)
@@ -174,14 +191,14 @@ namespace AddressBook.DataAccessLayer
 
             // EmailAddress model
             modelBuilder.Entity<EmailAddress>().Map(e =>
-            {
-                e.MapInheritedProperties();
-                e.ToTable("EmailAddress");
-            })
-            .HasKey(e => e.ID)
-                .Property(e => e.ID)
-                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+                {
+                    e.MapInheritedProperties();
+                    e.ToTable("EmailAddress");
+                })
+                .HasKey(e => e.ID)
+                    .Property(e => e.ID)
+                        .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                        .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
 
             modelBuilder.Entity<EmailAddress>()
                 .Property(p => p.Address)
@@ -194,14 +211,14 @@ namespace AddressBook.DataAccessLayer
 
             // Address model
             modelBuilder.Entity<Address>().Map(a =>
-            {
-                a.MapInheritedProperties();
-                a.ToTable("Address");
-            })
-            .HasKey(a => a.ID)
-                .Property(a => a.ID)
-                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+                {
+                    a.MapInheritedProperties();
+                    a.ToTable("Address");
+                })
+                .HasKey(a => a.ID)
+                    .Property(a => a.ID)
+                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
 
             modelBuilder.Entity<Address>()
                 .Property(a => a.Street)
@@ -226,6 +243,26 @@ namespace AddressBook.DataAccessLayer
             modelBuilder.Entity<Address>()
                 .Property(a => a.AddressType)
                 .HasMaxLength(10);
+
+            // Group model
+            modelBuilder.Entity<Group>().Map(g =>
+                {
+                    g.MapInheritedProperties();
+                    g.ToTable("Group");
+                })
+                .HasKey(g => g.ID)
+                    .Property(g => g.ID)
+                    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+                    .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
+
+            modelBuilder.Entity<Group>()
+                .Property(g => g.Name)
+                .HasMaxLength(20)
+                .IsRequired();
+
+            modelBuilder.Entity<Group>()
+               .Property(g => g.GroupType)
+               .HasMaxLength(10);
         }
     }
 }
