@@ -142,6 +142,10 @@ namespace AddressBook.DataAccessLayer
                    .HasMaxLength(6);
 
             modelBuilder.Entity<Contact>()
+              .Property(c => c.Relationship)
+                  .HasMaxLength(20);
+
+            modelBuilder.Entity<Contact>()
                .Property(c => c.Title)
                    .HasMaxLength(30);
 

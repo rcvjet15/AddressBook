@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressBook.DataAccessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,17 @@ namespace AddressBook.Controllers
 {
     public class ContactsController : Controller
     {
+        private AddressBookDbContext _db;
+
+        public ContactsController()
+        {
+            _db = new AddressBookDbContext();
+        }
+
         // GET: Contacts
         public ActionResult Index()
         {
+            //var query = _db
             return View();
         }
 
