@@ -193,7 +193,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DataAccessLayer\AddressBookDbContext.cs" />
@@ -224,6 +223,10 @@
     <Compile Include="Migrations\201711081742379_AddGroupModel.cs" />
     <Compile Include="Migrations\201711081742379_AddGroupModel.Designer.cs">
       <DependentUpon>201711081742379_AddGroupModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711092031184_AddCreatedAtToUser.cs" />
+    <Compile Include="Migrations\201711092031184_AddCreatedAtToUser.Designer.cs">
+      <DependentUpon>201711092031184_AddCreatedAtToUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
@@ -360,11 +363,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Shared\_LayoutNoNavbarDark.cshtml" />
-    <Content Include="Views\Contacts\Create.cshtml" />
-    <Content Include="Views\Contacts\Delete.cshtml" />
-    <Content Include="Views\Contacts\Details.cshtml" />
-    <Content Include="Views\Contacts\Edit.cshtml" />
-    <Content Include="Views\Contacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -400,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711081742379_AddGroupModel.resx">
       <DependentUpon>201711081742379_AddGroupModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711092031184_AddCreatedAtToUser.resx">
+      <DependentUpon>201711092031184_AddCreatedAtToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

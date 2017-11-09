@@ -48,7 +48,8 @@ namespace AddressBook.Migrations
                     LastName = "admin@test.com",
                     UserName = "admin",
                     BirthDate = DateTime.Today,
-                    Email = "admin@test.com"
+                    Email = "admin@test.com",
+                    CreatedAt = DateTime.Now
                 };
 
                 manager.Create(user, "Lozinka1$");

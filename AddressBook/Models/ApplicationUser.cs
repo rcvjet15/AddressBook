@@ -19,24 +19,27 @@ namespace AddressBook.Models
         }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(20)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(30)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [Required]
+        
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d/M/yyyy}")]
-        public DateTime BirthDate { get; set; }
+        [Display(Name = "Birthdate")]
+        public DateTime? BirthDate { get; set; }
 
         [ScaffoldColumn(false)]
         [Display(Name = "Profile Picture")]
         public string ProfilePicturePath { get; set; }
-        
+     
+        [ScaffoldColumn(false)]
+        public DateTime CreatedAt { get; set; }
+
         [ScaffoldColumn(false)]
         [Display(Name = "Full Name")]
         public string FullName

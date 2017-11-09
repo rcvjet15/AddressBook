@@ -86,6 +86,21 @@ namespace AddressBook.DataAccessLayer
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+            // Application user - additional mappings in inherited class
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(a => a.FirstName)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(a => a.LastName)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(a => a.CreatedAt)
+                .IsRequired();
+
             // Link User and Contact
             modelBuilder.Entity<ApplicationUser>()
                 .ToTable("User")
@@ -121,7 +136,11 @@ namespace AddressBook.DataAccessLayer
                 .Property(c => c.LastName)
                     .IsRequired()
                     .HasMaxLength(30);
-            
+
+            modelBuilder.Entity<Contact>()
+               .Property(c => c.Gender)
+                   .HasMaxLength(6);
+
             modelBuilder.Entity<Contact>()
                .Property(c => c.Title)
                    .HasMaxLength(30);
@@ -256,9 +275,9 @@ namespace AddressBook.DataAccessLayer
                     .HasColumnAnnotation("Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute())); // Add index
 
             modelBuilder.Entity<Group>()
-                .Property(g => g.Name)
-                .HasMaxLength(20)
-                .IsRequired();
+                .Property(g => g.Name)                
+                .IsRequired()
+                .HasMaxLength(20);
 
             modelBuilder.Entity<Group>()
                .Property(g => g.GroupType)

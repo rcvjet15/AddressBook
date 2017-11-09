@@ -158,7 +158,7 @@ namespace AddressBook.Controllers
                     LastName = model.LastName,
                     UserName = model.Email,
                     Email = model.Email,
-                    BirthDate = DateTime.Today
+                    CreatedAt = DateTime.Now
                 };
 
                 var result  = UserManager.Create(user, model.Password);

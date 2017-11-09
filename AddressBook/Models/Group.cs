@@ -13,8 +13,11 @@ namespace AddressBook.Models
             Contacts = new List<Contact>();
         }
 
+        [Required]
+        [StringLength(20)]
         public string Name { get; set; }
 
+        [StringLength(10)]
         [Display(Name = "Group Type")]
         public string GroupType { get; set; }
 

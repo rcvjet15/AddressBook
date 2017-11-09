@@ -15,9 +15,13 @@ namespace AddressBook.Models
             Addresses = new List<Address>();
         }
 
+        [Required]
+        [StringLength(20)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
-        
+
+        [Required]
+        [StringLength(30)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -29,15 +33,17 @@ namespace AddressBook.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d/M/yyyy}")]
-        [Display(Name = "Birthday")]
-        public DateTime Birthday { get; set; }
+        [Display(Name = "Birthdate")]
+        public DateTime? Birthdate { get; set; }
 
         [Display(Name = "Note")]
         public string Note { get; set; }
 
+        [StringLength(30)]
         [Display(Name = "Title")]
         public string Title { get; set; }
 
+        [StringLength(30)]
         [Display(Name = "Organization")]
         public string Organization { get; set; }
         

@@ -8,9 +8,12 @@ namespace AddressBook.Models
 {
     public class PhoneNumber : EntityBaseModel
     {
+        [Required]
+        [StringLength(30)]
         [Display(Name = "Number")]
         public string Number { get; set; }
 
+        [StringLength(10)]
         [Display(Name = "Number Type")]
         public string NumberType { get; set; }
         
