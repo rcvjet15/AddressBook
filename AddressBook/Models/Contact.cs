@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace AddressBook.Models
 {
     public class Contact : EntityBaseModel
     {
         public Contact()
-        {
-            PhoneNumbers = new List<PhoneNumber>();
-            EmailAddresses = new List<EmailAddress>();
-            Addresses = new List<Address>();
+        {           
         }
 
         [Required]
@@ -38,6 +33,9 @@ namespace AddressBook.Models
 
         [Display(Name = "Note")]
         public string Note { get; set; }
+
+        [Display(Name = "Relationship")]
+        public string Relationship { get; set; }
 
         [StringLength(30)]
         [Display(Name = "Title")]

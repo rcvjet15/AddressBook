@@ -1,8 +1,10 @@
-namespace AddressBook.Migrations
+﻿namespace AddressBook.Migrations
 {
+    using AddressBook.Helpers;
     using AddressBook.Models;
     using Microsoft.AspNet.Identity;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Validation;
@@ -23,6 +25,76 @@ namespace AddressBook.Migrations
             context.SaveChanges();
         }
         
+        private void AddContacts(AddressBook.DataAccessLayer.AddressBookDbContext context)
+        {
+            var Contacts = new List<Contact>()
+            {
+                new Contact()
+                {
+                    FirstName = "Ivan",
+                    LastName = "Perić",
+                    Gender = "Male",
+                    Birthdate = DateTime.Now,
+                    Title = "Colleague",
+                    Organization = "Google",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                },
+                new Contact()
+                {
+                    FirstName = "Marija",
+                    LastName = "Ivušić",
+                    Gender = "Female",
+                    Birthdate = DateTime.Now,
+                    Relationship = "Colleague",
+                    Organization = "Facebook",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                },
+                new Contact()
+                {
+                    FirstName = "Kristina",
+                    LastName = "Gorić",
+                    Gender = "Female",
+                    Birthdate = DateTime.Now,
+                    Title = "Friend",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                },
+                new Contact()
+                {
+                    FirstName = "Domagoj",
+                    LastName = "Marinić",
+                    Gender = "Male",
+                    Birthdate = DateTime.Now,
+                    Title = "Boss",
+                    Organization = "Google",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                },
+                new Contact()
+                {
+                    FirstName = "Marin",
+                    LastName = "Dorić",
+                    Gender = "Male",
+                    Birthdate = DateTime.Now,
+                    Relationship = "Friend",
+                    Title = "Driver",
+                    Organization = "Taxi",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                },
+                new Contact()
+                {
+                    FirstName = "Mom",
+                    LastName = "Perić",
+                    Gender = "Male",
+                    Birthdate = DateTime.Now,
+                    Relationship = "Family"
+                },
+                new Contact()
+                {
+                    FirstName = "Home",
+                    LastName = "Home",
+                },
+            };
+        }
+
         /// <summary>
         /// Adds default user. This user must be removed for production.
         /// </summary>
