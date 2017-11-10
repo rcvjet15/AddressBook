@@ -40,6 +40,9 @@ namespace AddressBook
             bundles.Add(new ScriptBundle("~/bundles/sb-admin").Include(
                         "~/Scripts/Libraries/sb-admin*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/third-party-plugins").Include(
+                       "~/Scripts/Libraries/mustache.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/globalScript").Include(
                     "~/Scripts/global.js"));
 

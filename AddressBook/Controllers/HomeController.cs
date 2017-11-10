@@ -21,6 +21,12 @@ namespace AddressBook.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
+            return View();
+        }
+        
+        [HttpGet]
+        public JsonResult GetUserContacts()
+        {
             int userId = User.Identity.GetUserId<int>();
 
             // Get all contacts that belongs to logged in user
@@ -37,82 +43,16 @@ namespace AddressBook.Controllers
                 viewModels.Add(new ContactIndexViewModel()
                 {
                     ID = contact.ID,
-                    FullName = contact.FullName,
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
                     PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
                     Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
-                    Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddress,                    
+                    Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddress,
+                    ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
                 });
             }
 
-            return View(viewModels);
-        }
-
-        // GET: Contacts/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Contacts/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Contacts/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Contacts/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Contacts/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Contacts/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Contacts/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(new { Contacts = viewModels }, JsonRequestBehavior.AllowGet);
         }
     }
 }

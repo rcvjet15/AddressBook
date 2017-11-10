@@ -4,11 +4,16 @@
     ViewBag.Title = "Contacts";
 }
 
-<ul>
-   @{
-       foreach (var contact in Model)
-       {
-            <li>@contact.FullName</li>
-       }
-    }
-</ul>
+
+<div class="col-lg-3" style="overflow-y:hidden">
+    <div class="list-group" id="contact-list-target"> Loading...
+        <script id="contact-list-template" type="x-tmpl-mustache">
+            <button class="list-group-item list-group-item-action" data-target="{{ID}}">
+                <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:50px" />
+                {{LastName}} {{FirstName}}
+            </button>
+        </script>
+    </div>
+</div>
+
+
