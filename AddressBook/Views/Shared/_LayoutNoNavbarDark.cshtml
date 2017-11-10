@@ -2,18 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Address Book</title>
-    @Styles.Render("~/Content/css")
-
+    @Html.Partial("_Header")
 </head>
 <body class="bg-dark">
     <div class="container-fluid body-content">
         @RenderBody()
     </div>
 
-    @Scripts.Render("~/bundles/scripts")
+    @Html.Partial("_Scripts")
     @RenderSection("scripts", required: false)
 </body>
 </html>
