@@ -1,6 +1,8 @@
 ﻿using AddressBook.DataAccessLayer;
 using AddressBook.Helpers;
 using AddressBook.Models;
+using AddressBook.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,28 +21,30 @@ namespace AddressBook.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
+            int userId = User.Identity.GetUserId<int>();
 
-            var c = new Contact()
+            // Get all contacts that belongs to logged in user
+            var query = Db.Contacts
+                .Where(c => c.ApplicationUserID == userId)
+                .Include(c => c.PhoneNumbers)
+                .Include(c => c.EmailAddresses)
+                .Include(c => c.Addresses);
+
+            List<ContactIndexViewModel> viewModels = new List<ContactIndexViewModel>();
+
+            foreach (var contact in query)
             {
-                FirstName = "Mom",
-                LastName = "Perić",
-                Gender = "Male",
-                Birthdate = DateTime.Now,
-                Relationship = "Family",
-                ProfilePicPath = Params.DefaultProfilePicPath,
-                CreatedAt = DateTime.Now,
-                ModifiedAt = DateTime.Now,
-            };
+                viewModels.Add(new ContactIndexViewModel()
+                {
+                    ID = contact.ID,
+                    FullName = contact.FullName,
+                    PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
+                    Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
+                    Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddress,                    
+                });
+            }
 
-            _db.Contacts.Add(c);
-            _db.SaveChanges();
-
-            //var query = _db.Contacts
-            //    .Include(c => c.PhoneNumbers.FirstOrDefault(p => p.Default == true))
-            //    .Include(c => c.EmailAddresses.FirstOrDefault(e => e.Default == true))
-            //    .Include(c => c.Addresses.FirstOrDefault(a => a.Default == true))
-
-            return View();
+            return View(viewModels);
         }
 
         // GET: Contacts/Details/5

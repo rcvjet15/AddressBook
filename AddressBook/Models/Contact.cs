@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AddressBook.Models
 {
@@ -23,7 +24,11 @@ namespace AddressBook.Models
         public string Title { get; set; }
                 
         public string Organization { get; set; }
-        
+
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public string FullName { get => $"{LastName} {FirstName}"; }
+
         // Foreign key
         public int ApplicationUserID { get; set; }
 

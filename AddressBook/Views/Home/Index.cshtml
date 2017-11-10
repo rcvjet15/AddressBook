@@ -1,3 +1,14 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<AddressBook.ViewModels.ContactIndexViewModel>
+
+@{
+    ViewBag.Title = "Contacts";
 }
+
+<ul>
+   @{
+       foreach (var contact in Model)
+       {
+            <li>@contact.FullName</li>
+       }
+    }
+</ul>

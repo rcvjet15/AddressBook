@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -21,6 +22,10 @@ namespace AddressBook.Models
         public string AddressType { get; set; }
 
         public bool Default { get; set; }
+
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public string FullAddress { get => $"{Street} {HouseNumber}, {City} {PostalCode}, {State}"; }
 
         // Foreign key
         public int ContactID { get; set; }

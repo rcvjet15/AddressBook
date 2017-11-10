@@ -7,13 +7,11 @@ using System.Web;
 
 namespace AddressBook.ViewModels
 {
-    public class ContactListViewModel
+    public class ContactIndexViewModel
     {
         public int ID { get; set; }
         
-        public string FirstName { get; set; }
-        
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         
         public string PhoneNumber { get; set; }
 

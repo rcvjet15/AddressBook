@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
@@ -24,14 +25,14 @@ namespace AddressBook.DataAccessLayer
         public DbSet<Group> Groups { get; set; }
 
 
-        public AddressBookDbContext(string connectionName)
-             : base(connectionName)
+        public AddressBookDbContext()
+             : base(Params.DefaultConnectionName)
         {
         }       
 
         public static AddressBookDbContext Create()
         {
-            return new AddressBookDbContext(Params.DefaultConnectionName);
+            return new AddressBookDbContext();
         }
                 
         public override int SaveChanges()

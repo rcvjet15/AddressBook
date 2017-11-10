@@ -7,21 +7,18 @@
     @Styles.Render("~/Content/css")
 
 </head>
-<body>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <!-- Navigation -->
     @Html.Partial("_Navbar")
 
     <div class="content-wrapper">
-        <div class="container-fluid body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Address Book</p>
-            </footer>
+        <div class="container-fluid">
+            @RenderBody()            
         </div>
+        @Html.Partial("_Footer")
     </div>    
 
-    @Scripts.Render("~/bundles/scripts")
+    @Html.Partial("_Scripts")
     @RenderSection("scripts", required: false)
 </body>
 </html>

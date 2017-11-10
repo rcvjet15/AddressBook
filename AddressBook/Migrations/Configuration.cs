@@ -122,7 +122,7 @@
             };
 
             // Add default contacts, but only those whose LastName is not in DB
-            contacts.ForEach(c => context.Contacts.AddOrUpdate(x => x.LastName, c));            
+            contacts.ForEach(c => context.Contacts.AddOrUpdate(x => x.LastName, c));
         }
 
         /// <summary>
@@ -140,7 +140,7 @@
                 manager.Create(role);
             }
 
-            if (!context.Users.Any(u => u.UserName == "admin"))
+            if (!context.Users.Any(u => u.UserName == "admin@test.com"))
             {
                 CustomUserStore store = new CustomUserStore(context);
                 CustomUserManager manager = new CustomUserManager(store);
