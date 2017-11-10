@@ -8,23 +8,19 @@ namespace AddressBook.Models
 {
     public class Address : EntityBaseModel
     {
-        [StringLength(30)]
         public string Street { get; set; }
 
-        [StringLength(8)]
         public string HouseNumber { get; set; }
-
-        [StringLength(10)]
+        
         public string PostalCode { get; set; }
-
-        [StringLength(20)]
+        
         public string City { get; set; }
-
-        [StringLength(20)]
+                
         public string State { get; set; }
-
-        [StringLength(10)]
+                
         public string AddressType { get; set; }
+
+        public bool Default { get; set; }
 
         // Foreign key
         public int ContactID { get; set; }

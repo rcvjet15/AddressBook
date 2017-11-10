@@ -21,13 +21,19 @@
         protected override void Seed(AddressBook.DataAccessLayer.AddressBookDbContext context)
         {
             AddDefaultUser(context);
+            AddContacts(context);
 
+            // Save at the end
             context.SaveChanges();
         }
         
         private void AddContacts(AddressBook.DataAccessLayer.AddressBookDbContext context)
         {
-            var Contacts = new List<Contact>()
+            int userId = context.Users
+                .Single(u => u.UserName == "admin@test.com")
+                .Id;
+
+            var contacts = new List<Contact>()
             {
                 new Contact()
                 {
@@ -38,6 +44,7 @@
                     Title = "Colleague",
                     Organization = "Google",
                     ProfilePicPath = Params.DefaultProfilePicPath,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
@@ -48,6 +55,9 @@
                     Relationship = "Colleague",
                     Organization = "Facebook",
                     ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
@@ -57,6 +67,9 @@
                     Birthdate = DateTime.Now,
                     Title = "Friend",
                     ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
@@ -67,6 +80,9 @@
                     Title = "Boss",
                     Organization = "Google",
                     ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
@@ -78,6 +94,9 @@
                     Title = "Driver",
                     Organization = "Taxi",
                     ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
@@ -85,14 +104,25 @@
                     LastName = "Perić",
                     Gender = "Male",
                     Birthdate = DateTime.Now,
-                    Relationship = "Family"
+                    Relationship = "Family",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
                 new Contact()
                 {
                     FirstName = "Home",
                     LastName = "Home",
+                    ProfilePicPath = Params.DefaultProfilePicPath,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    ApplicationUserID = userId,
                 },
             };
+
+            // Add default contacts, but only those whose LastName is not in DB
+            contacts.ForEach(c => context.Contacts.AddOrUpdate(x => x.LastName, c));            
         }
 
         /// <summary>
@@ -117,8 +147,8 @@
                 ApplicationUser user = new ApplicationUser()
                 {
                     FirstName = "admin",
-                    LastName = "admin@test.com",
-                    UserName = "admin",
+                    LastName = "admin",
+                    UserName = "admin@test.com",
                     BirthDate = DateTime.Today,
                     Email = "admin@test.com",
                     CreatedAt = DateTime.Now

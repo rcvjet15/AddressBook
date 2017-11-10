@@ -20,8 +20,6 @@ namespace AddressBook.ViewModels
         public string Email { get; set; }
 
         public string Address { get; set; }
-
-        public IEnumerable<string> Groups { get; set; }
     }
 
     public class ContactCreateViewModel

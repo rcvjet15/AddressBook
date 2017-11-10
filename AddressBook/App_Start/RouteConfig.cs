@@ -17,7 +17,7 @@ namespace AddressBook
 
             // If you don't have "HomeController", choose another controller you have.
             // MvcCodeRouting will look for all controllers in the same namespace and sub-namespaces as the one specified here.
-            routes.MapCodeRoutes(typeof(ContactsController), new CodeRoutingSettings
+            routes.MapCodeRoutes(typeof(HomeController), new CodeRoutingSettings
             {
                 UseImplicitIdToken = true
             });
@@ -27,7 +27,7 @@ namespace AddressBook
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Contacts", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

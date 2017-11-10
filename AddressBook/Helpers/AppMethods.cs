@@ -12,27 +12,57 @@ namespace AddressBook.Helpers
     /// </summary>
     public static class AppMethods
     {
-        /// <summary>
-        ///         
-        /// Property that reads profile photo path from property ProfilePicPath and returns byte array if picture exists.        
-        /// </summary>
-        /// <param name="profilePhoto">Profile photo path. If profilePhoto is null then image on default profile photo path will be used.</param>
-        /// <returns></returns>
-        public static byte[] GetProfilePhotoContent(string profilePhotoPath)
-        {
-            FileInfo profilePic = new FileInfo(profilePhotoPath ?? Params.DefaultProfilePicPath);
+        private static string[] _allowedImageExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
 
-            if (!profilePic.Exists)
+        /// <summary>
+        /// Methods that takes photo from given path, reads the image and converts it to byte array.
+        /// </summary>
+        /// <param name="profilePhoto">Profile photo path.</param>
+        /// <returns>Image in byte array or null if image doesn't exist.</returns>
+        public static byte[] GetImageAsByteArray(string path)
+        {
+            FileInfo imagePath = new FileInfo(path);
+
+            if (!imagePath.Exists)
+            {
+                return null;
+            }
+                        
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Image img = Image.FromFile(imagePath.FullName);
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Methods that takes photo from given path, reads the image and converts it to base 64 string.
+        /// </summary>
+        /// <param name="profilePhoto">Profile photo path.</param>
+        /// <returns>Image in Base 64 format or null if image doesn't exist.</returns>
+        public static string GetImageAsBase64(string path)
+        {
+            FileInfo imagePath = new FileInfo(path);
+
+            if (!imagePath.Exists)
             {
                 return null;
             }
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                Image img = Image.FromFile(profilePic.FullName);
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
+            var bytes = GetImageAsByteArray(imagePath.FullName);
+
+            return Convert.ToBase64String(bytes);
+        }
+
+        /// <summary>
+        /// Method that checks if image has allowed extension.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public static bool IsValidImageType(FileInfo imageInfo)
+        {
+            return _allowedImageExtensions.Contains(imageInfo.Extension);
         }
     }
 }

@@ -1,25 +1,45 @@
 ﻿using AddressBook.DataAccessLayer;
+using AddressBook.Helpers;
+using AddressBook.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace AddressBook.Controllers
 {
-    public class ContactsController : Controller
+    public class HomeController : BaseController
     {
-        private AddressBookDbContext _db;
-
-        public ContactsController()
+        public HomeController()
         {
-            _db = new AddressBookDbContext();
         }
 
         // GET: Contacts
         public ActionResult Index()
         {
-            //var query = _db
+
+            var c = new Contact()
+            {
+                FirstName = "Mom",
+                LastName = "Perić",
+                Gender = "Male",
+                Birthdate = DateTime.Now,
+                Relationship = "Family",
+                ProfilePicPath = Params.DefaultProfilePicPath,
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now,
+            };
+
+            _db.Contacts.Add(c);
+            _db.SaveChanges();
+
+            //var query = _db.Contacts
+            //    .Include(c => c.PhoneNumbers.FirstOrDefault(p => p.Default == true))
+            //    .Include(c => c.EmailAddresses.FirstOrDefault(e => e.Default == true))
+            //    .Include(c => c.Addresses.FirstOrDefault(a => a.Default == true))
+
             return View();
         }
 

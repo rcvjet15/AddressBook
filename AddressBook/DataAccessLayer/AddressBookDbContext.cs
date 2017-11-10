@@ -1,4 +1,5 @@
-﻿using AddressBook.Models;
+﻿using AddressBook.Helpers;
+using AddressBook.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,15 @@ namespace AddressBook.DataAccessLayer
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Group> Groups { get; set; }
 
-        public AddressBookDbContext()
-             : base("UsersConnection")
+
+        public AddressBookDbContext(string connectionName)
+             : base(connectionName)
         {
         }       
 
         public static AddressBookDbContext Create()
         {
-            return new AddressBookDbContext();
+            return new AddressBookDbContext(Params.DefaultConnectionName);
         }
                 
         public override int SaveChanges()
