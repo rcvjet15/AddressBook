@@ -27,6 +27,10 @@ namespace AddressBook.Models
         [ScaffoldColumn(false)]
         public string FullAddress { get => $"{Street} {HouseNumber}, {City} {PostalCode}, {State}"; }
 
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public string FullAddressWithoutState { get => $"{Street} {HouseNumber}, {City} {PostalCode}"; }
+
         // Foreign key
         public int ContactID { get; set; }
 

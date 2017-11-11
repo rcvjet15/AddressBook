@@ -6,28 +6,40 @@
 
 <div class="col-lg-3">
     <div class="card" style="overflow:hidden;">
-        <div class="card-header">
-            <h2>Assd</h2>
+        <div class="card-block">
+            <div class="card px-2">
+                <div class="row">
+                    <div class="input-group">
+                        <input id="search-contacts" class="form-control" type="text" placeholder="Search for contacts">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card-block list-group" id="contact-list-target">
-            <div class="mx-auto loader"></div>
-            <script id="contact-list-template" type="x-tmpl-mustache">
-                <a class="list-group-item list-group-item-action" data-target="{{ID}}" style="width:100%; cursor:pointer">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:100px" />
-                        </div>
-                        <div class="col-md-8 px-3">
-                            <div class="px-3">
-                                <h6 class="">{{LastName}} {{FirstName}}assadasdsa</h6>
-                                <span class="">{{PhoneNumber}}asdsadasdsadasd</span> <br />
-                                <span class="">{{Email}}asdsadsadsa</span> <br />
-                                <span class="">{{Address}}asdsadsaddassadasdsadsaddassadasdsadsaddassadasdsadsaddassad</span><br />
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </script>
+            <div class="mx-auto loader"></div>           
         </div>
     </div>
 </div>
+
+<script id="contact-list-template" type="x-tmpl-mustache">
+    <a class="list-group-item list-group-item-action" data-target="{{ID}}" style="width:100%; cursor:pointer">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:100px" />
+            </div>
+            <div class="col-md-8 px-3">
+                <div class="px-3">
+                    <h6 class="">{{LastName}} {{FirstName}}</h6>
+                    <span class="">{{PhoneNumber}}</span> <br />
+                    <span class="">{{Email}}</span> <br />
+                    <span class="">{{Address}}</span><br />
+                </div>
+            </div>
+        </div>
+    </a>
+</script>

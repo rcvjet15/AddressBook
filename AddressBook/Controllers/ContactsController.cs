@@ -37,7 +37,7 @@ namespace AddressBook.Controllers
                         LastName = contact.LastName,
                         PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
                         Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
-                        Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddress,
+                        Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddressWithoutState,
                         ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
                     });
                 }
