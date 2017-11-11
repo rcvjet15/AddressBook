@@ -15,11 +15,7 @@ namespace AddressBook.Models
 
         [Required]
         [StringLength(20)]
-        public string Name { get; set; }
-
-        [StringLength(10)]
-        [Display(Name = "Group Type")]
-        public string GroupType { get; set; }
+        public string Name { get; set; }        
 
         // Navigation property - many-to-many
         public virtual ICollection<Contact> Contacts { get; set; }

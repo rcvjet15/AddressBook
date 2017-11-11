@@ -12,9 +12,26 @@ $('#search-contacts').on("keyup", function (ev) {
         return;
     }
 
+    // Get selected text from search by select list
+    let searchType = $('#search-types').find(':selected').text();
+
+    // Filter contacts by jQuery method grep
     filteredContacts = $.grep(allContacts, (function (n, i) {
-        let fullName = n.LastName + " " + n.FirstName;
-        return fullName.toLowerCase().indexOf(searchText) > -1;
+        // Based on selected item in select list, get value from wanted attribute
+        let wantedAttributeValue = ((searchType) => {
+            switch (searchType) {
+                case "Last Name":
+                    return n.LastName.toLowerCase();                    
+                case "First Name":
+                    return n.FirstName.toLowerCase();
+                case "Groups":
+                    break;
+                default:
+                    return (n.LastName + " " + n.FirstName).toLowerCase();
+            }
+        }).call(this, searchType);
+
+        return wantedAttributeValue.indexOf(searchText) > -1;
     }));
 
     $('#contact-list-target').html('<div class="mx-auto loader"></div>');

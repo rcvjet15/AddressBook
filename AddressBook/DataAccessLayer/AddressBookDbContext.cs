@@ -284,11 +284,7 @@ namespace AddressBook.DataAccessLayer
             modelBuilder.Entity<Group>()
                 .Property(g => g.Name)                
                 .IsRequired()
-                .HasMaxLength(20);
-
-            modelBuilder.Entity<Group>()
-               .Property(g => g.GroupType)
-               .HasMaxLength(10);
+                .HasMaxLength(20);            
         }
     }
 }

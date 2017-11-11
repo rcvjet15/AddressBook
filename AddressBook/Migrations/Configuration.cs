@@ -10,6 +10,7 @@
     using System.Data.Entity.Validation;
     using System.Linq;
     using System.Text;
+    using AddressBook.DataAccessLayer;
 
     internal sealed class Configuration : DbMigrationsConfiguration<AddressBook.DataAccessLayer.AddressBookDbContext>
     {
@@ -22,11 +23,45 @@
         {
             AddDefaultUser(context);
             AddContacts(context);
+            AddGroups(context);
 
             // Save at the end
             context.SaveChanges();
         }
-        
+
+        private void AddGroups(DataAccessLayer.AddressBookDbContext context)
+        {
+            var groups = new List<Group>
+            {
+                new Group
+                {
+                    Name = "Work"
+                },
+                new Group
+                {
+                    Name = "Training"
+                },
+                new Group
+                {
+                    Name = "Cooking"
+                },
+                new Group
+                {
+                    Name = "Friends"
+                },
+                new Group
+                {
+                    Name = "Guests"
+                },
+                new Group
+                {
+                    Name = "Family"
+                },
+            };
+
+            groups.ForEach(g => context.Groups.AddOrUpdate(x => x.Name, g));            
+        }
+
         private void AddContacts(AddressBook.DataAccessLayer.AddressBookDbContext context)
         {
             int userId = context.Users

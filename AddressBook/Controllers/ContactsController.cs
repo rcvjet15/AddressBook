@@ -39,6 +39,7 @@ namespace AddressBook.Controllers
                         Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
                         Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddressWithoutState,
                         ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
+                        Groups = contact.Groups.Select(g => g.Name),
                     });
                 }
             }

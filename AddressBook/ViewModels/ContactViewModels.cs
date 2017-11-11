@@ -24,6 +24,8 @@ namespace AddressBook.ViewModels
         public string ProfileImageBase64 { get; set; }
 
         public string ProfileImagePath { get; set; }
+
+        public IEnumerable<string> Groups { get; set; }
     }
 
     public class ContactCreateViewModel
