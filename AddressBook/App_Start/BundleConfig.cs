@@ -69,6 +69,10 @@ namespace AddressBook
             // SB-admin template stylesheets
             bundles.Add(new StyleBundle("~/Content/sb-admin").Include(
                 "~/Content/Libraries/css/sb-admin*"));
+
+            // App stylesheets
+            bundles.Add(new StyleBundle("~/Content/app-stylesheets").Include(
+                "~/Content/Libraries/css/global.css"));
         }
     }
 }

@@ -1,19 +1,33 @@
-﻿@model IEnumerable<AddressBook.ViewModels.ContactIndexViewModel>
-
-@{
+﻿@{
     ViewBag.Title = "Contacts";
 }
 
 
-<div class="col-lg-3" style="overflow-y:hidden">
-    <div class="list-group" id="contact-list-target"> Loading...
-        <script id="contact-list-template" type="x-tmpl-mustache">
-            <button class="list-group-item list-group-item-action" data-target="{{ID}}">
-                <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:50px" />
-                {{LastName}} {{FirstName}}
-            </button>
-        </script>
+
+<div class="col-lg-3">
+    <div class="card" style="overflow:hidden;">
+        <div class="card-header">
+            <h2>Assd</h2>
+        </div>
+        <div class="card-block list-group" id="contact-list-target">
+            <div class="mx-auto loader"></div>
+            <script id="contact-list-template" type="x-tmpl-mustache">
+                <a class="list-group-item list-group-item-action" data-target="{{ID}}" style="width:100%; cursor:pointer">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:100px" />
+                        </div>
+                        <div class="col-md-8 px-3">
+                            <div class="px-3">
+                                <h6 class="">{{LastName}} {{FirstName}}assadasdsa</h6>
+                                <span class="">{{PhoneNumber}}asdsadasdsadasd</span> <br />
+                                <span class="">{{Email}}asdsadsadsa</span> <br />
+                                <span class="">{{Address}}asdsadsaddassadasdsadsaddassadasdsadsaddassadasdsadsaddassad</span><br />
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </script>
+        </div>
     </div>
 </div>
-
-

@@ -1,18 +1,22 @@
-﻿$(document).ready(function () {
-    loadContacts('/GetUserContacts');
+﻿
+$(document).ready(function () {
+    let contacts = getContacts('/Contacts/GetUserContacts')
+        .then((data) => {
+            if (data.Contacts) {
+                renderContactList(data.Contacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
+            }
+        }).fail((data) => {
+            
+        });    
 });
 
-function loadContacts(url) {
-    $.ajax({
+function getContacts(url) {
+    return $.ajax({
         url: url,
         method: 'GET',
-        contentType: 'application/json',        
-    }).done(function (data) {
-
-        renderContactList(data.Contacts, '#contact-list-template', '#contact-list-target')
-
-    }).fail(function (data) {
-    })
+        contentType: 'application/json',
+    });
+    
 }
 
 function renderContactList(contacts, templateId, targetId) {
@@ -24,6 +28,6 @@ function renderContactList(contacts, templateId, targetId) {
         htmlList.push(rendered);
     });
 
-    $(targetId).html(htmlList)
+    $(targetId).html(htmlList);
 }
 
