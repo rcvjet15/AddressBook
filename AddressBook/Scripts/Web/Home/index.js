@@ -1,5 +1,6 @@
-﻿// Get
+﻿// All displayed contacts on page
 let allContacts = [];
+const loaderHtml = '<div class="mx-auto loader"></div>';
 
 $(document).ready(function () {
     getContactsAndRender();
@@ -7,7 +8,9 @@ $(document).ready(function () {
 
 // Handler for create contact click button
 $('#create-contact-btn').on('click', function (ev) {
-    $('#contact-view-panel').load('/Contacts/Create')
+    $('#contact-view-panel')
+        .html(loaderHtml) // Display loading
+        .load('/Contacts/Create');
 })
 
 $('#search-contacts-btn').on('click', function (ev) {
@@ -88,6 +91,6 @@ function searchContacts(searchText) {
     }));
 
     // Display loader while filtering
-    $('#contact-list-target').html('<div class="mx-auto loader"></div>');
+    $('#contact-list-target').html(loaderHtml);
     renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
 }

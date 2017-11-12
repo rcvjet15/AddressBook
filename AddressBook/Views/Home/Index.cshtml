@@ -4,11 +4,11 @@
 
 <div class="row">
     <div class="col-sm-3 col-md-3 col-lg-3">
-        <div class="card" style="overflow:hidden;">
+        <div class="card" style="overflow:auto;">
             <div class="card-block">
-                <div class="card">
+                <div class="card bg-light">
                     <div class="card-block">
-                        <div class="input-group">
+                        <div class="input-group py-2 px-2">
                             <input id="search-contacts" class="form-control" type="search" placeholder="Search for contacts">
                             <span class="input-group-btn">
                                 <button id="search-contacts-btn" class="btn btn-primary" type="button">
@@ -30,26 +30,26 @@
                     </div>
                 </div>
             </div>
-            <div class="card-block list-group" id="contact-list-target">
+            <div class="card-block list-group bg-light" id="contact-list-target">
                 <div class="mx-auto loader"></div>
             </div>
         </div>
     </div>
     <div class="col-sm-9 col-md-9 col-lg-9">        
-        <div class="row px-5">            
+        <div class="row">            
             <button id="create-contact-btn" type="button" class="btn btn-outline-primary" style="cursor:pointer">
                 <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
             </button>            
         </div>        
         <hr />
-        <div class="row px-2" id="contact-view-panel">
+        <div class="row pl-4" id="contact-view-panel">
                
         </div>
     </div>
 </div>
 
 <script id="contact-list-template" type="x-tmpl-mustache">
-    <a class="list-group-item list-group-item-action" data-target="{{ID}}" style="width:100%; cursor:pointer">
+    <a class="list-group-item list-group-item-action my-1 mx-auto" data-target="{{ID}}" style="width:100%; cursor:pointer;width:95%">
         <div class="row">
             <div class="col-md-4">
                 <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="max-height:100px" />
@@ -57,9 +57,9 @@
             <div class="col-md-8 px-3">
                 <div class="px-3">
                     <h6 class="">{{LastName}} {{FirstName}}</h6>
-                    <span class="">{{PhoneNumber}}</span> <br />
-                    <span class="">{{Email}}</span> <br />
-                    <span class="">{{Address}}</span><br />
+                    <span class="text-muted">{{PhoneNumber}}asdasdASDAS</span> <br />
+                    <span class="text-muted">{{Email}}ASDASD</span> <br />
+                    <span class="text-muted">{{Address}}asassa</span><br />
                 </div>
             </div>
         </div>

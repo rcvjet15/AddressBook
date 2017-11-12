@@ -53,7 +53,13 @@ namespace AddressBook.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView("_Create");
+            ContactCreateViewModel viewModel = new ContactCreateViewModel
+            {
+                ProfileImagePath = Params.DefaultProfilePicPath,
+                Groups = Db.Groups.ToList()
+            };
+
+            return PartialView("_Create", viewModel);
         }
 
         [HttpPost]

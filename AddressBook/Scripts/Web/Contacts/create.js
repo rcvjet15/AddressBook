@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    alert('hello')
 })
 
 $('form').on('submit', function (ev) {

@@ -59,6 +59,9 @@ namespace AddressBook.ViewModels
         [Display(Name = "Organization")]
         public string Organization { get; set; }
 
-        public List<Group> AllGroups { get; set; }
+        public string ProfileImagePath { get; set; }
+
+        public List<Group> Groups { get; set; }
+        
     }
 }
