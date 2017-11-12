@@ -206,6 +206,7 @@
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\JsonBadRequest.cs" />
     <Compile Include="Helpers\Params.cs" />
+    <Compile Include="Helpers\RenderAjaxPartialScripts.cs" />
     <Compile Include="Migrations\201711052203387_AddressBookDbContext.cs" />
     <Compile Include="Migrations\201711052203387_AddressBookDbContext.Designer.cs">
       <DependentUpon>201711052203387_AddressBookDbContext.cs</DependentUpon>
@@ -351,6 +352,7 @@
     <Content Include="Scripts\Libraries\sb-admin.js" />
     <Content Include="Scripts\Libraries\sb-admin.min.js" />
     <Content Include="Scripts\Libraries\mustache.js" />
+    <Content Include="Scripts\Web\Contacts\create.js" />
     <Content Include="Scripts\Web\Home\index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -390,11 +392,11 @@
     <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Shared\_Stylesheets.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Contacts\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Contacs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

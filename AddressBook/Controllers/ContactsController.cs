@@ -1,4 +1,5 @@
 ﻿using AddressBook.Helpers;
+using AddressBook.Models;
 using AddressBook.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
@@ -47,6 +48,12 @@ namespace AddressBook.Controllers
             
 
             return Json(new { Contacts = viewModels }, JsonRequestBehavior.AllowGet);           
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return PartialView("_Create");
         }
     }
 }

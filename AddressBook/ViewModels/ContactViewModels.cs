@@ -58,5 +58,7 @@ namespace AddressBook.ViewModels
         [StringLength(30)]
         [Display(Name = "Organization")]
         public string Organization { get; set; }
+
+
     }
 }

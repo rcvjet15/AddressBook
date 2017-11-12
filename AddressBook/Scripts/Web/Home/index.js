@@ -5,8 +5,13 @@ $(document).ready(function () {
     getContactsAndRender();
 });
 
+// Handler for create contact click button
+$('#create-contact-btn').on('click', function (ev) {
+    $('#contact-view-panel').load('/Contacts/Create')
+})
+
 $('#search-contacts-btn').on('click', function (ev) {
-    let searchText = $('#search-contacts').val().toLowerCase();
+    let searchText = $('#search-contacts').val().toLowerCase();    
     searchContacts(searchText);
 })
 
@@ -82,6 +87,7 @@ function searchContacts(searchText) {
         }
     }));
 
+    // Display loader while filtering
     $('#contact-list-target').html('<div class="mx-auto loader"></div>');
     renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
 }

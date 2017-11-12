@@ -44,11 +44,7 @@ namespace AddressBook
                        "~/Scripts/Libraries/mustache.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/globalScript").Include(
-                    "~/Scripts/global.js"));
-
-            // Include every js script that is used for each view
-            bundles.Add(new ScriptBundle("~/bundles/appScripts")
-                .IncludeDirectory("~/Scripts/Web", "*.js", true));
+                    "~/Scripts/global.js"));            
         }
 
         private static void AddStylesheets(BundleCollection bundles)
