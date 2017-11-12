@@ -275,6 +275,7 @@
     <Content Include="Content\Libraries\css\sb-admin.css" />
     <Content Include="Content\Libraries\css\sb-admin.min.css" />
     <Content Include="Content\Libraries\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Pics\create-button.png" />
     <Content Include="Content\ProfilePictures\person_profile.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

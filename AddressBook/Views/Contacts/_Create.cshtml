@@ -9,8 +9,22 @@
             <h4>Contact</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" />
+            <div class="card" style="width: 15rem;">
+                <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" class="profile-image-upload img-thumbnail" style="max-height:140px" />
+                <div class="card-block">
+                    <label class="btn btn-outline-info mt-2 mx-1">
+                        Browse @Html.TextBoxFor(m => m.ProfileImagePath, new
+                          {
+                              type = "file",
+                              accept = "image/*",
+                              @class = "profile-image-browser",
+                              style = "display:none"
+                          })
+                    </label>
+                    <div class="profile-image-info">
+                        <span class="label label-info" style="font-size:small; margin-left:5px;">No profile picture selected.</span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -37,6 +51,7 @@
 </div>
 
 <script type="text/javascript" src="/Scripts/Web/Contacts/create.js"></script>
+<script type="text/javascript" src="/Scripts/file-processing.js"></script>
 @Scripts.Render("~/bundles/jqueryval")    
 
 
