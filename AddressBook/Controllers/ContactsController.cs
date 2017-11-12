@@ -3,8 +3,10 @@ using AddressBook.Models;
 using AddressBook.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -64,22 +66,77 @@ namespace AddressBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create(ContactCreateViewModel model)
+        public JsonResult Create(ContactCreateViewModel model, FormCollection formCollection)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                    if (!DateTime.TryParse(model.Birthdate, out DateTime birthDate))
+                    {
+                        throw new InvalidDataException("Birthdate is not in valid format.");
+                    }
+
+                    Contact contact = new Contact
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Birthdate = birthDate,
+                        Relationship = model.Relationship,
+                        Title = model.Title,
+                        Note = model.Note,
+                        Gender = model.Gender,
+                        ProfilePicPath = StoreProfilePicture() ?? Params.DefaultProfilePicPath, // Store picture 
+                        ApplicationUserID = User.Identity.GetUserId<int>(),
+                    };
+
+                    Db.Contacts.Add(contact);
+
+                    if (Db.SaveChanges() == 1)
+                    {
+                        return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                    }
+                    ModelState.AddModelError(String.Empty, $"Unable to save contact {model.FirstName} {model.LastName} into database. PLease try again.");
                 }
             }
-            catch (Exception)
+            catch (InvalidDataException ex)
             {
-
-                throw;
+                ModelState.AddModelError(String.Empty, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
             }
 
-            return new JsonBadRequest(new { Message = "Successfully created " });
+            return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
+        /// <summary>
+        /// Method that checks if file is uploaded, validates it and stores it into content
+        /// </summary>
+        /// <returns>Returns path of stored image if file exists else returns null.</returns>
+        private string StoreProfilePicture()
+        {
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string storePath = Path.Combine(Server.MapPath("~/Content/ProfilePictures"), fileName);
+
+                    if (!AppMethods.IsValidImageType(new FileInfo(storePath)))
+                    {
+                        throw new InvalidDataException($"Allowed image extensions are: {String.Join(", ", AppMethods.AllowedImageExtensions)}.");
+                    }
+
+                    file.SaveAs(storePath);                    
+                    return ConvertToServerRelativePath(storePath);
+                }
+            }
+
+            return null;
         }
     }
 }

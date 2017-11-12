@@ -43,6 +43,9 @@ namespace AddressBook.ViewModels
         [Display(Name = "Birthdate")]
         public string Birthdate { get; set; } // Set Birthdate as string type because dd/mm/yyyy format is not acceptable in jquery.validate
 
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
         [Display(Name = "Note")]
         public string Note { get; set; }
 

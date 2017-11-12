@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-})
-    
+﻿
 $('input.datepicker').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -9,22 +7,18 @@ $('input.datepicker').daterangepicker({
     }
 }); 
     
-$('form').on('submit', function (ev) {
+$('form[id="create-contact"]').on('submit', function (ev) {
     ev.preventDefault();
 
     let $form = $(this);
-
+    
     if ($form.valid()) {
-        alert('valid');
+        submitFormAjax($form)
+            .then((data) => {
+                alert('Success')
+            }).fail((data) => {
+            })
     }
-    else {
-        alert('not!');
-    }
-})
-
-// Click handler that removes group from unordered list
-$('span.remove-group-btn').on('click', function(ev) {    
-   /* $(this).closest('li.list-group-item').remove()*/;
 })
 
 $('#add-group').on('click', function () {
@@ -48,13 +42,25 @@ $('#add-group').on('click', function () {
     addNewGroupItem(groupName);
 })
 
+function submitFormAjax($form) {
+    return $.ajax({
+        url: $form.attr('action'),
+        method: 'POST',
+        // By default, data passed in to the data option as an object (technically, anything other than a string) will be processed and transformed into a query string, 
+        // fitting to the default content-type "application/x-www-form-urlencoded". To send a DOMDocument, or other non-processed data, this option must be set to false.
+        contentType: false,
+        processData: false,
+        data: new FormData($form[0])
+    });   
+}
+
 // Function that inserts list item with new group name at 0 index in unordered list
 // that displays all group names
 function addNewGroupItem(groupName) {
 
     let listItem = '<li class="list-group-item">' +
         ' <label class="form-check-label" style="cursor:pointer">' + 
-        '<input class="form-check-input" type="checkbox" value="' + groupName + '">' + 
+        '<input class="form-check-input" type="checkbox" name="Groups" value="' + groupName + '">' + 
         groupName + 
         '</label>' +
         '<span class="fa fa-remove pull-right" onclick="$(this).closest(\'li.list-group-item\').remove()" style="cursor:pointer;color:darkred"></span>'

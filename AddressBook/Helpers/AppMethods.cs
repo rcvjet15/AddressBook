@@ -14,6 +14,8 @@ namespace AddressBook.Helpers
     {
         private static string[] _allowedImageExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
 
+        public static string[] AllowedImageExtensions { get => _allowedImageExtensions; }
+
         /// <summary>
         /// Methods that takes photo from given path, reads the image and converts it to byte array.
         /// </summary>

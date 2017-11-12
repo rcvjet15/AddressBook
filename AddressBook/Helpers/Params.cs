@@ -12,6 +12,6 @@ namespace AddressBook.Helpers
     {
         public const string DefaultConnectionName = "DefaultConnection";
         
-        public const string DefaultProfilePicPath = @"/Content/ProfilePictures/person_profile.png";
+        public const string DefaultProfilePicPath = "/Content/ProfilePictures/person_profile.png";        
     }
 }

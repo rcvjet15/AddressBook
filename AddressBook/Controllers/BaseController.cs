@@ -29,7 +29,7 @@ namespace AddressBook.Controllers
         protected CustomUserStore UserStore { get => _userStore; }
         protected CustomUserManager UserManager { get => _userManager; }
         protected CustomRoleManager RoleManager { get => _roleManager; }
-
+        
         public BaseController()
         {
             _db = new AddressBookDbContext();
@@ -44,7 +44,7 @@ namespace AddressBook.Controllers
         /// Method that collects messages from ModelState and returns them as list.
         /// </summary>
         /// <returns>List of error messages for current ModelState.</returns>
-        protected List<string> GetModelStateErrorMEssages()
+        protected List<string> GetModelStateErrorMessages()
         {
             List<string> messages =
                 (
@@ -54,6 +54,22 @@ namespace AddressBook.Controllers
                 ).ToList();
 
             return messages;
+        }
+
+        /// <summary>
+        /// Method that takes absolute path to file and converts it to relative path
+        /// e.g. C:\Users\User\App\Content\Pictures\pic.jpg into /Content/Pictures/pic.jpg
+        /// </summary>
+        /// <param name="absolutePath">Absolute path.</param>
+        /// <returns>Relative path or null if given argumtn is null or empty.</returns>
+        protected string ConvertToServerRelativePath(string absolutePath)
+        {
+            if (String.IsNullOrEmpty(absolutePath))
+            {
+                return null;
+            }
+
+            return absolutePath.Replace(HttpContext.Server.MapPath("~/"), "/").Replace(@"\", "/");
         }
     }
 }
