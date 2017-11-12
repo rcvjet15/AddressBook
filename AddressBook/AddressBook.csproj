@@ -262,8 +262,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Libraries\css\gijgo.css" />
-    <Content Include="Content\Libraries\css\gijgo.min.css" />
+    <Content Include="Content\Libraries\css\daterangepicker.css" />
     <Content Include="Content\Libraries\css\global.css" />
     <Content Include="Content\Libraries\css\bootstrap-grid.css" />
     <Content Include="Content\Libraries\css\bootstrap-grid.min.css" />
@@ -337,8 +336,7 @@
     <Content Include="Content\Libraries\scss\sb-admin.scss" />
     <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Libraries\dataTables.bootstrap4.js" />
-    <Content Include="Scripts\Libraries\gijgo.js" />
-    <Content Include="Scripts\Libraries\gijgo.min.js" />
+    <Content Include="Scripts\Libraries\daterangepicker.js" />
     <Content Include="Scripts\Libraries\jquery-1.10.2.js" />
     <Content Include="Scripts\Libraries\jquery-1.10.2.min.js" />
     <None Include="Scripts\Libraries\jquery.validate-vsdoc.js" />
@@ -351,6 +349,8 @@
     <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Libraries\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Libraries\moment.js" />
+    <Content Include="Scripts\Libraries\moment.min.js" />
     <Content Include="Scripts\Libraries\respond.js" />
     <Content Include="Scripts\Libraries\respond.min.js" />
     <Content Include="Scripts\Libraries\sb-admin-datatables.js" />

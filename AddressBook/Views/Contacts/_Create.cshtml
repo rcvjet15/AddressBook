@@ -7,9 +7,9 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="row">
-            <div class="col-lg-3">
-                <div class="card" style="width: 15rem;">
-                    <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" class="profile-image-upload img-thumbnail" style="max-height:140px" />
+            <div class="col-lg-2">
+                <div class="card" style="width: 11rem;">
+                    <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" class="profile-image-upload img-thumbnail" style="max-height:120px" />
                     <div class="card-block">
                         <label class="btn btn-outline-info mt-2 mx-1">
                             Browse @Html.TextBoxFor(m => m.ProfileImagePath, new
