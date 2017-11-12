@@ -41,7 +41,8 @@ namespace AddressBook
                         "~/Scripts/Libraries/sb-admin*"));
 
             bundles.Add(new ScriptBundle("~/bundles/third-party-plugins").Include(
-                       "~/Scripts/Libraries/mustache.js"));
+                       "~/Scripts/Libraries/mustache.js",
+                       "~/Scripts/Libraries/gijgo.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/globalScript").Include(
                     "~/Scripts/global.js"));            
@@ -65,6 +66,9 @@ namespace AddressBook
             // SB-admin template stylesheets
             bundles.Add(new StyleBundle("~/Content/sb-admin").Include(
                 "~/Content/Libraries/css/sb-admin*"));
+
+            bundles.Add(new StyleBundle("~/Content/third-party-stylesheets").Include(
+               "~/Content/Libraries/css/gijgo.css"));
 
             // App stylesheets
             bundles.Add(new StyleBundle("~/Content/app-stylesheets").Include(

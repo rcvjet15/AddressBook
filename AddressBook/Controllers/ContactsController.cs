@@ -63,6 +63,7 @@ namespace AddressBook.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Create(ContactCreateViewModel model)
         {
             try

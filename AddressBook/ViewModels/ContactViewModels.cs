@@ -39,8 +39,7 @@ namespace AddressBook.ViewModels
         [StringLength(30)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [DataType(DataType.Date)]
+        
         [DisplayFormat(DataFormatString = "{0:d/M/yyyy}")]
         [Display(Name = "Birthdate")]
         public DateTime? Birthdate { get; set; }
