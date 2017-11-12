@@ -39,5 +39,21 @@ namespace AddressBook.Controllers
             _userStore = new CustomUserStore(_db);
             _userManager = new CustomUserManager(_userStore);
         }
+
+        /// <summary>
+        /// Method that collects messages from ModelState and returns them as list.
+        /// </summary>
+        /// <returns>List of error messages for current ModelState.</returns>
+        protected List<string> GetModelStateErrorMEssages()
+        {
+            List<string> messages =
+                (
+                    from state in ModelState.Values
+                    from error in state.Errors
+                    select error.ErrorMessage
+                ).ToList();
+
+            return messages;
+        }
     }
 }

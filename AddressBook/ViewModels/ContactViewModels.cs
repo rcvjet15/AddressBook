@@ -59,6 +59,6 @@ namespace AddressBook.ViewModels
         [Display(Name = "Organization")]
         public string Organization { get; set; }
 
-
+        public List<Group> AllGroups { get; set; }
     }
 }

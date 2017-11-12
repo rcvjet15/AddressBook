@@ -55,5 +55,24 @@ namespace AddressBook.Controllers
         {
             return PartialView("_Create");
         }
+
+        [HttpPost]
+        public JsonResult Create(ContactCreateViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return new JsonBadRequest(new { Message = "Successfully created " });
+        }
     }
 }
