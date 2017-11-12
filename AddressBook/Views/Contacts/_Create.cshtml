@@ -93,7 +93,7 @@
                     <span id="group-validation-info" class="text-danger hidden"></span>
                 </div>
                 <div class="card-block">
-                    <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:400px">
+                    <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:250px">
                         @foreach (var item in Model.Groups)
                         {
                         <li class="list-group-item">
@@ -101,7 +101,7 @@
                                 <input class="form-check-input" type="checkbox" value="@item.Name">
                                 @item.Name
                             </label>
-                            <span class="fa fa-remove pull-right" style="cursor:pointer;color:darkred"></span>
+                            <span class="fa fa-remove pull-right remove-group-btn" onclick="$(this).closest('li.list-group-item').remove()" style="cursor:pointer;color:darkred"></span>
                         </li>
                         }
                     </ul>

@@ -22,6 +22,11 @@ $('form').on('submit', function (ev) {
     }
 })
 
+// Click handler that removes group from unordered list
+$('span.remove-group-btn').on('click', function(ev) {    
+   /* $(this).closest('li.list-group-item').remove()*/;
+})
+
 $('#add-group').on('click', function () {
 
     let groupName = $('input[id="new-group-name"]').val();
@@ -43,7 +48,8 @@ $('#add-group').on('click', function () {
     addNewGroupItem(groupName);
 })
 
-// Function that coopies 
+// Function that inserts list item with new group name at 0 index in unordered list
+// that displays all group names
 function addNewGroupItem(groupName) {
 
     let listItem = '<li class="list-group-item">' +
@@ -51,7 +57,7 @@ function addNewGroupItem(groupName) {
         '<input class="form-check-input" type="checkbox" value="' + groupName + '">' + 
         groupName + 
         '</label>' +
-        '<span class="fa fa-remove pull-right" style="cursor:pointer;color:darkred"></span>'
+        '<span class="fa fa-remove pull-right" onclick="$(this).closest(\'li.list-group-item\').remove()" style="cursor:pointer;color:darkred"></span>'
     '</li>';
 
     // Insert at 0 index in unordered list
