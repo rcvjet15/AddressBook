@@ -40,9 +40,8 @@ namespace AddressBook.ViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         
-        [DisplayFormat(DataFormatString = "{0:d/M/yyyy}")]
         [Display(Name = "Birthdate")]
-        public DateTime? Birthdate { get; set; }
+        public string Birthdate { get; set; } // Set Birthdate as string type because dd/mm/yyyy format is not acceptable in jquery.validate
 
         [Display(Name = "Note")]
         public string Note { get; set; }

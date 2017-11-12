@@ -56,7 +56,7 @@ namespace AddressBook.Controllers
             ContactCreateViewModel viewModel = new ContactCreateViewModel
             {
                 ProfileImagePath = Params.DefaultProfilePicPath,
-                Groups = Db.Groups.ToList()
+                Groups = Db.Groups.OrderBy(g => g.Name).ToList()
             };
 
             return PartialView("_Create", viewModel);
