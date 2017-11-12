@@ -22,7 +22,8 @@ namespace AddressBook.Controllers
                 .Where(c => c.ApplicationUserID == userId)
                 .Include(c => c.PhoneNumbers)
                 .Include(c => c.EmailAddresses)
-                .Include(c => c.Addresses);
+                .Include(c => c.Addresses)
+                .Include(c => c.Groups);
 
             List<ContactIndexViewModel> viewModels = new List<ContactIndexViewModel>();
 

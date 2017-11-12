@@ -5,37 +5,19 @@ $(document).ready(function () {
     getContactsAndRender();
 });
 
+$('#search-contacts-btn').on('click', function (ev) {
+    let searchText = $('#search-contacts').val().toLowerCase();
+    searchContacts(searchText);
+})
+
 $('#search-contacts').on("keyup", function (ev) {
-    let searchText = $(this).val().toLowerCase();
+    // Trigger clicked event of search button on keyup
+    $('#search-contacts-btn').click();   
+})
 
-    if (allContacts.length === 0) {
-        return;
-    }
-
-    // Get selected text from search by select list
-    let searchType = $('#search-types').find(':selected').text();
-
-    // Filter contacts by jQuery method grep
-    filteredContacts = $.grep(allContacts, (function (n, i) {
-        // Based on selected item in select list, get value from wanted attribute
-        let wantedAttributeValue = ((searchType) => {
-            switch (searchType) {
-                case "Last Name":
-                    return n.LastName.toLowerCase();                    
-                case "First Name":
-                    return n.FirstName.toLowerCase();
-                case "Groups":
-                    break;
-                default:
-                    return (n.LastName + " " + n.FirstName).toLowerCase();
-            }
-        }).call(this, searchType);
-
-        return wantedAttributeValue.indexOf(searchText) > -1;
-    }));
-
-    $('#contact-list-target').html('<div class="mx-auto loader"></div>');
-    renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
+$('#search-types-list').on("change", function (ev) {
+    // Trigger clicked event of search button on change of select list
+    $('#search-contacts-btn').click(); 
 })
 
 function getContactsAndRender() {
@@ -68,4 +50,38 @@ function renderContactList(contacts, templateId, targetId) {
     });
 
     $(targetId).html(htmlList);
+}
+
+function searchContacts(searchText) {
+    
+
+    if (allContacts.length === 0) {
+        return;
+    }
+
+    // Get selected text from search by select list
+    let searchType = $('#search-types-list').find(':selected').text();
+
+    // Filter contacts by jQuery method grep
+    filteredContacts = $.grep(allContacts, (function (n, i) {
+        // Based on selected item in select list, get index of wanted attribute        
+        switch (searchType) {
+            case "Last Name":
+                return n.LastName.toLowerCase().indexOf(searchText) > -1;
+            case "First Name":
+                return n.FirstName.toLowerCase().indexOf(searchText) > -1;
+            case "Groups":
+                // Loop though all groups and return true if any of them contains search text.
+                for (var i = 0; i < n.Groups.length; i++) {
+                    if (n.Groups[i].toLowerCase().indexOf(searchText) > -1)
+                        return true;
+                }
+                return false;
+            default:
+                return (n.LastName + " " + n.FirstName).toLowerCase().indexOf(searchText) > -1;
+        }
+    }));
+
+    $('#contact-list-target').html('<div class="mx-auto loader"></div>');
+    renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
 }
