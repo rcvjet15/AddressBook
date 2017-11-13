@@ -6,11 +6,14 @@ $(document).ready(function () {
     getContactsAndRender();
 });
 
-// Handler for create contact click button
+// Handler for create contact button click event
 $('#create-contact-btn').on('click', function (ev) {
     $('#contact-view-panel')
         .html(loaderHtml) // Display loading
         .load('/Contacts/Create');
+
+    // Push state (Add to URL '/Create')
+    window.history.pushState(null, "create", '/Create');
 })
 
 $('#search-contacts-btn').on('click', function (ev) {

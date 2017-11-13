@@ -61,6 +61,8 @@ namespace AddressBook.Controllers
                 Groups = Db.Groups.OrderBy(g => g.Name).ToList()
             };
 
+            ViewBag.GenderList = CreateGenderSelectList(null);
+
             return PartialView("_Create", viewModel);
         }
 
@@ -86,7 +88,7 @@ namespace AddressBook.Controllers
                         Title = model.Title,
                         Note = model.Note,
                         Gender = model.Gender,
-                        ProfilePicPath = StoreProfilePicture() ?? Params.DefaultProfilePicPath, // Store picture 
+                        ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture 
                         ApplicationUserID = User.Identity.GetUserId<int>(),
                     };
 
@@ -96,6 +98,7 @@ namespace AddressBook.Controllers
                     {
                         return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
                     }
+
                     ModelState.AddModelError(String.Empty, $"Unable to save contact {model.FirstName} {model.LastName} into database. PLease try again.");
                 }
             }
@@ -111,32 +114,11 @@ namespace AddressBook.Controllers
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
         }
 
-        /// <summary>
-        /// Method that checks if file is uploaded, validates it and stores it into content
-        /// </summary>
-        /// <returns>Returns path of stored image if file exists else returns null.</returns>
-        private string StoreProfilePicture()
+        private SelectList CreateGenderSelectList(string selectedValue)
         {
-            if (Request.Files.Count > 0)
-            {
-                HttpPostedFileBase file = Request.Files[0];
+            string[] genders = new string[] { "Male", "Female" };
 
-                if (file != null && file.ContentLength > 0)
-                {
-                    string fileName = Path.GetFileName(file.FileName);
-                    string storePath = Path.Combine(Server.MapPath("~/Content/ProfilePictures"), fileName);
-
-                    if (!AppMethods.IsValidImageType(new FileInfo(storePath)))
-                    {
-                        throw new InvalidDataException($"Allowed image extensions are: {String.Join(", ", AppMethods.AllowedImageExtensions)}.");
-                    }
-
-                    file.SaveAs(storePath);                    
-                    return ConvertToServerRelativePath(storePath);
-                }
-            }
-
-            return null;
+            return new SelectList(genders, selectedValue);
         }
     }
 }

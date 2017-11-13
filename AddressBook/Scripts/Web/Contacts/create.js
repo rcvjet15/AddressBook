@@ -16,6 +16,9 @@ $('form[id="create-contact"]').on('submit', function (ev) {
         submitFormAjax($form)
             .then((data) => {
                 alert('Success')
+                // Push state to index page and return to it so that contacts list refreshes
+                window.history.pushState(null, 'index', '/')
+                window.history.go();
             }).fail((data) => {
             })
     }

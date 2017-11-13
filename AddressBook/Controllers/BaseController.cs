@@ -3,6 +3,7 @@ using AddressBook.Helpers;
 using AddressBook.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -70,6 +71,36 @@ namespace AddressBook.Controllers
             }
 
             return absolutePath.Replace(HttpContext.Server.MapPath("~/"), "/").Replace(@"\", "/");
+        }
+
+        /// <summary>
+        /// Method that checks if file is uploaded, validates it and stores it into given relative path
+        /// </summary>
+        /// <param name="relativePath">Relative path e.g. "~/Content/ProfilePictures"</param>
+        /// <returns>Returns path of stored image if file exists else returns null.</returns>
+        /// <exception cref="InvalidDataException">Throws exception if image has invalid extension,</exception>
+        protected string StoreUploadedPicture(string relativePath)
+        {
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string storePath = Path.Combine(Server.MapPath(relativePath), fileName);
+
+                    if (!AppMethods.IsValidImageType(new FileInfo(storePath)))
+                    {
+                        throw new InvalidDataException($"Allowed image extensions are: {String.Join(", ", AppMethods.AllowedImageExtensions)}.");
+                    }
+
+                    file.SaveAs(storePath);
+                    return ConvertToServerRelativePath(storePath);
+                }
+            }
+
+            return null;
         }
     }
 }
