@@ -31,10 +31,10 @@ namespace AddressBook.Controllers
 
                     if (Db.SaveChanges() == 1)
                     {
-                        return Json(new { Message = String.Format("Successfully created {0}", group.Name), Id = group.ID }, JsonRequestBehavior.AllowGet);
+                        return Json(new { Message = $"Successfully created group {group.Name}" , Id = group.ID }, JsonRequestBehavior.AllowGet);
                     }
 
-                    ModelState.AddModelError(String.Empty, $"Unable to save to database group named: {groupName}. Please try again.");
+                    ModelState.AddModelError(String.Empty, $"Unable to save to database group {groupName}. Please try again.");
                 }
                 else
                 {
@@ -44,6 +44,30 @@ namespace AddressBook.Controllers
             else
             {
                 ModelState.AddModelError(String.Empty, $"Group name cannot be empty.");
+            }
+
+            return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            Group group = Db.Groups.Find(id);
+
+            if (group != null)
+            {
+                Db.Groups.Remove(group);
+
+                if (Db.SaveChanges() == 1)
+                {
+                    return Json(new { Message = $"Successfully deleted group {group.Name}" }, JsonRequestBehavior.AllowGet);
+                }
+
+                ModelState.AddModelError(String.Empty, $"Unable to delete group {group.Name}. Please try again.");
+            }
+            else
+            {
+                ModelState.AddModelError(String.Empty, "Group doesn't exist in database.");
             }
 
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });

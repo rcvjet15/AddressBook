@@ -24,7 +24,7 @@ $('form[id="create-contact"]').on('submit', function (ev) {
     }
 })
 
-$('#add-group').on('click', function () {
+$('#add-group').on('click', function (ev) {    
     let groupName = $('input[id="new-group-name"]').val();
 
     if (groupName.length === 0) {
@@ -46,6 +46,9 @@ $('#add-group').on('click', function () {
         closeButton : true,
     }
 
+    // Show loading on button
+    toggleButtonLoadingAnimation($(ev.currentTarget), show = true);
+
     setupGroupAjax('/Groups/Create', 'POST', { groupName: groupName })
         .then((data) => {
             if (data.Message) {
@@ -64,6 +67,7 @@ $('#add-group').on('click', function () {
                 }
             }
         }).always(() => {
+            toggleButtonLoadingAnimation($(ev.currentTarget), show = false);
         })    
 })
 
@@ -80,7 +84,7 @@ function submitFormAjax($form) {
 }
 
 // Function that makes request to server for creating or deleting group.
-// Url parameter is calling URL, method is http method (GET, POST) and jsonData is data that is sent to server in json format.
+// 'url' parameter is calling URL, 'method' is http method (GET, POST) and 'jsonData' is data that is sent to server in json format.
 // It returns ajax request so in caller function success or fail method must handle server response.
 function setupGroupAjax(url, method, jsonData) {
     return $.ajax({
@@ -137,4 +141,18 @@ function isGroupNameUnique(name) {
     });
 
     return unique;
+}
+
+// Function that displays loading on button and disables it during loading.
+// First parameter '$button' is jquery object selector for loading button, 
+// second parameter 'show' is boolean that indicates if loading should show or stop
+function toggleButtonLoadingAnimation($button, show) {    
+    if (show) {
+        $button.attr('disabled', '');
+        $button.find('i').addClass('fa-spin');
+    }
+    else {
+        $button.removeAttr('disabled');
+        $button.find('i').removeClass('fa-spin');
+    }
 }
