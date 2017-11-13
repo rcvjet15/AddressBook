@@ -90,16 +90,16 @@ namespace AddressBook.Controllers
                         Gender = model.Gender,
                         ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture 
                         ApplicationUserID = User.Identity.GetUserId<int>(),
+                        Groups = new List<Group>(),
                     };
+                        
+                    AddGroupsToContact(contact, formCollection);
 
                     Db.Contacts.Add(contact);
 
-                    if (Db.SaveChanges() == 1)
-                    {
-                        return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
-                    }
+                    Db.SaveChanges();
 
-                    ModelState.AddModelError(String.Empty, $"Unable to save contact {model.FirstName} {model.LastName} into database. PLease try again.");
+                    return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (InvalidDataException ex)
@@ -112,6 +112,31 @@ namespace AddressBook.Controllers
             }
 
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
+        /// <summary>
+        /// Method that assignes groups to contact. All groups from contact are deleted then new are added.
+        /// </summary>
+        /// <param name="contact">Contact to which groups are assigned</param>
+        /// <param name="formCollection">FormCollection that contains list of groups.</param>
+        /// <param name="collectionKey">Key that for formCollection that contains list of values..</param>
+        private void AddGroupsToContact(Contact contact, FormCollection formCollection, string collectionKey = "AllGroups")
+        {
+            // Group ids are submitted as array. Convert it oto
+            var groupIds = Array.ConvertAll(formCollection.GetValues(collectionKey), int.Parse);
+            
+            List<Group> groups = Db.Groups
+                .Where(g => groupIds.Contains(g.ID))
+                .ToList();
+
+            // First remove all groups 
+            foreach (var group in contact.Groups)
+            {
+                contact.Groups.Remove(group);
+            }
+
+            // Add new groups
+            groups.ForEach(g => contact.Groups.Add(g));
         }
 
         private SelectList CreateGenderSelectList(string selectedValue)

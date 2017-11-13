@@ -1,8 +1,14 @@
-﻿
-const toastrOptions = {
+﻿const toastrOptions = {
     progressBar: true,
     closeButton: true,
 }
+
+// Indicates if form was changed. It will be used to prevent user from discarding changes.
+let formChanged = false;
+
+$(document).ready(function () {
+    
+});
 
 $('input.datepicker').daterangepicker({
     singleDatePicker: true,
@@ -11,7 +17,15 @@ $('input.datepicker').daterangepicker({
         format: "DD/MM/YYYY",
     }
 }); 
-    
+
+$('form').on('keyup', 'input', function (ev) {
+    formChanged = true;
+})
+
+$('#cancel-btn').on('click', function (ev) {
+    closeForm($('form[id="create-contact"]'));
+})
+
 $('form[id="create-contact"]').on('submit', function (ev) {
     ev.preventDefault();
 
@@ -20,11 +34,24 @@ $('form[id="create-contact"]').on('submit', function (ev) {
     if ($form.valid()) {
         submitFormAjax($form)
             .then((data) => {
-                alert('Success')
-                // Push state to index page and return to it so that contacts list refreshes
-                window.history.pushState(null, 'index', '/')
-                window.history.go();
+                if (data.Message) {
+                    toastr.success(data.Message, 'Success', toastrOptions);
+                }
+                window.location.href = "/";
             }).fail((data) => {
+                if (data.responseText) {
+                    try {
+                        // Server returns errors in array, this loops through each and displays it in toastr
+                        JSON.parse(data.responseText)["Errors"].map((value, index) => {
+                            toastr.error(value, 'Error', toastrOptions);
+                        })
+                    } catch (e) {
+                        console.log('Error parsing json error result: ' + e);
+                    }
+                }
+                else {
+                    toastr.error("Error occured while saving contact.", 'Error', toastrOptions);
+                }
             })
     }
 })
@@ -129,10 +156,9 @@ function setupGroupAjax(url, method, jsonData) {
 // that displays all group names.
 // Takes group Id that will be group checkbox submit value.
 function addNewGroupItem(groupName, value) {
-
     let listItem = '<li class="list-group-item">' +
         ' <label class="form-check-label" style="cursor:pointer">' + 
-        '<input class="form-check-input" type="checkbox" name="Groups" value="' + value + '">' + 
+        '<input class="form-check-input" type="checkbox" name="AllGroups" value="' + value + '">' + 
         groupName + 
         '</label>' +
         '<span class="fa fa-remove pull-right remove-group-btn" style="cursor:pointer;color:darkred"></span>'
@@ -190,4 +216,14 @@ function toggleButtonLoadingAnimation($button, show) {
         $button.removeAttr('disabled');
         $button.find('i').removeClass('fa-spin');
     }
+}
+
+function closeForm($form) {
+    if (formChanged) {
+        if (!confirm("Changes not saved. Do you want to continue?")) {
+            return;
+        }
+    }
+
+    $form.closest('#contact-view-panel').empty();
 }

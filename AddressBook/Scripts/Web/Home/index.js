@@ -80,7 +80,7 @@ function searchContacts(searchText) {
                 return n.LastName.toLowerCase().indexOf(searchText) > -1;
             case "First Name":
                 return n.FirstName.toLowerCase().indexOf(searchText) > -1;
-            case "Groups":
+            case "Group":
                 // Loop though all groups and return true if any of them contains search text.
                 for (var i = 0; i < n.Groups.length; i++) {
                     if (n.Groups[i].toLowerCase().indexOf(searchText) > -1)

@@ -1,129 +1,132 @@
 ﻿@model AddressBook.ViewModels.ContactCreateViewModel
 
 <div class="row card bg-light col-lg-12 py-2">
-    @using (Html.BeginForm("Create", "Contacts", FormMethod.Post, new { id="create-contact", @class= "form-horizontal" }))
+    @using (Html.BeginForm("Create", "Contacts", FormMethod.Post, new { id = "create-contact", @class = "form-horizontal" }))
     {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="card" style="width: 11rem;">
-                <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" class="profile-image-upload img-thumbnail" style="max-height:120px" />
-                <div class="card-block">
-                    <label class="btn btn-outline-info mt-2 mx-1">
-                        Browse @Html.TextBoxFor(m => m.ProfileImagePath, new
-                        {
-                        type = "file",
-                        accept = "image/*",
-                        @class = "profile-image-browser",
-                        style = "display:none"
-                        })
-                    </label>
-                    <div class="profile-image-info">
-                        <span class="label label-info" style="font-size:small; margin-left:5px;">No profile picture selected.</span>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="card" style="width: 11rem;">
+                    <img src="@Url.Content(Model.ProfileImagePath)" alt="Alternate Text" class="profile-image-upload img-thumbnail" style="max-height:120px" />
+                    <div class="card-block">
+                        <label class="btn btn-outline-info mt-2 mx-1">
+                            Browse @Html.TextBoxFor(m => m.ProfileImagePath, new
+                          {
+                              type = "file",
+                              accept = "image/*",
+                              @class = "profile-image-browser",
+                              style = "display:none"
+                          })
+                        </label>
+                        <div class="profile-image-info">
+                            <span class="label label-info" style="font-size:small; margin-left:5px;">No profile picture selected.</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group mt-lg-3">
-                @Html.TextAreaFor(model => model.Note, new { @class = "form-control", rows = 3, cols = 2, placeholder = "Add note..." })                
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="form-group">
-                @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-                <div>
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First name" } })
-                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                <div class="form-group mt-lg-3">
+                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control", rows = 3, cols = 2, placeholder = "Add note..." })
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-                <div>
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Gender, new { @class = "control-label" })
-                <div>
-                    @Html.DropDownListFor(model => model.Gender, (SelectList)ViewBag.GenderList, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Birthdate, new { @class = "control-label" })
-                <div>
-                    @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control datepicker", placeholder = "Birthdate dd/mm/yyyy" } })
-                    @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
-                </div>
-            </div>            
-        </div>
-        <div class="col-lg-3">
-            <div class="form-group">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Relationship, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.Relationship, new { htmlAttributes = new { @class = "form-control", placeholder = "Relationship" } })
-                        @Html.ValidationMessageFor(model => model.Relationship, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First name" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, new { @class = "control-label" })
+                    <div>
+                        @Html.DropDownListFor(model => model.Gender, (SelectList)ViewBag.GenderList, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Birthdate, new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control datepicker", placeholder = "Birthdate dd/mm/yyyy" } })
+                        @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Relationship, new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.Relationship, new { htmlAttributes = new { @class = "form-control", placeholder = "Relationship" } })
+                            @Html.ValidationMessageFor(model => model.Relationship, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                @Html.LabelFor(model => model.Title, new { @class="control-label" })
-                <div>
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Organization, new { @class = "control-label" })
-                <div>
-                    @Html.EditorFor(model => model.Organization, new { htmlAttributes = new { @class = "form-control", placeholder = "Organization" } })
-                    @Html.ValidationMessageFor(model => model.Organization, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-
-        </div>
-        <div class="col-lg-2">
-            <div class="row mb-1">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Add Contact" class="btn btn-primary" />
-                </div>
-            </div>
-            <hr />
-            <div class="card">
-                <div class="card-block mb-1">
-                    <div class="input-group">                        
-                        <input id="new-group-name" type="text" class="form-control" placeholder="Group Name">
-                        <span class="input-group-btn">
-                            <button id="add-group" type="button" class="btn btn-secondary btn-success" style="cursor:pointer;">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </span>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Organization, new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.Organization, new { htmlAttributes = new { @class = "form-control", placeholder = "Organization" } })
+                        @Html.ValidationMessageFor(model => model.Organization, "", new { @class = "text-danger" })
                     </div>
-                    <span id="group-validation-info" class="text-danger hidden"></span>
                 </div>
-                <div class="card-block">
-                    <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:250px"> 
-                        @foreach (var item in Model.Groups)
-                        {
-                            <li class="list-group-item">
-                                <label class="form-check-label" style="cursor:pointer">
-                                    <input class="form-check-input" type="checkbox" name="Groups" value="@item.ID">
-                                    @item.Name
-                                </label>
-                                <span class="fa fa-remove pull-right remove-group-btn" style="cursor:pointer;color:darkred"></span>
-                            </li>
-                        }
-                    </ul>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+            <div class="col-lg-2">
+                <div class="row mb-1">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        </button>
+                        <button id="cancel-btn" type="button" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <div class="card-block mb-1">
+                        <div class="input-group">
+                            <input id="new-group-name" type="text" class="form-control" placeholder="Group Name">
+                            <span class="input-group-btn">
+                                <button id="add-group" type="button" class="btn btn-secondary btn-success" style="cursor:pointer;">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <span id="group-validation-info" class="text-danger hidden"></span>
+                    </div>
+                    <div class="card-block">
+                        <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:250px">
+                            @foreach (var item in Model.Groups)
+                            {
+                                <li class="list-group-item">
+                                    <label class="form-check-label" style="cursor:pointer">
+                                        <input class="form-check-input" type="checkbox" name="AllGroups" value="@item.ID">
+                                        @item.Name
+                                    </label>
+                                    <span class="fa fa-remove pull-right remove-group-btn" style="cursor:pointer;color:darkred"></span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr />
+        <hr />
     }
 </div>
 
