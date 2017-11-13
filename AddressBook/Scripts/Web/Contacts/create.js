@@ -1,4 +1,9 @@
 ﻿
+const toastrOptions = {
+    progressBar: true,
+    closeButton: true,
+}
+
 $('input.datepicker').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
@@ -40,12 +45,7 @@ $('#add-group').on('click', function (ev) {
     }
     // If validation passed successfully, hide validation message.
     toggleGroupNameErrorMessage(null, false);
-
-    let toastrOptions = {
-        progressBar : true,
-        closeButton : true,
-    }
-
+    
     // Show loading on button
     toggleButtonLoadingAnimation($(ev.currentTarget), show = true);
 
@@ -69,6 +69,34 @@ $('#add-group').on('click', function (ev) {
         }).always(() => {
             toggleButtonLoadingAnimation($(ev.currentTarget), show = false);
         })    
+})
+
+// Handler that when 'x' button is clicked next to group name, that list item is removed.
+// Second parameter 'span.remove-group-btn' tells to bind event on dynamically created child element (in this case 'span.remove-group-btn')
+$('ul[id="group-list"]').on('click', 'span.remove-group-btn', function (ev) {
+    let $parentListItem = $(this).closest('li.list-group-item');
+    let groupID = $parentListItem.find('input[type="checkbox"]').val();
+
+    console.log('selected group to remove ' + groupID);
+
+    setupGroupAjax('/Groups/Delete', 'POST', { id: groupID })
+        .then((data) => {
+            if (data.Message) {
+                toastr.success(data.Message, 'Success', toastrOptions);
+            }
+            $parentListItem.remove();
+        }).fail((data) => {
+            if (data.responseText) {
+                try {
+                    // Server returns errors in array, this loops through each and displays it in toastr
+                    JSON.parse(data.responseText)["Errors"].map((value, index) => {
+                        toastr.error(value, 'Error', toastrOptions);
+                    })
+                } catch (e) {
+                    console.log('Error parsing json error result: ' + e);
+                }
+            }
+        })  
 })
 
 function submitFormAjax($form) {
@@ -107,11 +135,18 @@ function addNewGroupItem(groupName, value) {
         '<input class="form-check-input" type="checkbox" name="Groups" value="' + value + '">' + 
         groupName + 
         '</label>' +
-        '<span class="fa fa-remove pull-right" onclick="$(this).closest(\'li.list-group-item\').remove()" style="cursor:pointer;color:darkred"></span>'
+        '<span class="fa fa-remove pull-right remove-group-btn" style="cursor:pointer;color:darkred"></span>'
     '</li>';
 
-    // Insert at 0 index in unordered list
-    $('ul[id="group-list"] li:eq(0)').before(listItem);
+    // If list is empty then just append new item
+    if ($('ul[id="group-list"]').find('li').size() === 0) {
+        // Insert at 0 index in unordered list
+        $('ul[id="group-list"]').append(listItem);
+    }
+    else {
+        // Insert at 0 index in unordered list
+        $('ul[id="group-list"] li:eq(0)').before(listItem);
+    }    
 }
 
 function toggleGroupNameErrorMessage(message, display) {
