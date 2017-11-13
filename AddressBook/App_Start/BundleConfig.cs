@@ -43,7 +43,8 @@ namespace AddressBook
             bundles.Add(new ScriptBundle("~/bundles/third-party-plugins").Include(
                        "~/Scripts/Libraries/mustache.js",
                        "~/Scripts/Libraries/moment.js",
-                       "~/Scripts/Libraries/daterangepicker.js"));
+                       "~/Scripts/Libraries/daterangepicker.js",
+                       "~/Scripts/Libraries/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/globalScript").Include(
                     "~/Scripts/global.js"));            
@@ -69,7 +70,8 @@ namespace AddressBook
                 "~/Content/Libraries/css/sb-admin*"));
 
             bundles.Add(new StyleBundle("~/Content/third-party-stylesheets").Include(
-               "~/Content/Libraries/css/daterangepicker.css"));
+               "~/Content/Libraries/css/daterangepicker.css",
+               "~/Content/Libraries/css/toastr.css"));
 
             // App stylesheets
             bundles.Add(new StyleBundle("~/Content/app-stylesheets").Include(

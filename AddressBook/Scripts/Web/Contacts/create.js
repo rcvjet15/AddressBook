@@ -25,7 +25,6 @@ $('form[id="create-contact"]').on('submit', function (ev) {
 })
 
 $('#add-group').on('click', function () {
-
     let groupName = $('input[id="new-group-name"]').val();
 
     if (groupName.length === 0) {
@@ -42,7 +41,30 @@ $('#add-group').on('click', function () {
     // If validation passed successfully, hide validation message.
     toggleGroupNameErrorMessage(null, false);
 
-    addNewGroupItem(groupName);
+    let toastrOptions = {
+        progressBar : true,
+        closeButton : true,
+    }
+
+    setupGroupAjax('/Groups/Create', 'POST', { groupName: groupName })
+        .then((data) => {
+            if (data.Message) {
+                toastr.success(data.Message, 'Success', toastrOptions);
+            }
+            addNewGroupItem(groupName, data.Id);
+        }).fail((data) => {
+            if (data.responseText) {
+                try {
+                    // Server returns errors in array, this loops through each and displays it in toastr
+                    JSON.parse(data.responseText)["Errors"].map((value, index) => {
+                        toastr.error(value, 'Error', toastrOptions);
+                    })
+                } catch (e) {
+                    console.log('Error parsing json error result: ' + e);
+                }
+            }
+        }).always(() => {
+        })    
 })
 
 function submitFormAjax($form) {
@@ -57,13 +79,28 @@ function submitFormAjax($form) {
     });   
 }
 
+// Function that makes request to server for creating or deleting group.
+// Url parameter is calling URL, method is http method (GET, POST) and jsonData is data that is sent to server in json format.
+// It returns ajax request so in caller function success or fail method must handle server response.
+function setupGroupAjax(url, method, jsonData) {
+    return $.ajax({
+        url: url,
+        method: method,
+        data: JSON.stringify(jsonData),
+        contentType: 'application/json',
+        dataType: 'json'
+    })
+}
+
+
 // Function that inserts list item with new group name at 0 index in unordered list
-// that displays all group names
-function addNewGroupItem(groupName) {
+// that displays all group names.
+// Takes group Id that will be group checkbox submit value.
+function addNewGroupItem(groupName, value) {
 
     let listItem = '<li class="list-group-item">' +
         ' <label class="form-check-label" style="cursor:pointer">' + 
-        '<input class="form-check-input" type="checkbox" name="Groups" value="' + groupName + '">' + 
+        '<input class="form-check-input" type="checkbox" name="Groups" value="' + value + '">' + 
         groupName + 
         '</label>' +
         '<span class="fa fa-remove pull-right" onclick="$(this).closest(\'li.list-group-item\').remove()" style="cursor:pointer;color:darkred"></span>'

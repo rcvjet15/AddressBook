@@ -48,6 +48,7 @@ function getContacts(url) {
         url: url,
         method: 'GET',
         contentType: 'application/json',
+        dataType: 'json',
     });    
 }
 
@@ -64,8 +65,6 @@ function renderContactList(contacts, templateId, targetId) {
 }
 
 function searchContacts(searchText) {
-    
-
     if (allContacts.length === 0) {
         return;
     }
@@ -97,3 +96,4 @@ function searchContacts(searchText) {
     $('#contact-list-target').html(loaderHtml);
     renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
 }
+

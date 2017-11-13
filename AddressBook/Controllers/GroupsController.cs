@@ -31,7 +31,7 @@ namespace AddressBook.Controllers
 
                     if (Db.SaveChanges() == 1)
                     {
-                        return Json(new { Message = $"Successfully created {groupName}." }, JsonRequestBehavior.AllowGet);
+                        return Json(new { Message = String.Format("Successfully created {0}", group.Name), Id = group.ID }, JsonRequestBehavior.AllowGet);
                     }
 
                     ModelState.AddModelError(String.Empty, $"Unable to save to database group named: {groupName}. Please try again.");
@@ -39,7 +39,7 @@ namespace AddressBook.Controllers
                 else
                 {
                     ModelState.AddModelError(String.Empty, $"Group named: {groupName} already exists.");
-                }                
+                }
             }
             else
             {

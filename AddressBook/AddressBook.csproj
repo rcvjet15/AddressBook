@@ -195,6 +195,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DataAccessLayer\AddressBookDbContext.cs" />
@@ -278,6 +279,8 @@
     <Content Include="Content\Libraries\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Pics\create-button.png" />
     <Content Include="Content\ProfilePictures\person_profile.png" />
+    <Content Include="Content\Libraries\css\toastr.css" />
+    <Content Include="Content\Libraries\css\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -334,6 +337,8 @@
     <Content Include="Content\Libraries\scss\_login.scss" />
     <Content Include="Content\Libraries\scss\_utilities.scss" />
     <Content Include="Content\Libraries\scss\sb-admin.scss" />
+    <Content Include="Content\Libraries\scss\toastr.scss" />
+    <Content Include="Content\Libraries\less\toastr.less" />
     <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Libraries\dataTables.bootstrap4.js" />
     <Content Include="Scripts\Libraries\daterangepicker.js" />
@@ -358,6 +363,8 @@
     <Content Include="Scripts\Libraries\sb-admin.js" />
     <Content Include="Scripts\Libraries\sb-admin.min.js" />
     <Content Include="Scripts\Libraries\mustache.js" />
+    <Content Include="Scripts\Libraries\toastr.js" />
+    <Content Include="Scripts\Libraries\toastr.min.js" />
     <Content Include="Scripts\Web\Contacts\create.js" />
     <Content Include="Scripts\Web\Home\index.js" />
     <Content Include="Web.config" />
