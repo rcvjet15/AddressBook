@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="col-lg-2">
-               
+               @Html.ComboBox("AddressType", Model.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList)
             </div>
             <div class="col-lg-2">
                 <div class="row mb-1">

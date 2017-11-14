@@ -12,6 +12,10 @@ namespace AddressBook.Helpers
     {
         public const string DefaultConnectionName = "DefaultConnection";
         
-        public const string DefaultProfilePicPath = "/Content/ProfilePictures/person_profile.png";        
+        public const string DefaultProfilePicPath = "/Content/ProfilePictures/person_profile.png";
+
+        public static string[] GenderList = new string[] { "Male", "Female" };
+
+        public static string[] AddressTypeList = new string[] { "Home", "Work", "Other" };
     }
 }

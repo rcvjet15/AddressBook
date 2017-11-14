@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -29,6 +30,29 @@ namespace AddressBook.Helpers
             bool hasAction = value.Equals(currentAction, StringComparison.InvariantCultureIgnoreCase);
 
             return hasAction || hasController ? new HtmlString(attribute) : new HtmlString(String.Empty);
-        }        
+        }
+
+        /// <summary>
+        /// Helper that creates Combo box that enables to input data or select from dropdown.
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <param name="name">Submit value of the field.</param>
+        /// <param name="value">Initial display value of the field.</param>
+        /// <param name="items">Items that populate dropdown</param>
+        /// <returns>Html string that contains input and dropdown.</returns>
+        public static IHtmlString ComboBox(this HtmlHelper htmlHelper, string name, string value, IEnumerable<string> items)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append($"<input type='text' list={name}-list value='{value}' class='form-control'/>");
+            sb.Append($"<datalist id={name}-list>");
+            foreach (string item in items)
+            {
+                sb.Append($"<option>{item}");
+            }
+            sb.Append("</datalist>");
+
+            return new HtmlString(sb.ToString());
+        }
     }
 }

@@ -62,6 +62,7 @@ namespace AddressBook.Controllers
             };
 
             ViewBag.GenderList = CreateGenderSelectList(null);
+            ViewBag.AddressTypeList = Params.AddressTypeList.AsEnumerable<string>();
 
             return PartialView("_Create", viewModel);
         }
@@ -141,7 +142,7 @@ namespace AddressBook.Controllers
 
         private SelectList CreateGenderSelectList(string selectedValue)
         {
-            string[] genders = new string[] { "Male", "Female" };
+            string[] genders = Params.GenderList;
 
             return new SelectList(genders, selectedValue);
         }
