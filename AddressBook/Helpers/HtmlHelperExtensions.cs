@@ -44,7 +44,7 @@ namespace AddressBook.Helpers
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append($"<input type='text' list={name}-list value='{value}' class='form-control'/>");
+            sb.Append($"<input type='text' list={name}-list value='{value ?? items.FirstOrDefault()}' class='form-control'/>");
             sb.Append($"<datalist id={name}-list>");
             foreach (string item in items)
             {
