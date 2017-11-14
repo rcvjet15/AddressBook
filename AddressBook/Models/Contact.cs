@@ -6,7 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AddressBook.Models
 {
     public class Contact : EntityBaseModel
-    { 
+    {
+        public Contact()
+        {
+            Groups = new List<Group>();
+            Addresses = new List<Address>();
+        }
+
         public string FirstName { get; set; }
               
         public string LastName { get; set; }

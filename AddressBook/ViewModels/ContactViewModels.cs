@@ -70,7 +70,8 @@ namespace AddressBook.ViewModels
         [StringLength(8)]
         [Display(Name = "House Number")]
         public string HouseNumber { get; set; }
-
+        
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Postal code can contain only numbers.")]
         [StringLength(10)]
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
@@ -86,8 +87,6 @@ namespace AddressBook.ViewModels
         [StringLength(10)]
         [Display(Name = "Address Type")]
         public string AddressType { get; set; }
-
-        public bool Default { get; set; }
 
         public List<Group> Groups { get; set; }        
     }

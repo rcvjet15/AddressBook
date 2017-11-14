@@ -89,11 +89,21 @@ namespace AddressBook.Controllers
                         Title = model.Title,
                         Note = model.Note,
                         Gender = model.Gender,
-                        ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture 
-                        ApplicationUserID = User.Identity.GetUserId<int>(),
-                        Groups = new List<Group>(),
+                        ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture on disk                        
+                        ApplicationUserID = User.Identity.GetUserId<int>(),                                                
                     };
-                        
+
+                    Address address = new Address
+                    {
+                        Street = model.Street,
+                        HouseNumber = model.HouseNumber,
+                        PostalCode = model.PostalCode,
+                        AddressType = model.AddressType,
+                        City = model.City,
+                        State = model.State,
+                    };
+
+                    UpdateContactAddress(contact, address);
                     AddGroupsToContact(contact, formCollection);
 
                     Db.Contacts.Add(contact);
@@ -113,6 +123,31 @@ namespace AddressBook.Controllers
             }
 
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
+        /// <summary>
+        /// Updates contact address. If contact doesn't have any, creates new.
+        /// </summary>
+        /// <param name="contact">Contact for to whom address is assigned.</param>
+        /// <param name="address">Address object that contains address data</param>
+        private void UpdateContactAddress(Contact contact, Address address)
+        {
+            // Check if contact has ID
+            if (contact.ID != default(int))
+            {
+                // Check if contacts address list is retrieved. If not retrieve it
+                if (contact.Addresses == null || contact.Addresses.Count == 0)
+                {
+                    contact.Addresses.ToList();
+                }
+
+                // Remove all contact addresses
+                Db.Addresses
+                    .RemoveRange(contact.Addresses);
+            }
+            
+            // No need for adding addres object to DbContext, EF will automatically take care of it
+            contact.Addresses.Add(address);
         }
 
         /// <summary>
