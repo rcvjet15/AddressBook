@@ -76,7 +76,7 @@ namespace AddressBook.Controllers
                 {
                     if (!DateTime.TryParse(model.Birthdate, out DateTime birthDate))
                     {
-                        throw new InvalidDataException("Birthdate is not in valid format.");
+                        throw new InvalidDataException("Birthdate is has invalid format.");
                     }
 
                     Contact contact = new Contact

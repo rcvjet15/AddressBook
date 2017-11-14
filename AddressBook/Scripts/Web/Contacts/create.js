@@ -218,6 +218,7 @@ function toggleButtonLoadingAnimation($button, show) {
     }
 }
 
+// Function that closes form. First checks if user made any changes.
 function closeForm($form) {
     if (formChanged) {
         if (!confirm("Changes not saved. Do you want to continue?")) {

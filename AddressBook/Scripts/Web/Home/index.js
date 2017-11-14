@@ -12,8 +12,9 @@ $('#create-contact-btn').on('click', function (ev) {
         .html(loaderHtml) // Display loading
         .load('/Contacts/Create');
 
+    // todo: Add pushState where URL is updated but problem is if user refreshes page
     // Push state (Add to URL '/Create')
-    window.history.pushState(null, "create", '/Create');
+    //window.history.pushState(null, "create", '/Create');
 })
 
 $('#search-contacts-btn').on('click', function (ev) {
