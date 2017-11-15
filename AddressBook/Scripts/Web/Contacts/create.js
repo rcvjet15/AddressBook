@@ -132,6 +132,52 @@ $('ul[id="group-list"]').on('click', 'span.remove-group-btn', function (ev) {
     }
 })
 
+$('#add-phone-btn').on('click', function (evt) {
+
+    if ($('ul[id="phone-list"]').find('li').size() >= 6) {
+        alert('Maximum number of phone numbers is 6!');
+        return;
+    }
+
+    formChanged = true;
+
+    let $clonedlistPhoneItem = $('ul[id="phone-list"]').find('li').first().clone();
+
+    // Clear all values in cloned item
+    $clonedlistPhoneItem.find('input:text').val('');
+    $clonedlistPhoneItem.find('input:radio').prop('checked', false);
+
+    $('ul[id="phone-list"]').append($clonedlistPhoneItem);
+})
+
+$('#add-email-btn').on('click', function (evt) {
+
+    if ($('ul[id="email-list"]').find('li').size() >= 6) {
+        alert('Maximum number of email addresses is 6!');
+        return;
+    }
+
+    formChanged = true;
+
+    let $clonedlistPhoneItem = $('ul[id="email-list"]').find('li').first().clone();
+
+    // Clear all values in cloned item
+    $clonedlistPhoneItem.find('input:text').val('');
+    $clonedlistPhoneItem.find('input:radio').prop('checked', false);
+
+    $('ul[id="email-list"]').append($clonedlistPhoneItem);
+})
+
+$('ul[id="phone-list"]').on('click', 'button.btn-remove-phone', function (evt) {
+    $(this).closest('li.phone-list-item').remove();
+    formChanged = true;
+})
+
+$('ul[id="email-list"]').on('click', 'button.btn-remove-email', function (evt) {
+    $(this).closest('li.email-list-item').remove();
+    formChanged = true;
+})
+
 function submitFormAjax($form) {
     return $.ajax({
         url: $form.attr('action'),

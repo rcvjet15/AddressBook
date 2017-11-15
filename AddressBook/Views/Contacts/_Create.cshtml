@@ -123,7 +123,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Address.AddressType, new { @class = "control-label" })
                     <div>
-                        @Html.ComboBox("AddressType", Model.Address.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList)
+                        @Html.DatalistFor(model => Model.Address.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => Model.Address.AddressType, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -183,22 +184,31 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @foreach (var phone in Model.PhoneNumbers)
-                        {
-                            <div class="row email-list-item">
-                                <div class="col-sm-4 col-md-4 col-lg-4">
-                                    @Html.ComboBox("NumberType", phone.NumberType, (IEnumerable<string>)ViewBag.NumberTypeList)
-                                </div> 
-                                <div class="col-sm-8 col-md-8 col-lg-8">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            @Html.CheckBoxFor(m => phone.Default)
-                                        </span>
-                                        @Html.EditorFor(m => phone.Number, new { htmlAttributes = new { @class="form-control", placeholder = "Phone number"} })
+                        <ul id="phone-list" style="list-style-type:none">
+                            @foreach (var phone in Model.PhoneNumbers)
+                            {
+                                <li class="row phone-list-item mb-1">
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        @Html.DatalistFor(model => phone.NumberType, (IEnumerable<string>)ViewBag.NumberTypeList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => phone.NumberType, "", new { @class = "text-danger" })
                                     </div>
-                                </div> 
-                            </div>                           
-                        }
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                @Html.RadioButtonFor(m => phone.Default, phone.Default)
+                                            </span>
+                                            @Html.EditorFor(m => phone.Number, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone number" } })                                            
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary btn-danger btn-remove-phone" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Remove phone number">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </span>
+                                        </div>                                        
+                                        @Html.ValidationMessageFor(model => phone.Number, "", new { @class = "text-danger" })
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -217,22 +227,31 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @foreach (var email in Model.Emails)
-                        {
-                            <div class="row email-list-item">
-                                <div class="col-sm-4 col-md-4 col-lg-4">
-                                    @Html.ComboBox("EmailType", email.EmailAddressType, (IEnumerable<string>)ViewBag.EmailAddressTypeList)
-                                </div>
-                                <div class="col-sm-8 col-md-8 col-lg-8">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            @Html.CheckBoxFor(m => email.Default)
-                                        </span>
-                                        @Html.EditorFor(m => email.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Email address" } })
+                        <ul id="email-list" style="list-style-type:none">
+                            @foreach (var email in Model.Emails)
+                            {
+                                <li class="row email-list-item mb-1">
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        @Html.DatalistFor(model => email.EmailAddressType, (IEnumerable<string>)ViewBag.EmailAddressTypeList, new { @class="form-control"})
+                                        @Html.ValidationMessageFor(model => email.EmailAddressType, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                            </div>
-                        }
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                @Html.RadioButtonFor(m => email.Default, email.Default)
+                                            </span>
+                                            @Html.EditorFor(m => email.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Email address" } })
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary btn-danger btn-remove-email" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Remove email address">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => email.Address, "", new { @class = "text-danger" })
+                                    </div>                                    
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
