@@ -30,26 +30,22 @@ namespace AddressBook.Controllers
 
             List<ContactIndexViewModel> viewModels = new List<ContactIndexViewModel>();
 
-            for (int i = 0; i < 100; i++)
+            foreach (var contact in query)
             {
-                foreach (var contact in query)
+                viewModels.Add(new ContactIndexViewModel()
                 {
-                    viewModels.Add(new ContactIndexViewModel()
-                    {
-                        ID = contact.ID,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName,
-                        PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
-                        Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
-                        Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddressWithoutState,
-                        ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
-                        Groups = contact.Groups.Select(g => g.Name),
-                    });
-                }
+                    ID = contact.ID,
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
+                    PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
+                    Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
+                    Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddressWithoutState,
+                    ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
+                    Groups = contact.Groups.Select(g => g.Name),
+                });
             }
-            
 
-            return Json(new { Contacts = viewModels }, JsonRequestBehavior.AllowGet);           
+            return Json(new { Contacts = viewModels }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -58,11 +54,31 @@ namespace AddressBook.Controllers
             ContactCreateViewModel viewModel = new ContactCreateViewModel
             {
                 ProfileImagePath = Params.DefaultProfilePicPath,
-                Groups = Db.Groups.OrderBy(g => g.Name).ToList()
+                Groups = Db.Groups.OrderBy(g => g.Name).ToList(),
             };
 
+            // Add default phone number to display one input
+            viewModel.PhoneNumbers.Add(
+                new PhoneNumber
+                {
+                    NumberType = Params.NumberTypeList.First(),
+                    Default = true,
+                }
+            );
+
+            // Add default email address to display one input
+            viewModel.Emails.Add(
+                new EmailAddress
+                {
+                    EmailAddressType = Params.EmailAddressTypeList.First(),
+                    Default = true,
+                }
+            );
+            
             ViewBag.GenderList = CreateGenderSelectList(null);
             ViewBag.AddressTypeList = Params.AddressTypeList.AsEnumerable<string>();
+            ViewBag.NumberTypeList = Params.NumberTypeList.AsEnumerable<string>();
+            ViewBag.EmailAddressTypeList = Params.EmailAddressTypeList.AsEnumerable<string>();
 
             return PartialView("_Create", viewModel);
         }
@@ -90,20 +106,10 @@ namespace AddressBook.Controllers
                         Note = model.Note,
                         Gender = model.Gender,
                         ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture on disk                        
-                        ApplicationUserID = User.Identity.GetUserId<int>(),                                                
+                        ApplicationUserID = User.Identity.GetUserId<int>(),
                     };
 
-                    Address address = new Address
-                    {
-                        Street = model.Street,
-                        HouseNumber = model.HouseNumber,
-                        PostalCode = model.PostalCode,
-                        AddressType = model.AddressType,
-                        City = model.City,
-                        State = model.State,
-                    };
-
-                    UpdateContactAddress(contact, address);
+                    UpdateContactAddress(contact, model.Address);
                     AddGroupsToContact(contact, formCollection);
 
                     Db.Contacts.Add(contact);
@@ -145,7 +151,7 @@ namespace AddressBook.Controllers
                 Db.Addresses
                     .RemoveRange(contact.Addresses);
             }
-            
+
             // No need for adding addres object to DbContext, EF will automatically take care of it
             contact.Addresses.Add(address);
         }
@@ -158,9 +164,14 @@ namespace AddressBook.Controllers
         /// <param name="collectionKey">Key that for formCollection that contains list of values..</param>
         private void AddGroupsToContact(Contact contact, FormCollection formCollection, string collectionKey = "AllGroups")
         {
-            // Group ids are submitted as array. Convert it oto
-            var groupIds = Array.ConvertAll(formCollection.GetValues(collectionKey), int.Parse);
-            
+            string[] submitIds = formCollection.GetValues(collectionKey);
+
+            if (submitIds == null || submitIds.Length == 0)
+                return;
+
+            // Group ids are submitted as string array. Convert it to int array
+            var groupIds = Array.ConvertAll(submitIds, int.Parse);
+
             List<Group> groups = Db.Groups
                 .Where(g => groupIds.Contains(g.ID))
                 .ToList();

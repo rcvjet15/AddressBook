@@ -86,44 +86,44 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Street, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.Street, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control", placeholder = "Street name" } })
-                        @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Address.Street, new { htmlAttributes = new { @class = "form-control", placeholder = "Street name" } })
+                        @Html.ValidationMessageFor(model => model.Address.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.HouseNumber, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.HouseNumber, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.HouseNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "House number" } })
-                        @Html.ValidationMessageFor(model => model.HouseNumber, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Address.HouseNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "House number" } })
+                        @Html.ValidationMessageFor(model => model.Address.HouseNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.PostalCode, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.PostalCode, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Postal code" } })
-                        @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Address.PostalCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Postal code" } })
+                        @Html.ValidationMessageFor(model => model.Address.PostalCode, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.City, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.City, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                        @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.State, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.State, new { @class = "control-label" })
                     <div>
-                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
-                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Address.State, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                        @Html.ValidationMessageFor(model => model.Address.State, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.AddressType, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Address.AddressType, new { @class = "control-label" })
                     <div>
-                        @Html.ComboBox("AddressType", Model.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList)
+                        @Html.ComboBox("AddressType", Model.Address.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList)
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@
                         <div class="input-group">
                             <input id="new-group-name" type="text" class="form-control" placeholder="Group Name">
                             <span class="input-group-btn">
-                                <button id="add-group" type="button" class="btn btn-secondary btn-success" style="cursor:pointer;">
+                                <button id="add-group" type="button" class="btn btn-secondary btn-info" style="cursor:pointer;">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </span>
@@ -164,9 +164,79 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>                        
         </div>
         <hr />
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <h6 class="card-title">
+                                <i class="fa fa-phone" aria-hidden="true"></i> Phone numbers
+                            </h6>
+                        </div>
+                        <div class="float-right">
+                            <button id="add-phone-btn" type="button" class="btn btn-info">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var phone in Model.PhoneNumbers)
+                        {
+                            <div class="row email-list-item">
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    @Html.ComboBox("NumberType", phone.NumberType, (IEnumerable<string>)ViewBag.NumberTypeList)
+                                </div> 
+                                <div class="col-sm-8 col-md-8 col-lg-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            @Html.CheckBoxFor(m => phone.Default)
+                                        </span>
+                                        @Html.EditorFor(m => phone.Number, new { htmlAttributes = new { @class="form-control", placeholder = "Phone number"} })
+                                    </div>
+                                </div> 
+                            </div>                           
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <h6 class="card-title">
+                                <i class="fa fa-envelope" aria-hidden="true"></i> Email
+                            </h6>
+                        </div>
+                        <div class="float-right">
+                            <button id="add-email-btn" type="button" class="btn btn-info btn-sm">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var email in Model.Emails)
+                        {
+                            <div class="row email-list-item">
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    @Html.ComboBox("EmailType", email.EmailAddressType, (IEnumerable<string>)ViewBag.EmailAddressTypeList)
+                                </div>
+                                <div class="col-sm-8 col-md-8 col-lg-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            @Html.CheckBoxFor(m => email.Default)
+                                        </span>
+                                        @Html.EditorFor(m => email.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Email address" } })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </div>
 

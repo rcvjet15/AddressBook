@@ -11,4 +11,9 @@
         $('nav').toggleClass('bg-dark bg-light');
         $('body').toggleClass('bg-dark bg-light');
     });
+
+    // Initialize all tooltips on page
+    $('[data-toggle="tooltip"]').tooltip({
+        container: 'body',
+    })
 });

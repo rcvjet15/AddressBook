@@ -3,6 +3,8 @@
     closeButton: true,
 }
 
+$('[data-toggle="tooltip"]').tooltip()
+
 // Indicates if form was changed. It will be used to prevent user from discarding changes.
 let formChanged = false;
 

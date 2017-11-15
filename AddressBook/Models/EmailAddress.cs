@@ -11,7 +11,7 @@ namespace AddressBook.Models
         [Required]
         [StringLength(30)]
         [Display(Name = "Email")]
-        [RegularExpression(@"^[A-Za-z]+[A-Za-z0-9\!\#\$\%\&\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]*@[A-Za-z0-9\.\-]+[\.][a-z]+$", ErrorMessage = "Invalid Email address format.")]
+        [RegularExpression(@"^[A-Za-z]+[A-Za-z0-9\!\#\$\%\&\'\*\+\-\/\=\?\^_\`\{\|\}\~\.]*@[A-Za-z0-9\.\-]+[\.][a-z]+$", ErrorMessage = "Invalid Email address format.")]
         public string Address { get; set; }
 
         [StringLength(10)]

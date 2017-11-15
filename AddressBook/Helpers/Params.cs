@@ -17,5 +17,10 @@ namespace AddressBook.Helpers
         public static string[] GenderList = new string[] { "Male", "Female" };
 
         public static string[] AddressTypeList = new string[] { "Home", "Work", "Other" };
+
+        public static string[] NumberTypeList = new string[] { "Home", "Work", "Other" };
+
+        public static string[] EmailAddressTypeList = new string[] { "Home", "Work", "Other" };
+
     }
 }
