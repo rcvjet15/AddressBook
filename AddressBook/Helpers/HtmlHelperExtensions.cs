@@ -92,6 +92,14 @@ namespace AddressBook.Helpers
             // Input list tag that references datalist
             input.GenerateId(fullName);
             input.Attributes["name"] = fullName;
+
+            // Add html attributes if specified
+            if (htmlAttributes != null)
+            {
+                var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+                input.MergeAttributes(attributes);
+            }
+
             // Make sure ToString() doesn't throw exception if Model is null
             input.Attributes["value"] = modelMetaData.Model != null ? 
                 modelMetaData.Model.ToString() 
@@ -117,12 +125,6 @@ namespace AddressBook.Helpers
 
             html.AppendFormat(input.ToString());
             html.AppendLine(datalist.ToString());
-
-            if (htmlAttributes != null)
-            {
-                var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-                input.MergeAttributes(attributes);
-            }
 
             return new HtmlString(html.ToString());
         }

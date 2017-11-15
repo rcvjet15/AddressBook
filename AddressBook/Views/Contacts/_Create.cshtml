@@ -123,7 +123,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Address.AddressType, new { @class = "control-label" })
                     <div>
-                        @Html.DatalistFor(model => Model.Address.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList, new { @class = "form-control" })
+                        @Html.DatalistFor(model => Model.Address.AddressType, (IEnumerable<string>)ViewBag.AddressTypeList, htmlAttributes: new { @class = "form-control", placeholder = "Type" })
                         @Html.ValidationMessageFor(model => Model.Address.AddressType, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -189,7 +189,7 @@
                             {
                                 <li class="row phone-list-item mb-1">
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        @Html.DatalistFor(model => phone.NumberType, (IEnumerable<string>)ViewBag.NumberTypeList, new { @class = "form-control" })
+                                        @Html.DatalistFor(model => phone.NumberType, (IEnumerable<string>)ViewBag.NumberTypeList, new { @class = "form-control", placeholder = "Type" })
                                         @Html.ValidationMessageFor(model => phone.NumberType, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-sm-8 col-md-8 col-lg-8">
@@ -232,7 +232,7 @@
                             {
                                 <li class="row email-list-item mb-1">
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        @Html.DatalistFor(model => email.EmailAddressType, (IEnumerable<string>)ViewBag.EmailAddressTypeList, new { @class="form-control"})
+                                        @Html.DatalistFor(model => email.EmailAddressType, (IEnumerable<string>)ViewBag.EmailAddressTypeList, new { @class="form-control", placeholder="Type"})
                                         @Html.ValidationMessageFor(model => email.EmailAddressType, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-sm-8 col-md-8 col-lg-8">
