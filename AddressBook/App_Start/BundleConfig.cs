@@ -47,7 +47,7 @@ namespace AddressBook
                        "~/Scripts/Libraries/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/globalScript").Include(
-                    "~/Scripts/global.js"));            
+                    "~/Scripts/Web/global.js"));            
         }
 
         private static void AddStylesheets(BundleCollection bundles)

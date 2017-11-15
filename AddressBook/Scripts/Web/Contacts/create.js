@@ -58,7 +58,7 @@ $('form[id="create-contact"]').on('submit', function (ev) {
     }
 })
 
-$('#add-group').on('click', function (ev) {    
+$('#add-group-btn').on('click', function (ev) {    
     let groupName = $('input[id="new-group-name"]').val();
 
     if (groupName.length === 0) {
@@ -105,27 +105,31 @@ $('#add-group').on('click', function (ev) {
 $('ul[id="group-list"]').on('click', 'span.remove-group-btn', function (ev) {
     let $parentListItem = $(this).closest('li.list-group-item');
     let groupID = $parentListItem.find('input[type="checkbox"]').val();
+    let groupName = $parentListItem.find('label').text().trim();
 
     console.log('selected group to remove ' + groupID);
 
-    setupGroupAjax('/Groups/Delete', 'POST', { id: groupID })
-        .then((data) => {
-            if (data.Message) {
-                toastr.success(data.Message, 'Success', toastrOptions);
-            }
-            $parentListItem.remove();
-        }).fail((data) => {
-            if (data.responseText) {
-                try {
-                    // Server returns errors in array, this loops through each and displays it in toastr
-                    JSON.parse(data.responseText)["Errors"].map((value, index) => {
-                        toastr.error(value, 'Error', toastrOptions);
-                    })
-                } catch (e) {
-                    console.log('Error parsing json error result: ' + e);
+    if (confirm("Do you want to remove group " + groupName + '?'))
+    {
+        setupGroupAjax('/Groups/Delete', 'POST', { id: groupID })
+            .then((data) => {
+                if (data.Message) {
+                    toastr.success(data.Message, 'Success', toastrOptions);
                 }
-            }
-        })  
+                $parentListItem.remove();
+            }).fail((data) => {
+                if (data.responseText) {
+                    try {
+                        // Server returns errors in array, this loops through each and displays it in toastr
+                        JSON.parse(data.responseText)["Errors"].map((value, index) => {
+                            toastr.error(value, 'Error', toastrOptions);
+                        })
+                    } catch (e) {
+                        console.log('Error parsing json error result: ' + e);
+                    }
+                }
+            }); 
+    }
 })
 
 function submitFormAjax($form) {

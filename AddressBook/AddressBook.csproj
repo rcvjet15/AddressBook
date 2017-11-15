@@ -284,8 +284,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\file-processing.js" />
-    <Content Include="Scripts\global.js" />
+    <Content Include="Scripts\Web\file-processing.js" />
+    <Content Include="Scripts\Web\global.js" />
     <Content Include="Scripts\Libraries\bootstrap.bundle.js" />
     <Content Include="Scripts\Libraries\bootstrap.bundle.min.js" />
     <Content Include="Scripts\Libraries\bootstrap.js" />
