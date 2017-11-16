@@ -132,6 +132,7 @@ $('ul[id="group-list"]').on('click', 'span.remove-group-btn', function (ev) {
     }
 })
 
+// Handler that adds new phone number item
 $('#add-phone-btn').on('click', function (evt) {
 
     if ($('ul[id="phone-list"]').find('li').size() >= 6) {
@@ -152,6 +153,7 @@ $('#add-phone-btn').on('click', function (evt) {
     updateInputListSubmitNames($('ul[id="phone-list"]'));
 })
 
+// Handler that adds new email address item
 $('#add-email-btn').on('click', function (evt) {
 
     if ($('ul[id="email-list"]').find('li').size() >= 6) {

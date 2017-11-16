@@ -12,6 +12,7 @@ namespace AddressBook.Models
             Groups = new List<Group>();
             Addresses = new List<Address>();
             PhoneNumbers = new List<PhoneNumber>();
+            EmailAddresses = new List<EmailAddress>();
         }
 
         public string FirstName { get; set; }

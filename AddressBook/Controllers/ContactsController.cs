@@ -110,6 +110,7 @@ namespace AddressBook.Controllers
                     };
 
                     UpdateContactPhoneNumbers(contact, model.PhoneNumbers);
+                    UpdateContactEmailAddresses(contact, model.Emails);
                     UpdateContactAddress(contact, model.Address);
                     AddGroupsToContact(contact, formCollection);
                     
