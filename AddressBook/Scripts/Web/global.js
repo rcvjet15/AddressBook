@@ -16,4 +16,7 @@
     $('[data-toggle="tooltip"]').tooltip({
         container: 'body',
     })
+
+    // Initialize all tooltips on page
+    $('[data-toggle="popover"]').popover()
 });

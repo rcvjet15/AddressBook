@@ -27,7 +27,7 @@ $('#create-contact-btn').on('click', function (ev) {
 })
 
 // Edit contact handler
-$('div[id="contact-list-target"]').on('click', 'a.list-item-contact', function (evt) {
+$('div[id="contact-list-target"]').on('click', 'div.list-item-contact', function (evt) {    
     let contactId = $(this).data('target');
 
     $('#contact-view-panel')

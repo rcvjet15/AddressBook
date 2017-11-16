@@ -32,29 +32,31 @@
             </div>
             <div class="card-block list-group bg-light" id="contact-list-target" style="overflow:auto;max-height:45em">
                 <div class="mx-auto loader"></div>
+                @* Here is loaded contact list *@
+
             </div>
         </div>
     </div>
-    <div class="col-sm-9 col-md-9 col-lg-9">        
-        <div class="row">            
+    <div class="col-sm-9 col-md-9 col-lg-9">
+        <div class="row">
             <button id="create-contact-btn" type="button" class="btn btn-info rounded-circle mx-2" style="cursor:pointer">
                 <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-            </button>            
-        </div>        
+            </button>
+        </div>
         <hr />
         <div class="row pl-4" id="contact-view-panel">
-               
+            @* Here is loaded contact view panel for CRUD operations *@
         </div>
     </div>
 </div>
 
 <script id="contact-list-template" type="x-tmpl-mustache">
-    <a class="list-group-item list-group-item-action my-1 mx-auto list-item-contact" data-target="{{ID}}" style="width:100%; cursor:pointer;width:95%">
+    <div class="list-group-item list-group-item-action my-1 mx-auto list-item-contact" data-target="{{ID}}" style="width:100%; cursor:pointer;width:95%">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <img src="{{ProfileImagePath}}" alt="Alternate Text" class="rounded" style="height:100px;width:100px" />
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-8 px-3">
+            <div class="col-sm-11 col-md-11 col-lg-7 px-3">
                 <div class="px-3">
                     <h6 class="">{{LastName}} {{FirstName}}</h6>
                     <span class="text-muted">{{PhoneNumber}}</span> <br />
@@ -63,7 +65,7 @@
                 </div>
             </div>
         </div>
-    </a>
+    </div>
 </script>
 
 @section pagespecific {
