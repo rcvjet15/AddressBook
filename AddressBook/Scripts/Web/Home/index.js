@@ -32,6 +32,14 @@ $('#search-types-list').on("change", function (ev) {
     $('#search-contacts-btn').click(); 
 })
 
+$('div[id="contact-list-target"]').on('click', 'a.list-item-contact', function (evt) {
+    let contactId = $(this).data('target');
+
+    $('#contact-view-panel')
+        .html(loaderHtml) // Display loading
+        .load('/Contacts/Edit?id=' + contactId);
+})
+
 function getContactsAndRender() {
     getContacts('/Contacts/GetUserContacts')
         .then((data) => {

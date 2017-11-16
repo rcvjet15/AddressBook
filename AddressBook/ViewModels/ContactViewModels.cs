@@ -77,4 +77,55 @@ namespace AddressBook.ViewModels
                 
         public List<Group> Groups { get; set; }        
     }
+
+    public class ContactEditViewModel
+    {
+        public ContactEditViewModel()
+        {
+            Address = new Address();
+            PhoneNumbers = new List<PhoneNumber>();
+            Emails = new List<EmailAddress>();
+            Groups = new List<Group>();
+        }
+
+        [Required]
+        [StringLength(20)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Birthdate")]
+        public string Birthdate { get; set; } // Set Birthdate as string type because dd/mm/yyyy format is not acceptable in jquery.validate
+
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+        [Display(Name = "Note")]
+        public string Note { get; set; }
+
+        [Display(Name = "Relationship")]
+        public string Relationship { get; set; }
+
+        [StringLength(30)]
+        [Display(Name = "Title")]
+        public string Title { get; set; }
+
+        [StringLength(30)]
+        [Display(Name = "Organization")]
+        public string Organization { get; set; }
+
+        public string ProfileImagePath { get; set; }
+
+        public Address Address { get; set; }
+
+        public List<PhoneNumber> PhoneNumbers { get; set; }
+
+        public List<EmailAddress> Emails { get; set; }
+
+        public List<Group> Groups { get; set; }
+    }
 }

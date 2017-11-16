@@ -134,6 +134,96 @@ namespace AddressBook.Controllers
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
         }
 
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            List<string> errors = new List<string>();
+
+            try
+            {
+                Contact contact = Db.Contacts
+                    .Find(id);
+
+                if (contact == null)
+                {
+                    throw new InvalidOperationException("Unable to find requested contact.");
+                }
+
+                ContactEditViewModel viewModel = new ContactEditViewModel
+                {
+                    ProfileImagePath = Params.DefaultProfilePicPath,
+                    PhoneNumbers = contact.PhoneNumbers.ToList(),
+                    Emails = contact.EmailAddresses.ToList(),
+                    Address = contact.Addresses.FirstOrDefault(),
+                    Groups = contact.Groups.ToList(),
+                };
+
+                ViewBag.GenderList = CreateGenderSelectList(contact.Gender);
+                ViewBag.AddressTypeList = Params.AddressTypeList.AsEnumerable<string>();
+                ViewBag.NumberTypeList = Params.NumberTypeList.AsEnumerable<string>();
+                ViewBag.EmailAddressTypeList = Params.EmailAddressTypeList.AsEnumerable<string>();
+
+                return PartialView("_Edit", viewModel);
+            }
+            catch (InvalidOperationException ex)
+            {
+                errors.Add(ex.Message);
+            }            
+
+            return new JsonBadRequest(new { Errors = errors.ToArray() }); // return as array
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Edit(ContactEditViewModel model, FormCollection formCollection)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (!DateTime.TryParse(model.Birthdate, out DateTime birthDate))
+                    {
+                        throw new InvalidDataException("Birthdate is has invalid format.");
+                    }
+
+                    Contact contact = new Contact
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Birthdate = birthDate,
+                        Relationship = model.Relationship,
+                        Title = model.Title,
+                        Note = model.Note,
+                        Gender = model.Gender,
+                        ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture on disk                        
+                        ApplicationUserID = User.Identity.GetUserId<int>(),
+                    };
+
+                    UpdateContactPhoneNumbers(contact, model.PhoneNumbers);
+                    UpdateContactEmailAddresses(contact, model.Emails);
+                    UpdateContactAddress(contact, model.Address);
+                    AddGroupsToContact(contact, formCollection);
+
+
+                    Db.Contacts.Add(contact);
+
+                    Db.SaveChanges();
+
+                    return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (InvalidDataException ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+            }
+
+            return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
         /// <summary>
         /// Method that assigns phone numbers to contact. First all its numbers are deleted then new one are added.
         /// </summary>

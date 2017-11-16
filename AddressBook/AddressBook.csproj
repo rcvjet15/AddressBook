@@ -369,7 +369,7 @@
     <Content Include="Scripts\Libraries\mustache.js" />
     <Content Include="Scripts\Libraries\toastr.js" />
     <Content Include="Scripts\Libraries\toastr.min.js" />
-    <Content Include="Scripts\Web\Contacts\create.js" />
+    <Content Include="Scripts\Web\Contacts\contact-crud.js" />
     <Content Include="Scripts\Web\Home\index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -410,6 +410,7 @@
     <Content Include="Views\Shared\_Stylesheets.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Contacts\_Create.cshtml" />
+    <Content Include="Views\Contacts\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
