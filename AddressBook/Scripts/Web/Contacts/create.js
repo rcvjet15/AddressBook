@@ -148,6 +148,8 @@ $('#add-phone-btn').on('click', function (evt) {
     $clonedlistPhoneItem.find('input:radio').prop('checked', false);
 
     $('ul[id="phone-list"]').append($clonedlistPhoneItem);
+    // Update submit names
+    updateInputListSubmitNames($('ul[id="phone-list"]'));
 })
 
 $('#add-email-btn').on('click', function (evt) {
@@ -166,16 +168,40 @@ $('#add-email-btn').on('click', function (evt) {
     $clonedlistPhoneItem.find('input:radio').prop('checked', false);
 
     $('ul[id="email-list"]').append($clonedlistPhoneItem);
+    // Update submit names
+    updateInputListSubmitNames($('ul[id="email-list"]'));
 })
 
 $('ul[id="phone-list"]').on('click', 'button.btn-remove-phone', function (evt) {
     $(this).closest('li.phone-list-item').remove();
+    // Update submit names
+    updateInputListSubmitNames($('ul[id="phone-list"]'));
     formChanged = true;
 })
 
 $('ul[id="email-list"]').on('click', 'button.btn-remove-email', function (evt) {
     $(this).closest('li.email-list-item').remove();
+    // Update submit names
+    updateInputListSubmitNames($('ul[id="email-list"]'));
     formChanged = true;
+})
+
+// Handler that checks only one radio button in items list.
+// By default if radio buttons have same value for attribute name, then only one will be checked
+// but here because of .NET MVC model binding each item in list has different name value (model[index].Property)
+// so this handler call function that checks only one radio button.
+$('ul[id="phone-list"]').on('change', 'input:radio', function (evt) {
+    let $listItem = $(evt.currentTarget).closest('li');
+    setDefaultListItem($listItem);
+})
+
+// Handler that checks only one radio button in items list.
+// By default if radio buttons have same value for attribute name, then only one will be checked
+// but here because of .NET MVC model binding each item in list has different name value (model[index].Property)
+// so this handler call function that checks only one radio button.
+$('ul[id="email-list"]').on('change', 'input:radio', function (evt) {
+    let $listItem = $(evt.currentTarget).closest('li');
+    setDefaultListItem($listItem);
 })
 
 function submitFormAjax($form) {
@@ -202,7 +228,6 @@ function setupGroupAjax(url, method, jsonData) {
         dataType: 'json'
     })
 }
-
 
 // Function that inserts list item with new group name at 0 index in unordered list
 // that displays all group names.
@@ -279,4 +304,36 @@ function closeForm($form) {
     }
 
     $form.closest('#contact-view-panel').empty();
+}
+
+// Function that checks only one radio button item in unordered list.
+// Because of .NET MVC model binding each item in list has different name value (model[index].Property)
+// so this function checks only one radio button.
+// It takes jquery object 'li' that contains clicked radio button
+function setDefaultListItem($clickedListItem) {
+    $clickedListItem.closest('ul').find('li').each(function (index, listItem) {
+        // Uncheck all
+        $(listItem).find('input:radio').prop('checked', false);
+    });
+    // Check only one that is clicked
+    $clickedListItem.find('input:radio').prop('checked', true);
+}
+
+// Function that takes parameter '$ul' that is unordered list that will
+// update submit name of inputs in each list item. For easier model list binding, .NET MVC uses indexing
+// on properties. This function will after each list item is added or removed, in for loop adjust index value.
+function updateInputListSubmitNames($ul) {
+    let idx = 0;
+    $ul.find('li').each(function (index, listItem) {
+        $(listItem).find('input').each(function (index, input) {
+            let name = $(input).attr('name');
+            // If name hsa value model[idx].Property then only index value will be replaced
+            // e.g. phone[2].Number => phone[idx].Number
+            let newName = name.replace(/(\w+)(\[\d+\])(\.)(\w+)/g, '$1[' + idx + ']$3$4')
+
+            $(input).attr('name', newName);
+            console.log('Old name: ' + name + '\tNew name: ' + newName);
+        });
+        idx++;
+    });
 }

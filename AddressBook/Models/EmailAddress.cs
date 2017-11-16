@@ -8,7 +8,6 @@ namespace AddressBook.Models
 {
     public class EmailAddress : EntityBaseModel
     {
-        [Required]
         [StringLength(30)]
         [Display(Name = "Email")]
         [RegularExpression(@"^[A-Za-z]+[A-Za-z0-9\!\#\$\%\&\'\*\+\-\/\=\?\^_\`\{\|\}\~\.]*@[A-Za-z0-9\.\-]+[\.][a-z]+$", ErrorMessage = "Invalid Email address format.")]
@@ -17,9 +16,8 @@ namespace AddressBook.Models
         [StringLength(10)]
         [Display(Name = "Email Address Type")]
         public string EmailAddressType { get; set; }
-
-        [Display(Name = "Primary")]
-        public bool Default { get; set; }
+        
+        public bool? IsDefault { get; set; }
 
         // Foreign key
         public int ContactID { get; set; }

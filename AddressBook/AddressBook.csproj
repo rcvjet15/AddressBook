@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201711112349252_RemoveGroupTypeFromGroupModel.Designer.cs">
       <DependentUpon>201711112349252_RemoveGroupTypeFromGroupModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711160027465_ChangeColumnDefaultToIsDefault.cs" />
+    <Compile Include="Migrations\201711160027465_ChangeColumnDefaultToIsDefault.Designer.cs">
+      <DependentUpon>201711160027465_ChangeColumnDefaultToIsDefault.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
@@ -454,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711112349252_RemoveGroupTypeFromGroupModel.resx">
       <DependentUpon>201711112349252_RemoveGroupTypeFromGroupModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711160027465_ChangeColumnDefaultToIsDefault.resx">
+      <DependentUpon>201711160027465_ChangeColumnDefaultToIsDefault.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

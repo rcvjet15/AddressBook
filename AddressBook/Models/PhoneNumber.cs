@@ -8,7 +8,6 @@ namespace AddressBook.Models
 {
     public class PhoneNumber : EntityBaseModel
     {
-        [Required]
         [StringLength(30)]
         [Display(Name = "Number")]
         public string Number { get; set; }
@@ -19,10 +18,9 @@ namespace AddressBook.Models
         
         /// <summary>
         /// Indicates if phonenubmer entity is default number for contact 
-        /// because contact and phonenumber entity have one-to-many relationship.
+        /// because contact and phone number entity have one-to-many relationship.
         /// </summary>
-        [Display(Name = "Primary")]
-        public bool Default { get; set; }
+        public bool? IsDefault { get; set; }
 
         // Foreign key
         public int ContactID { get; set; }

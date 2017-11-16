@@ -37,8 +37,8 @@ namespace AddressBook.Controllers
                     ID = contact.ID,
                     FirstName = contact.FirstName,
                     LastName = contact.LastName,
-                    PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.Default == true)?.Number,
-                    Email = contact.EmailAddresses.FirstOrDefault(e => e.Default == true)?.Address,
+                    PhoneNumber = contact.PhoneNumbers.FirstOrDefault(p => p.IsDefault == true)?.Number,
+                    Email = contact.EmailAddresses.FirstOrDefault(e => e.IsDefault == true)?.Address,
                     Address = contact.Addresses.FirstOrDefault(a => a.Default == true)?.FullAddressWithoutState,
                     ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
                     Groups = contact.Groups.Select(g => g.Name),
@@ -62,7 +62,7 @@ namespace AddressBook.Controllers
                 new PhoneNumber
                 {
                     NumberType = Params.NumberTypeList.First(),
-                    Default = true,
+                    IsDefault = true,
                 }
             );
 
@@ -71,7 +71,7 @@ namespace AddressBook.Controllers
                 new EmailAddress
                 {
                     EmailAddressType = Params.EmailAddressTypeList.First(),
-                    Default = true,
+                    IsDefault = true,
                 }
             );
             
@@ -109,8 +109,10 @@ namespace AddressBook.Controllers
                         ApplicationUserID = User.Identity.GetUserId<int>(),
                     };
 
+                    UpdateContactPhoneNumbers(contact, model.PhoneNumbers);
                     UpdateContactAddress(contact, model.Address);
                     AddGroupsToContact(contact, formCollection);
+                    
 
                     Db.Contacts.Add(contact);
 
@@ -132,10 +134,78 @@ namespace AddressBook.Controllers
         }
 
         /// <summary>
+        /// Method that assigns phone numbers to contact. First all its numbers are deleted then new one are added.
+        /// </summary>
+        /// <param name="contact">Contact whom numbers are assigned.</param>
+        /// <param name="phoneNumbers">Phone numbers that are going to be assigned.</param>
+        /// // <exception cref="InvalidDataException">Will be thworn if count of phone numbers is more than 6.</exception>
+        private void UpdateContactPhoneNumbers(Contact contact, List<PhoneNumber> phoneNumbers)
+        {
+            if (phoneNumbers.Count > 6)
+            {
+                throw new InvalidDataException("Contact can have maximum of 6 numbers!");
+            }
+
+            // Check if contact has ID
+            if (contact.ID != default(int))
+            {
+                // Check if contacts phone number list is retrieved. If not retrieve it
+                if (contact.PhoneNumbers == null || contact.PhoneNumbers.Count == 0)
+                {
+                    contact.PhoneNumbers.ToList();
+                }
+
+                // Remove all contact phone numbers
+                Db.PhoneNumbers
+                    .RemoveRange(contact.PhoneNumbers);
+            }
+
+            // No need for adding phone numbere object to DbContext, EF will automatically take care of it
+            phoneNumbers
+                .Where(p => !String.IsNullOrEmpty(p.Number))
+                .ToList()
+                .ForEach(num => contact.PhoneNumbers.Add(num));
+        }
+
+        /// <summary>
+        /// Method that assigns phone numbers to contact. First all its numbers are deleted then new one are added.
+        /// </summary>
+        /// <param name="contact">Contact whom numbers are assigned.</param>
+        /// <param name="phoneNumbers">Phone numbers that are going to be assigned.</param>
+        /// // <exception cref="InvalidDataException">Will be thworn if count of phone numbers is more than 6.</exception>
+        private void UpdateContactEmailAddresses(Contact contact, List<EmailAddress> emailAddresses)
+        {
+            if (emailAddresses.Count > 6)
+            {
+                throw new InvalidDataException("Contact can have maximum of 6 numbers!");
+            }
+
+            // Check if contact has ID
+            if (contact.ID != default(int))
+            {
+                // Check if contacts phone number list is retrieved. If not retrieve it
+                if (contact.EmailAddresses == null || contact.EmailAddresses.Count == 0)
+                {
+                    contact.EmailAddresses.ToList();
+                }
+
+                // Remove all contact phone numbers
+                Db.EmailAddresses
+                    .RemoveRange(contact.EmailAddresses);
+            }
+
+            // No need for adding phone numbere object to DbContext, EF will automatically take care of it
+            emailAddresses
+                .Where(e => !String.IsNullOrEmpty(e.Address))
+                .ToList()
+                .ForEach(addr => contact.EmailAddresses.Add(addr));
+        }
+
+        /// <summary>
         /// Updates contact address. If contact doesn't have any, creates new.
         /// </summary>
         /// <param name="contact">Contact for to whom address is assigned.</param>
-        /// <param name="address">Address object that contains address data</param>
+        /// <param name="address">Address object that contains address data.</param>
         private void UpdateContactAddress(Contact contact, Address address)
         {
             // Check if contact has ID
