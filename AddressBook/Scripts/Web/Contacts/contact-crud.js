@@ -28,7 +28,7 @@ $('#cancel-btn').on('click', function (ev) {
     closeForm($('form[id="create-contact"]'));
 })
 
-$('form[id="create-contact"]').on('submit', function (ev) {
+$('form[id="contact-crud"]').on('submit', function (ev) {
     ev.preventDefault();
 
     let $form = $(this);

@@ -1,7 +1,7 @@
 ﻿@model AddressBook.ViewModels.ContactCreateViewModel
 
 <div class="row card bg-light col-lg-12 py-2">
-    @using (Html.BeginForm("Create", "Contacts", FormMethod.Post, new { id = "create-contact", @class = "form-horizontal" }))
+    @using (Html.BeginForm("Create", "Contacts", FormMethod.Post, new { id = "contact-crud", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

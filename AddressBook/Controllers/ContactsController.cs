@@ -151,13 +151,23 @@ namespace AddressBook.Controllers
 
                 ContactEditViewModel viewModel = new ContactEditViewModel
                 {
-                    ProfileImagePath = Params.DefaultProfilePicPath,
+                    ID = contact.ID,
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
+                    Birthdate = contact.Birthdate.HasValue ? contact.Birthdate.ToString() : String.Empty,
+                    Gender = contact.Gender,
+                    Note = contact.Note,
+                    Organization = contact.Organization,
+                    Relationship = contact.Relationship,
+                    Title = contact.Title,
+                    ProfileImagePath = contact.ProfilePicPath ?? Params.DefaultProfilePicPath,
                     PhoneNumbers = contact.PhoneNumbers.ToList(),
                     Emails = contact.EmailAddresses.ToList(),
                     Address = contact.Addresses.FirstOrDefault(),
-                    Groups = contact.Groups.ToList(),
+                    Groups = contact.Groups.ToList(),                    
                 };
 
+                ViewBag.AllGroups = Db.Groups.ToList();
                 ViewBag.GenderList = CreateGenderSelectList(contact.Gender);
                 ViewBag.AddressTypeList = Params.AddressTypeList.AsEnumerable<string>();
                 ViewBag.NumberTypeList = Params.NumberTypeList.AsEnumerable<string>();
@@ -175,41 +185,45 @@ namespace AddressBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Edit(ContactEditViewModel model, FormCollection formCollection)
+        public JsonResult Edit(int id, ContactEditViewModel model, FormCollection formCollection)
         {
             try
             {
+                Contact contact = Db.Contacts
+                  .Find(id);
+
+                if (contact == null)
+                {
+                    throw new InvalidOperationException("Unable to find requested contact.");
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (!DateTime.TryParse(model.Birthdate, out DateTime birthDate))
                     {
                         throw new InvalidDataException("Birthdate is has invalid format.");
                     }
-
-                    Contact contact = new Contact
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Birthdate = birthDate,
-                        Relationship = model.Relationship,
-                        Title = model.Title,
-                        Note = model.Note,
-                        Gender = model.Gender,
-                        ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? Params.DefaultProfilePicPath, // Store picture on disk                        
-                        ApplicationUserID = User.Identity.GetUserId<int>(),
-                    };
-
+                                        
+                    contact.FirstName = model.FirstName;
+                    contact.LastName = model.LastName;
+                    contact.Birthdate = birthDate;
+                    contact.Relationship = model.Relationship;
+                    contact.Title = model.Title;
+                    contact.Note = model.Note;
+                    contact.Gender = model.Gender;
+                    // If nothing uploaded, check if contact already has profile picture. If not, assign default.
+                    contact.ProfilePicPath = StoreUploadedPicture("~/Content/ProfilePictures") ?? (contact.ProfilePicPath ?? Params.DefaultProfilePicPath);
+                    
                     UpdateContactPhoneNumbers(contact, model.PhoneNumbers);
                     UpdateContactEmailAddresses(contact, model.Emails);
                     UpdateContactAddress(contact, model.Address);
                     AddGroupsToContact(contact, formCollection);
 
-
-                    Db.Contacts.Add(contact);
+                    Db.Entry(contact).State = EntityState.Modified;                    
 
                     Db.SaveChanges();
 
-                    return Json(new { Message = $"Successfully created {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Message = $"Successfully edited {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (InvalidDataException ex)
@@ -251,11 +265,12 @@ namespace AddressBook.Controllers
                     .RemoveRange(contact.PhoneNumbers);
             }
 
-            // No need for adding phone numbere object to DbContext, EF will automatically take care of it
-            phoneNumbers
-                .Where(p => !String.IsNullOrEmpty(p.Number))
-                .ToList()
-                .ForEach(num => contact.PhoneNumbers.Add(num));
+            foreach (var phoneNumber in phoneNumbers.Where(p => !String.IsNullOrEmpty(p.Number)))
+            {
+                phoneNumber.IsDefault = phoneNumber.IsDefault ?? false; // If value is null then set it to false
+                // No need for adding phone numbere object to DbContext, EF will automatically take care of it            
+                contact.PhoneNumbers.Add(phoneNumber);
+            }
         }
 
         /// <summary>
@@ -284,12 +299,13 @@ namespace AddressBook.Controllers
                 Db.EmailAddresses
                     .RemoveRange(contact.EmailAddresses);
             }
-
-            // No need for adding phone numbere object to DbContext, EF will automatically take care of it
-            emailAddresses
-                .Where(e => !String.IsNullOrEmpty(e.Address))
-                .ToList()
-                .ForEach(addr => contact.EmailAddresses.Add(addr));
+            
+            foreach (var emailAddress in emailAddresses.Where(e => !String.IsNullOrEmpty(e.Address)))
+            {
+                emailAddress.IsDefault = emailAddress.IsDefault ?? false; // If value is null then set it to false
+                // No need for adding email address object to DbContext, EF will automatically take care of it            
+                contact.EmailAddresses.Add(emailAddress);
+            }
         }
 
         /// <summary>
@@ -327,6 +343,16 @@ namespace AddressBook.Controllers
         {
             string[] submitIds = formCollection.GetValues(collectionKey);
 
+            // First remove all contact groups 
+            if (contact.ID != default(int) && contact.Groups.Count > 0)
+            {
+                string sql = "DELETE FROM dbo.ContactGroup " +
+                    "WHERE ContactID = (@p0)";
+
+                Db.Database.ExecuteSqlCommand(sql, contact.ID);
+            }
+            
+            // If non of the groups were selected, return
             if (submitIds == null || submitIds.Length == 0)
                 return;
 
@@ -336,12 +362,6 @@ namespace AddressBook.Controllers
             List<Group> groups = Db.Groups
                 .Where(g => groupIds.Contains(g.ID))
                 .ToList();
-
-            // First remove all groups 
-            foreach (var group in contact.Groups)
-            {
-                contact.Groups.Remove(group);
-            }
 
             // Add new groups
             groups.ForEach(g => contact.Groups.Add(g));

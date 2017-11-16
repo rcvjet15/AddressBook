@@ -88,6 +88,8 @@ namespace AddressBook.ViewModels
             Groups = new List<Group>();
         }
 
+        public int ID { get; set; }
+
         [Required]
         [StringLength(20)]
         [Display(Name = "First Name")]
