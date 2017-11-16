@@ -13,25 +13,33 @@ namespace AddressBook.Models
             Addresses = new List<Address>();
             PhoneNumbers = new List<PhoneNumber>();
             EmailAddresses = new List<EmailAddress>();
-        }
+        }       
 
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
-              
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        
-        public string ProfilePicPath { get; set; }
-        
+
+        [Display(Name = "Gender")]
         public string Gender { get; set; }
-        
+
+        [Display(Name = "Last Name")]
         public DateTime? Birthdate { get; set; }
-                
+
+        [Display(Name = "Note")]
         public string Note { get; set; }
-                
+
+        [Display(Name = "Relationship")]
         public string Relationship { get; set; }
-                
+
+        [Display(Name = "Title")]
         public string Title { get; set; }
-                
+
+        [Display(Name = "Organization")]
         public string Organization { get; set; }
+
+        public string ProfilePicPath { get; set; }
 
         [NotMapped]
         [ScaffoldColumn(false)]

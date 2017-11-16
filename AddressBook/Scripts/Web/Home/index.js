@@ -39,6 +39,7 @@ $('div[id="contact-list-target"]').on('click', 'div.list-item-contact', function
         });
 });
 
+
 $('#search-contacts-btn').on('click', function (ev) {
     let searchText = $('#search-contacts').val().toLowerCase();    
     searchContacts(searchText);

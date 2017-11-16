@@ -129,52 +129,5 @@ namespace AddressBook.ViewModels
         public List<EmailAddress> Emails { get; set; }
 
         public List<Group> Groups { get; set; }
-    }
-
-    public class ContactDetailsViewModel
-    {
-        public ContactDetailsViewModel()
-        {
-            Address = new Address();
-            PhoneNumbers = new List<PhoneNumber>();
-            Emails = new List<EmailAddress>();
-            Groups = new List<Group>();
-        }
-
-        public int ID { get; set; }
-        
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-                
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        [Display(Name = "Birthdate")]
-        public string Birthdate { get; set; }
-
-        [Display(Name = "Gender")]
-        public string Gender { get; set; }
-
-        [Display(Name = "Note")]
-        public string Note { get; set; }
-
-        [Display(Name = "Relationship")]
-        public string Relationship { get; set; }
-        
-        [Display(Name = "Title")]
-        public string Title { get; set; }
-        
-        [Display(Name = "Organization")]
-        public string Organization { get; set; }
-
-        public string ProfileImagePath { get; set; }
-
-        public Address Address { get; set; }
-
-        public List<PhoneNumber> PhoneNumbers { get; set; }
-
-        public List<EmailAddress> Emails { get; set; }
-
-        public List<Group> Groups { get; set; }
-    }
+    }    
 }

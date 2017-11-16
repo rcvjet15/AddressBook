@@ -137,14 +137,7 @@ namespace AddressBook.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            List<string> errors = new List<string>()
-            {
-                "Unable to edit",
-                "Unable to edit",
-                "Unable to edit",
-                "Unable to edit",
-                "Unable to edit",
-            };
+            List<string> errors = new List<string>();
 
             try
             {
@@ -173,6 +166,30 @@ namespace AddressBook.Controllers
                     Address = contact.Addresses.FirstOrDefault(),
                     Groups = contact.Groups.ToList(),                    
                 };
+
+                if (viewModel.PhoneNumbers.Count == 0)
+                {
+                    // Add default phone number to display one input
+                    viewModel.PhoneNumbers.Add(
+                        new PhoneNumber
+                        {
+                            NumberType = Params.NumberTypeList.First(),
+                            IsDefault = true,
+                        }
+                    );
+                }           
+
+                if (viewModel.Emails.Count == 0)
+                {
+                    // Add default email address to display one input
+                    viewModel.Emails.Add(
+                        new EmailAddress
+                        {
+                            EmailAddressType = Params.EmailAddressTypeList.First(),
+                            IsDefault = true,
+                        }
+                    );
+                }
 
                 ViewBag.AllGroups = Db.Groups.ToList();
                 ViewBag.GenderList = CreateGenderSelectList(contact.Gender);
@@ -243,6 +260,31 @@ namespace AddressBook.Controllers
             }
 
             return new JsonBadRequest(new { Errors = GetModelStateErrorMessages() });
+        }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            List<string> errors = new List<string>();
+
+            try
+            {
+                Contact contact = Db.Contacts
+                    .Find(id);
+
+                if (contact == null)
+                {
+                    throw new InvalidOperationException("Unable to find requested contact.");
+                }
+                
+                return PartialView("_Details", contact);
+            }
+            catch (InvalidOperationException ex)
+            {
+                errors.Add(ex.Message);
+            }
+
+            return new JsonBadRequest(new { Errors = errors.ToArray() }, JsonRequestBehavior.AllowGet); // return as array
         }
 
         /// <summary>
