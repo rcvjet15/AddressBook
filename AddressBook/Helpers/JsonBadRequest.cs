@@ -14,9 +14,9 @@ namespace AddressBook.Helpers
     {
         public JsonBadRequest()
         {
-
+            
         }
-
+        
         public JsonBadRequest(string message)
         {
             this.Data = message;
@@ -25,6 +25,18 @@ namespace AddressBook.Helpers
         public JsonBadRequest(object data)
         {
             this.Data = data;
+        }
+        
+        public JsonBadRequest(string message, JsonRequestBehavior jsonRequestBehaviour)
+            : this(message)
+        {
+            this.JsonRequestBehavior = jsonRequestBehaviour;
+        }
+
+        public JsonBadRequest(object data, JsonRequestBehavior jsonRequestBehaviour)
+           : this(data)
+        {
+            this.JsonRequestBehavior = jsonRequestBehaviour;
         }
 
         public override void ExecuteResult(ControllerContext context)

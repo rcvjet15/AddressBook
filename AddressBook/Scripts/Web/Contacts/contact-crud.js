@@ -41,19 +41,7 @@ $('form[id="contact-crud"]').on('submit', function (ev) {
                 }
                 window.location.href = "/";
             }).fail((data) => {
-                if (data.responseText) {
-                    try {
-                        // Server returns errors in array, this loops through each and displays it in toastr
-                        JSON.parse(data.responseText)["Errors"].map((value, index) => {
-                            toastr.error(value, 'Error', toastrOptions);
-                        })
-                    } catch (e) {
-                        console.log('Error parsing json error result: ' + e);
-                    }
-                }
-                else {
-                    toastr.error("Error occured while saving contact.", 'Error', toastrOptions);
-                }
+                displayAjaxErrorResponse(data);
             })
     }
 })
@@ -85,16 +73,7 @@ $('#add-group-btn').on('click', function (ev) {
             }
             addNewGroupItem(groupName, data.Id);
         }).fail((data) => {
-            if (data.responseText) {
-                try {
-                    // Server returns errors in array, this loops through each and displays it in toastr
-                    JSON.parse(data.responseText)["Errors"].map((value, index) => {
-                        toastr.error(value, 'Error', toastrOptions);
-                    })
-                } catch (e) {
-                    console.log('Error parsing json error result: ' + e);
-                }
-            }
+            displayAjaxErrorResponse(data);
         }).always(() => {
             toggleButtonLoadingAnimation($(ev.currentTarget), show = false);
         })    
@@ -119,14 +98,7 @@ $('ul[id="group-list"]').on('click', 'span.remove-group-btn', function (ev) {
                 $parentListItem.remove();
             }).fail((data) => {
                 if (data.responseText) {
-                    try {
-                        // Server returns errors in array, this loops through each and displays it in toastr
-                        JSON.parse(data.responseText)["Errors"].map((value, index) => {
-                            toastr.error(value, 'Error', toastrOptions);
-                        })
-                    } catch (e) {
-                        console.log('Error parsing json error result: ' + e);
-                    }
+                    displayAjaxErrorResponse(data);
                 }
             }); 
     }
@@ -338,4 +310,22 @@ function updateInputListSubmitNames($ul) {
         });
         idx++;
     });
+}
+
+// Function that displays errors on ajax callback.
+// Takes data object that contains respone from server, it is same parameter as in ajax's fail() method
+function displayAjaxErrorResponse(data) {
+    if (data.responseText) {
+        try {
+            // Server returns errors in array, this loops through each and displays it in toastr
+            JSON.parse(data.responseText)["Errors"].map((value, index) => {
+                toastr.error(value, 'Error', toastrOptions);
+            })
+            return;
+        } catch (e) {
+            console.log('Error parsing json error result: ' + e);
+        }
+    }
+
+    toastr.error("Error occured while processing your request. Plaese try again.", 'Error', toastrOptions);
 }

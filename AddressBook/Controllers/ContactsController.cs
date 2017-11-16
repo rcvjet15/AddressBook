@@ -137,7 +137,14 @@ namespace AddressBook.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            List<string> errors = new List<string>();
+            List<string> errors = new List<string>()
+            {
+                "Unable to edit",
+                "Unable to edit",
+                "Unable to edit",
+                "Unable to edit",
+                "Unable to edit",
+            };
 
             try
             {
@@ -180,7 +187,7 @@ namespace AddressBook.Controllers
                 errors.Add(ex.Message);
             }            
 
-            return new JsonBadRequest(new { Errors = errors.ToArray() }); // return as array
+            return new JsonBadRequest(new { Errors = errors.ToArray() }, JsonRequestBehavior.AllowGet); // return as array
         }
 
         [HttpPost]

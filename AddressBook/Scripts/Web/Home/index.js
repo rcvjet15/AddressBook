@@ -1,4 +1,9 @@
-﻿// All displayed contacts on page
+﻿const toastrOptions = {
+    progressBar: true,
+    closeButton: true,
+}
+
+// All displayed contacts on page
 let allContacts = [];
 const loaderHtml = '<div class="mx-auto loader"></div>';
 
@@ -10,12 +15,29 @@ $(document).ready(function () {
 $('#create-contact-btn').on('click', function (ev) {
     $('#contact-view-panel')
         .html(loaderHtml) // Display loading
-        .load('/Contacts/Create');
+        .load('/Contacts/Create', function (responseText, textStatus, xhr) {
+            if (textStatus && textStatus.toLowerCase() === 'error') {
+                displayLoadErrorResponse(responseText, textStatus, xhr);
+            }
+        });
 
     // todo: Add pushState where URL is updated but problem is if user refreshes page
     // Push state (Add to URL '/Create')
     //window.history.pushState(null, "create", '/Create');
 })
+
+// Edit contact handler
+$('div[id="contact-list-target"]').on('click', 'a.list-item-contact', function (evt) {
+    let contactId = $(this).data('target');
+
+    $('#contact-view-panel')
+        .html(loaderHtml) // Display loading
+        .load('/Contacts/Edit?id=' + contactId, function (responseText, textStatus, xhr) {
+            if (textStatus && textStatus.toLowerCase() === 'error') {
+                displayLoadErrorResponse(responseText, textStatus, xhr);
+            }
+        });
+});
 
 $('#search-contacts-btn').on('click', function (ev) {
     let searchText = $('#search-contacts').val().toLowerCase();    
@@ -30,14 +52,6 @@ $('#search-contacts').on("keyup", function (ev) {
 $('#search-types-list').on("change", function (ev) {
     // Trigger clicked event of search button on change of select list
     $('#search-contacts-btn').click(); 
-})
-
-$('div[id="contact-list-target"]').on('click', 'a.list-item-contact', function (evt) {
-    let contactId = $(this).data('target');
-
-    $('#contact-view-panel')
-        .html(loaderHtml) // Display loading
-        .load('/Contacts/Edit?id=' + contactId);
 })
 
 function getContactsAndRender() {
@@ -106,3 +120,19 @@ function searchContacts(searchText) {
     renderContactList(filteredContacts, templateId = '#contact-list-template', targetId = '#contact-list-target')
 }
 
+// Function that displays error response from jquery's load() method.
+// Takes same parameters as callback from $.load()
+function displayLoadErrorResponse(responseText, textStatus, xhr) {
+    if (responseText) {
+        try {
+            // Server returns errors in array, this loops through each and displays it in toastr
+            JSON.parse(responseText)["Errors"].map((value, index) => {
+                toastr.error(value, 'Error', toastrOptions);
+            })
+            return;
+        } catch (e) {
+            console.log('Error parsing json error result: ' + e);
+        }
+    }
+    toastr.error("Error occured while processing your request. Plaese try again.", 'Error', toastrOptions);
+}
