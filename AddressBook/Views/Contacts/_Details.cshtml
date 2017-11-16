@@ -1,10 +1,132 @@
 ﻿@model AddressBook.Models.Contact
 
-<div class="card" style="width:400px">
-    <img class="card-img-top" src="img_avatar1.png" alt="Card image">
-    <div class="card-body">
-        <h4 class="card-title">John Doe</h4>
-        <p class="card-text">Some example text.</p>
-        <a href="#" class="btn btn-primary">See Profile</a>
+<div class="card">
+    <div class="card-header bg-dark text-light">
+        <h4 class="card-title">@String.Format("{0} {1}", Model.LastName, Model.FirstName)</h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="row">
+            <!--Begin Image Display-->
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <div class="card" style="">                    
+                    <img src="@Url.Content(Model.ProfilePicPath)" alt="Alternate Text" class="card-img-top" style="height:16em" />
+                    <div id="accordion" role="tablist">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    @{ 
+                                        var defaultPhone = @Model.PhoneNumbers.FirstOrDefault(p => p.IsDefault == true);
+                                        var otherPhones = @Model.PhoneNumbers.FirstOrDefault(p => p.IsDefault == false || p.IsDefault == null);
+                                    }
+                                    
+                                    @defaultPhone.NumberType - @defaultPhone.Number
+                                    <a data-toggle="collapse" href="#collapsePhoneNumbers" aria-expanded="false" aria-controls="collapsePhoneNumbers" class="float-right text-dark">
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapsePhoneNumbers" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+                <p>@Model.Note </p>
+            </div>
+            <!--End Image Display-->
+            <!--Begin Contact Data Display-->
+            <div class="col-sm-12 col-md-12 col-lg-5" style="overflow:auto;max-height:27em">
+                <div class="row">
+                    <div class="card card-body">
+                        @{ var address = Model.Addresses.FirstOrDefault(); }
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <i class="fa fa-user" aria-hidden="true"></i> @Model.FirstName @Model.LastName
+                            </li>
+                            <li class="list-group-item">
+                                @if (Model.Gender == "Male")
+                                {
+                                    <i class="fa fa-mars" aria-hidden="true"></i> @Model.Gender
+                                }
+                                else
+                                {
+                                    <i class="fa fa-venus" aria-hidden="true"></i> @Model.Gender
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-birthday-cake" aria-hidden="true"></i> @String.Format("{0:d/M/yyyy}", Model.Birthdate)
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-handshake-o" aria-hidden="true"></i> @Model.Relationship
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i> @Model.Title
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-university" aria-hidden="true"></i> @Model.Organization
+                            </li>
+                            <li class="list-group-item">
+                                Address Type: @address.AddressType
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-road" aria-hidden="true"></i> @address.Street @address.HouseNumber @address.PostalCode
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fa fa-building" aria-hidden="true"></i> @address.City, @address.State
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--End Contact Data Display-->
+            <!--Begin buttons and Groups Display-->
+            <div class="col-sm-12 col-md-12 col-lg-3">
+                <div class="row mb-1">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        </button>
+                        <button id="cancel-btn" type="button" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title">Groups</h6>
+                    </div>
+                    <div class="card-block">
+                        <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:250px">
+                            @foreach (var group in Model.Groups)
+                            {
+                                <li class="list-group-item">
+                                    @group.Name
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--End buttons and Groups Display-->
+        </div>
     </div>
 </div>
+
+@Scripts.Render("~/bundles/globalScript")
+<script type="text/javascript" src="~/Scripts/Web/Contacts/contact-crud.js"></script>
+<script type="text/javascript" src="/Scripts/Web/file-processing.js"></script>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        $('.collapse').on('hidden.bs.collapse', function () {
+            $(this).prev('div[role="tab"]').find('i').toggleClass('fa-flip-vertical')
+            
+        });
+        $('.collapse').on('shown.bs.collapse', function () {
+            $(this).prev('div[role="tab"]').find('i').toggleClass('fa-flip-vertical')
+            
+        });
+    })
+</script>
