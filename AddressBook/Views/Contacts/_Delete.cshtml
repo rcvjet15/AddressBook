@@ -1,0 +1,194 @@
+﻿@model AddressBook.Models.Contact
+
+@using (Html.BeginForm("Delete", "Contacts", routeValues: new { id = Model.ID }, method: FormMethod.Post, htmlAttributes: new { id = "contact-crud", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="card">
+        <div class="card-header bg-dark text-light">
+            <div class="float-left">
+                <h4 class="card-title">@String.Format("{0} {1}", Model.LastName, Model.FirstName)</h4>
+            </div>
+            <div class="float-right">
+                <button type="button" class="btn btn-dark" onclick="$(this).closest('div[id=\'contact-view-panel\']').empty()">
+                    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body bg-light">
+            <div class="row">
+                <h2 class="text-danger mx-auto mb-2">Are you sure you want to delete @String.Format("{0} {1}", Model.LastName, Model.FirstName)?</h2>
+            </div>
+            <div class="row">
+                <!--Begin Image Display-->
+                <div class="col-sm-12 col-md-12 col-lg-4">
+                    <div class="card" style="">
+                        <img src="@Url.Content(Model.ProfilePicPath)" alt="Alternate Text" class="card-img-top img-thumbnail" style="height:16em" />
+                        @if (Model.PhoneNumbers.Count > 0)
+                        {
+                            <div id="phoneAccordion" role="tablist">
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <h5 class="mb-0">
+                                            @{
+                                                var defaultPhone = Model.PhoneNumbers.FirstOrDefault(p => p.IsDefault == true) ?? Model.PhoneNumbers.First();
+                                                var otherPhones = Model.PhoneNumbers.Where(p => p.IsDefault == false || p.IsDefault == null);
+                                            }
+
+                                            <i class="fa fa-phone" aria-hidden="true"></i> @defaultPhone.NumberType - @defaultPhone.Number
+                                            <a data-toggle="collapse" href="#collapsePhoneNumbers" aria-expanded="false" aria-controls="collapsePhoneNumbers" class="float-right text-dark">
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapsePhoneNumbers" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#phoneAccordion">
+                                        <ul class="list-group">
+                                            @foreach (var phone in otherPhones)
+                                            {
+                                                <li class="list-group-item">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i> @phone.NumberType - @phone.Number
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                                                }
+                        @if (Model.EmailAddresses.Count > 0)
+                        {
+                            <div id="emailAccordion" role="tablist">
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            @{
+                                                var defaultEmail = Model.EmailAddresses.FirstOrDefault(e => e.IsDefault == true) ?? Model.EmailAddresses.First();
+                                                var otherEmails = Model.EmailAddresses.Where(e => e.IsDefault == false || e.IsDefault == null);
+                                            }
+
+                                            <i class="fa fa-envelope" aria-hidden="true"></i> @defaultEmail.EmailAddressType - @defaultEmail.Address
+                                            <a data-toggle="collapse" href="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails" class="float-right text-dark">
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseEmails" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#emailAccordion">
+                                        <ul class="list-group">
+                                            @foreach (var email in otherEmails)
+                                            {
+                                                <li class="list-group-item">
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i> @email.EmailAddressType - @email.Address
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                                                }
+                    </div>
+                </div>
+                <!--End Image Display-->
+                <!--Begin Contact Data Display-->
+                <div class="col-sm-12 col-md-12 col-lg-5" style="overflow:auto;max-height:27em">
+                    <div class="row">
+                        <div class="card card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="fa fa-user" aria-hidden="true"></i> @Model.FirstName @Model.LastName
+                                </li>
+                                <li class="list-group-item">
+                                    @if (Model.Gender == "Male")
+                                    {
+                                        <i class="fa fa-mars" aria-hidden="true"></i> @Model.Gender
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-venus" aria-hidden="true"></i> @Model.Gender
+                                    }
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-birthday-cake" aria-hidden="true"></i> @String.Format("{0:d/M/yyyy}", Model.Birthdate)
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-handshake-o" aria-hidden="true"></i> @Model.Relationship
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i> @Model.Title
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-university" aria-hidden="true"></i> @Model.Organization
+                                </li>
+
+                                @{
+                                    var address = Model.Addresses.FirstOrDefault();
+                                    if (address != null)
+                                    {
+                                        <li class="list-group-item">
+                                            Address Type: @address.AddressType
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-road" aria-hidden="true"></i> @address.Street @address.HouseNumber @address.PostalCode
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-building" aria-hidden="true"></i> @address.City, @address.State
+                                        </li>
+                                    }
+                                }
+
+                                <li class="list-group-item">
+                                    <i class="fa fa-sticky-note-o" aria-hidden="true"></i> @Model.Note
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Contact Data Display-->
+                <!--Begin buttons and Groups Display-->
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="row mb-1">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                            </button>                            
+                            <button id="cancel-btn" type="button" class="btn btn-default">Cancel</button>                            
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">Groups</h6>
+                        </div>
+                        <div class="card-block">
+                            <ul id="group-list" class="list-group" style="overflow-y:auto;max-height:250px">
+                                @foreach (var group in Model.Groups)
+                                {
+                                    <li class="list-group-item">
+                                        @group.Name
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End buttons and Groups Display-->
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/globalScript")
+<script type="text/javascript" src="~/Scripts/Web/Contacts/contact-crud.js"></script>
+<script type="text/javascript" src="/Scripts/Web/file-processing.js"></script>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        $('.collapse').on('hidden.bs.collapse', function () {
+            $(this).prev('div[role="tab"]').find('i.fa-angle-down').toggleClass('fa-flip-vertical')
+
+        });
+        $('.collapse').on('shown.bs.collapse', function () {
+            $(this).prev('div[role="tab"]').find('i.fa-angle-down').toggleClass('fa-flip-vertical')
+
+        });
+    })
+</script>

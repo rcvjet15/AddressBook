@@ -2,77 +2,88 @@
 
 <div class="card">
     <div class="card-header bg-dark text-light">
-        <h4 class="card-title">@String.Format("{0} {1}", Model.LastName, Model.FirstName)</h4>
+        <div class="float-left">
+            <h4 class="card-title">@String.Format("{0} {1}", Model.LastName, Model.FirstName)</h4>
+        </div>
+        <div class="float-right">
+            <button type="button" class="btn btn-dark" onclick="$(this).closest('div[id=\'contact-view-panel\']').empty()">
+                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
     <div class="card-body bg-light">
         <div class="row">
             <!--Begin Image Display-->
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <div class="card" style="">
-                    <img src="@Url.Content(Model.ProfilePicPath)" alt="Alternate Text" class="card-img-top" style="height:16em" />
-                    <div id="phoneAccordion" role="tablist">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h5 class="mb-0">
-                                    @{
-                                        var defaultPhone = @Model.PhoneNumbers.FirstOrDefault(p => p.IsDefault == true);
-                                        var otherPhones = @Model.PhoneNumbers.Where(p => p.IsDefault == false || p.IsDefault == null);
-                                    }
+                    <img src="@Url.Content(Model.ProfilePicPath)" alt="Alternate Text" class="card-img-top img-thumbnail" style="height:16em" />
+                    @if (Model.PhoneNumbers.Count > 0)
+                    {
+                        <div id="phoneAccordion" role="tablist">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <h5 class="mb-0">
+                                        @{ 
+                                            var defaultPhone = Model.PhoneNumbers.FirstOrDefault(p => p.IsDefault == true) ?? Model.PhoneNumbers.First();
+                                            var otherPhones = Model.PhoneNumbers.Where(p => p.IsDefault == false || p.IsDefault == null);
+                                        }
 
-                                    <i class="fa fa-phone" aria-hidden="true"></i> @defaultPhone.NumberType - @defaultPhone.Number
-                                    <a data-toggle="collapse" href="#collapsePhoneNumbers" aria-expanded="false" aria-controls="collapsePhoneNumbers" class="float-right text-dark">
-                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                    </a>
-                                </h5>
-                            </div>
-                            <div id="collapsePhoneNumbers" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#phoneAccordion">
-                                <ul class="list-group">
-                                    @foreach (var phone in otherPhones)
-                                    {
-                                        <li class="list-group-item">
-                                            <i class="fa fa-phone" aria-hidden="true"></i> @phone.NumberType - @phone.Number
-                                        </li>
-                                    }
-                                </ul>
+                                        <i class="fa fa-phone" aria-hidden="true"></i> @defaultPhone.NumberType - @defaultPhone.Number
+                                        <a data-toggle="collapse" href="#collapsePhoneNumbers" aria-expanded="false" aria-controls="collapsePhoneNumbers" class="float-right text-dark">
+                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapsePhoneNumbers" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#phoneAccordion">
+                                    <ul class="list-group">
+                                        @foreach (var phone in otherPhones)
+                                        {
+                                            <li class="list-group-item">
+                                                <i class="fa fa-phone" aria-hidden="true"></i> @phone.NumberType - @phone.Number
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="emailAccordion" role="tablist">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                                <h5 class="mb-0">
-                                    @{
-                                        var defaultEmail = @Model.EmailAddresses.FirstOrDefault(e => e.IsDefault == true);
-                                        var otherEmails = @Model.EmailAddresses.Where(e => e.IsDefault == false || e.IsDefault == null);
-                                    }
+                    }
+                    @if (Model.EmailAddresses.Count > 0)
+                    {
+                        <div id="emailAccordion" role="tablist">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingTwo">
+                                    <h5 class="mb-0">
+                                        @{
+                                            var defaultEmail = Model.EmailAddresses.FirstOrDefault(e => e.IsDefault == true) ?? Model.EmailAddresses.First();
+                                            var otherEmails = Model.EmailAddresses.Where(e => e.IsDefault == false || e.IsDefault == null);
+                                        }
 
-                                    <i class="fa fa-envelope" aria-hidden="true"></i> @defaultEmail.EmailAddressType - @defaultEmail.Address
-                                    <a data-toggle="collapse" href="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails" class="float-right text-dark">
-                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                    </a>
-                                </h5>
-                            </div>
-                            <div id="collapseEmails" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#emailAccordion">
-                                <ul class="list-group">
-                                    @foreach (var email in otherEmails)
-                                    {
-                                        <li class="list-group-item">
-                                            <i class="fa fa-envelope" aria-hidden="true"></i> @email.EmailAddressType - @email.Address
-                                        </li>
-                                    }
-                                </ul>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i> @defaultEmail.EmailAddressType - @defaultEmail.Address
+                                        <a data-toggle="collapse" href="#collapseEmails" aria-expanded="false" aria-controls="collapseEmails" class="float-right text-dark">
+                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseEmails" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#emailAccordion">
+                                    <ul class="list-group">
+                                        @foreach (var email in otherEmails)
+                                        {
+                                            <li class="list-group-item">
+                                                <i class="fa fa-envelope" aria-hidden="true"></i> @email.EmailAddressType - @email.Address
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }               
                 </div>
-                <p>@Model.Note </p>
             </div>
             <!--End Image Display-->
             <!--Begin Contact Data Display-->
             <div class="col-sm-12 col-md-12 col-lg-5" style="overflow:auto;max-height:27em">
                 <div class="row">
-                    <div class="card card-body">
-                        @{ var address = Model.Addresses.FirstOrDefault(); }
+                    <div class="card card-body">                        
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <i class="fa fa-user" aria-hidden="true"></i> @Model.FirstName @Model.LastName
@@ -99,14 +110,25 @@
                             <li class="list-group-item">
                                 <i class="fa fa-university" aria-hidden="true"></i> @Model.Organization
                             </li>
+
+                            @{
+                                var address = Model.Addresses.FirstOrDefault();
+                                if (address != null)
+                                {
+                                    <li class="list-group-item">
+                                        Address Type: @address.AddressType
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa fa-road" aria-hidden="true"></i> @address.Street @address.HouseNumber @address.PostalCode
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa fa-building" aria-hidden="true"></i> @address.City, @address.State
+                                    </li>
+                                }
+                            }
+                            
                             <li class="list-group-item">
-                                Address Type: @address.AddressType
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fa fa-road" aria-hidden="true"></i> @address.Street @address.HouseNumber @address.PostalCode
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fa fa-building" aria-hidden="true"></i> @address.City, @address.State
+                                <i class="fa fa-sticky-note-o" aria-hidden="true"></i> @Model.Note
                             </li>
                         </ul>
                     </div>
@@ -117,10 +139,12 @@
             <div class="col-sm-12 col-md-12 col-lg-3">
                 <div class="row mb-1">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        <button id="edit-contact-btn" type="button" class="btn btn-primary">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
                         </button>
-                        <button id="cancel-btn" type="button" class="btn btn-default">Cancel</button>
+                        <button id="delete-contact-btn" type="button" class="btn btn-danger">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                        </button>
                     </div>
                 </div>
                 <hr />

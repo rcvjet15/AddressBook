@@ -48,6 +48,32 @@ namespace AddressBook.Controllers
             return Json(new { Contacts = viewModels }, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            List<string> errors = new List<string>();
+
+            try
+            {
+                Contact contact = Db.Contacts
+                    .Find(id);
+
+                if (contact == null)
+                {
+                    throw new InvalidOperationException("Unable to find requested contact.");
+                }
+
+                return PartialView("_Details", contact);
+            }
+            catch (InvalidOperationException ex)
+            {
+                errors.Add(ex.Message);
+            }
+
+            return new JsonBadRequest(new { Errors = errors.ToArray() }, JsonRequestBehavior.AllowGet); // return as array
+        }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -247,7 +273,7 @@ namespace AddressBook.Controllers
 
                     Db.SaveChanges();
 
-                    return Json(new { Message = $"Successfully edited {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Message = $"Successfully updated {model.FirstName} {model.LastName}." }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (InvalidDataException ex)
@@ -263,7 +289,7 @@ namespace AddressBook.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public ActionResult Delete(int id)
         {
             List<string> errors = new List<string>();
 
@@ -276,8 +302,38 @@ namespace AddressBook.Controllers
                 {
                     throw new InvalidOperationException("Unable to find requested contact.");
                 }
-                
-                return PartialView("_Details", contact);
+
+                return PartialView("_Delete", contact);
+            }
+            catch (InvalidOperationException ex)
+            {
+                errors.Add(ex.Message);
+            }
+
+            return new JsonBadRequest(new { Errors = errors.ToArray() }, JsonRequestBehavior.AllowGet); // return as array
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            List<string> errors = new List<string>();
+
+            try
+            {
+                Contact contact = Db.Contacts
+                    .Find(id);
+
+                if (contact == null)
+                {
+                    throw new InvalidOperationException("Unable to find requested contact.");
+                }
+
+                Db.Entry(contact).State = EntityState.Deleted;
+                Db.SaveChanges();
+
+                return Json(new { Message = $"Successfully deleted {contact.FirstName} {contact.LastName}." }, JsonRequestBehavior.AllowGet);
             }
             catch (InvalidOperationException ex)
             {

@@ -25,7 +25,7 @@ $('form').on('keyup', 'input', function (ev) {
 })
 
 $('#cancel-btn').on('click', function (ev) {
-    closeForm($('form[id="create-contact"]'));
+    closeForm($('form[id="contact-crud"]'));
 })
 
 $('form[id="contact-crud"]').on('submit', function (ev) {
