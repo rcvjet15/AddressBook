@@ -3,14 +3,14 @@
     closeButton: true,
 }
 
-$('[data-toggle="tooltip"]').tooltip()
-
 // Indicates if form was changed. It will be used to prevent user from discarding changes.
 let formChanged = false;
 
 $(document).ready(function () {
     
 });
+
+$('[data-toggle="tooltip"]').tooltip()
 
 $('input.datepicker').daterangepicker({
     singleDatePicker: true,
@@ -20,12 +20,46 @@ $('input.datepicker').daterangepicker({
     }
 }); 
 
-$('form').on('keyup', 'input', function (ev) {
-    formChanged = true;
+/* Details partial view */
+// Handler that activates when clicked on edit contact
+$('button[id="edit-contact-btn"]').on('click', function (evt) {
+    let contactId = $(this).data('target');
+
+    $('#contact-view-panel')
+        .html(loaderHtml) // Display loading
+        .load('/Contacts/Edit?id=' + contactId, function (responseText, textStatus, xhr) {
+            if (textStatus && textStatus.toLowerCase() === 'error') {
+                displayLoadErrorResponse(responseText, textStatus, xhr);
+            }
+        });
+});
+
+
+// Handler that activates when clicked on delete contact
+$('button[id="delete-contact-btn"]').on('click', function (evt) {
+    let contactId = $(this).data('target');
+
+    $('#contact-view-panel')
+        .html(loaderHtml) // Display loading
+        .load('/Contacts/Delete?id=' + contactId, function (responseText, textStatus, xhr) {
+            if (textStatus && textStatus.toLowerCase() === 'error') {
+                displayLoadErrorResponse(responseText, textStatus, xhr);
+            }
+        });
+});
+
+/* All contact partial views */
+
+$('button[id="close-contact-view-panel"]').on('click', function (evt) {
+    closeViewPanel();
 })
 
 $('#cancel-btn').on('click', function (ev) {
-    closeForm($('form[id="contact-crud"]'));
+    closeViewPanel();
+})
+
+$('form').on('keyup', 'input', function (ev) {
+    formChanged = true;
 })
 
 $('form[id="contact-crud"]').on('submit', function (ev) {
@@ -269,15 +303,15 @@ function toggleButtonLoadingAnimation($button, show) {
     }
 }
 
-// Function that closes form. First checks if user made any changes.
-function closeForm($form) {
+// Function that closes contact view panel. First checks if user made any changes.
+function closeViewPanel() {
     if (formChanged) {
         if (!confirm("Changes not saved. Do you want to continue?")) {
             return;
         }
     }
 
-    $form.closest('#contact-view-panel').empty();
+    $('div[id="contact-view-panel"]').empty();
 }
 
 // Function that checks only one radio button item in unordered list.

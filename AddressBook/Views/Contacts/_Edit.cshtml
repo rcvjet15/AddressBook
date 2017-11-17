@@ -1,8 +1,15 @@
 ﻿@model AddressBook.ViewModels.ContactEditViewModel
 
 <div class="card">
-    <div class="card-header bg-dark text-light">
-        <h4 class="card-title">@String.Format("Edit {0} {1}", Model.LastName, Model.FirstName)</h4>
+    <div class="card-header bg-dark text-light">        
+        <div class="float-left">
+            <h4 class="card-title">@String.Format("Edit {0} {1}", Model.LastName, Model.FirstName)</h4>
+        </div>
+        <div class="float-right">
+            <button id="close-contact-view-panel" type="button" class="btn btn-dark">
+                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
     <div class="card-body bg-light">
         @using (Html.BeginForm("Edit", "Contacts", routeValues: new { id = Model.ID }, method: FormMethod.Post, htmlAttributes: new { id = "contact-crud", @class = "form-horizontal" }))

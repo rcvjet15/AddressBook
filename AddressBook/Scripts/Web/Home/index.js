@@ -26,13 +26,13 @@ $('#create-contact-btn').on('click', function (ev) {
     //window.history.pushState(null, "create", '/Create');
 })
 
-// Edit contact handler
+// Details contact handler
 $('div[id="contact-list-target"]').on('click', 'div.list-item-contact', function (evt) {    
     let contactId = $(this).data('target');
 
     $('#contact-view-panel')
         .html(loaderHtml) // Display loading
-        .load('/Contacts/Delete?id=' + contactId, function (responseText, textStatus, xhr) {
+        .load('/Contacts/Details?id=' + contactId, function (responseText, textStatus, xhr) {
             if (textStatus && textStatus.toLowerCase() === 'error') {
                 displayLoadErrorResponse(responseText, textStatus, xhr);
             }
