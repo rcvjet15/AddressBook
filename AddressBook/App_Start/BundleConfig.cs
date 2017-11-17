@@ -63,7 +63,7 @@ namespace AddressBook
                 "~/Content/Libraries/css/dataTables*"));
 
             bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
-                "~/Content/Libraries/css/font-awesome.css"));
+                "~/Content/Libraries/css/font-awesome.css", new CssRewriteUrlTransform()));
 
             // SB-admin template stylesheets
             bundles.Add(new StyleBundle("~/Content/sb-admin").Include(

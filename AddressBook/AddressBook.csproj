@@ -286,7 +286,6 @@
     <Content Include="Content\Libraries\css\toastr.css" />
     <Content Include="Content\Libraries\css\toastr.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Web\file-processing.js" />
     <Content Include="Scripts\Web\global.js" />
@@ -343,6 +342,7 @@
     <Content Include="Content\Libraries\scss\sb-admin.scss" />
     <Content Include="Content\Libraries\scss\toastr.scss" />
     <Content Include="Content\Libraries\less\toastr.less" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Libraries\dataTables.bootstrap4.js" />
     <Content Include="Scripts\Libraries\daterangepicker.js" />
@@ -417,15 +417,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
